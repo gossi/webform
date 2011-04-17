@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<webform>
+	<error>
+		<occur>Es sind Fehler aufgetreten</occur>
+		<required>%s wird benötigt</required>
+		<invalid>%s ist ungültig</invalid>
+		<tooshort>%s ist zu kurz</tooshort>
+		<toolong>%s ist zu lang</toolong>
+	</error>
+</webform>
