@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="build">
+	<property file="build.properties"/>
+
+	<target name="phpdoc">
+		<delete dir="${dir.doc}"/>
+		<mkdir dir="${dir.doc}"/>
+		
+		<!--<exec executable="${php.command}" dir="${basedir}">
+			<arg value="${dir.phpdoc}/phpdoc"/>
+			<arg value="-d"/>
+			<arg value="${basedir}/src"/>
+			<arg value="-t" />
+			<arg value="${dir.doc}" />
+			<arg value="-s" />
+			<arg value="on" />
+			<arg value="-ti" />
+			<arg value="gossi Webform Component" />
+			<arg value="-o"/>
+			<arg value="HTML:Smarty:HandS"/>
+		</exec>-->
+		<exec executable="${php.command}" dir="${basedir}">
+			<arg value="${dir.phpdoc}/phpdoc.php"/>
+			<arg value="doc.ini"/>
+		</exec>
+	</target>
+	
+	<target name="build">
+		<exec executable="${php.command}" dir="${basedir}">
+			<arg value="libs/makephar.php"/>
+			<arg value="-s"/>
+			<arg value="${basedir}/src"/>
+			<arg value="-p"/>
+			<arg value="${basedir}/build/gossi-webform.phar"/>
+			<arg value="--stub"/>
+			<arg value="${basedir}/src/Autoload.php"/>
+		</exec>
+	</target>
+</project>
