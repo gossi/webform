@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package gossi\webform
+ */
 namespace gossi\webform;
 
 abstract class Validator {
@@ -15,7 +18,7 @@ abstract class Validator {
 		$this->webform = $control->getWebform();
 	}
 
-	abstract public function parse(DOMNode $node);
+	abstract public function parse(\DOMNode $node);
 	abstract public function validate($string);
 	abstract public function toXml();
 }

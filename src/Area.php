@@ -1,6 +1,12 @@
 <?php
+/**
+ * @package gossi\webform
+ */
 namespace gossi\webform;
 
+/**
+ * Represents an area of the webform that can contain multiple controls.
+ */
 class Area extends Element implements IArea, IComposite {
 
 	private static $area = 1;
@@ -10,6 +16,12 @@ class Area extends Element implements IArea, IComposite {
 
 	private $webform;
 
+	/**
+	 * Creates a new area.
+	 * 
+	 * @param IComposite $parent the parent container
+	 * @param String $label a label for the area
+	 */
 	public function __construct(IComposite $parent, $label = '') {
 		$this->webform = $parent->getWebform();
 		$this->id = 'webform-area' . ++Area::$area;
@@ -29,6 +41,11 @@ class Area extends Element implements IArea, IComposite {
 		}
 	}
 
+	/**
+	 * Returns the receiver's controls
+	 * 
+	 * @return Control[]
+	 */
 	public function getControls() {
 		return $this->controls;
 	}
@@ -54,6 +71,11 @@ class Area extends Element implements IArea, IComposite {
 		}
 	}
 
+	/**
+	 * Sets a webform the receiver belongs to
+	 * 
+	 * @param Webform $webform
+	 */
 	public function setWebform(Webform $webform) {
 		$this->webform = $webform;
 	}
@@ -62,8 +84,13 @@ class Area extends Element implements IArea, IComposite {
 		$this->id = $id;
 	}
 
+	/**
+	 * Returns the receiver as XML.
+	 * 
+	 * @return DOMDocument
+	 */
 	public function toXML() {
-		$xml = new DOMDocument();
+		$xml = new \DOMDocument();
 		$root = $xml->createElement('area');
 		$root->setAttribute('id', $this->getId());
 		$root->setAttribute('label', $this->getLabel());
@@ -84,8 +111,9 @@ class Area extends Element implements IArea, IComposite {
 	}
 
 	/**
-	 *
-	 * @throws WebformException
+	 * Validates the receiver
+	 * 
+	 * @throws Errors
 	 */
 	public function validate() {
 		$e = new Errors();

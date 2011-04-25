@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package gossi\webform
+ */
 namespace gossi\webform;
 
 class Parser {
@@ -6,7 +9,7 @@ class Parser {
 	protected $root;
 	protected $webform = null;
 
-	public function __construct(DOMNode $node) {
+	public function __construct(\DOMNode $node) {
 		$this->root = $node;
 	}
 
@@ -33,7 +36,7 @@ class Parser {
 		return $this->webform;
 	}
 
-	public function parseNode(DOMNode $node, $parent = null) {
+	public function parseNode(\DOMNode $node, $parent = null) {
 		if ($this->webform === null) {
 			return;
 		}
@@ -61,7 +64,7 @@ class Parser {
 
 			case 'control':
 				$type = $attribs->getNamedItem('type')->value;
-				$control = ControlFactory::createControl($type, $this->webform);
+				$control = ControlFactory::createControl($type, $parent);
 				$control->setLabel(($attrib = $attribs->getNamedItem('label')) !== null ? $this->getText($attrib->value) : '');
 				$control->setName(($attrib = $attribs->getNamedItem('name')) !== null ? $attrib->value : '');
 				$control->setDescription(($attrib = $attribs->getNamedItem('description')) !== null ? $this->getText($attrib->value) : '');
@@ -112,7 +115,7 @@ class Parser {
 		}
 	}
 
-	private function parseChilds(DOMNode $parentNode, $parent = null) {
+	private function parseChilds(\DOMNode $parentNode, $parent = null) {
 		$childs = $parentNode->childNodes;
 		if ($childs->length) {
 			for ($i = 0; $i < $childs->length; $i++) {
@@ -121,7 +124,7 @@ class Parser {
 		}
 	}
 
-	private function parseValidator(DOMNode $parentNode, Control $control) {
+	private function parseValidator(\DOMNode $parentNode, Control $control) {
 		$validators = $parentNode->getElementsByTagName('validator');
 		for ($i = 0; $i < $validators->length; $i++) {
 			$node = $validators->item($i);
@@ -139,6 +142,5 @@ class Parser {
 	protected function getText($value) {
 		return $value;
 	}
-
 }
 ?>

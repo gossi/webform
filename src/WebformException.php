@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package gossi\webform
+ */
 namespace gossi\webform;
 
 class WebformException extends Exception {
@@ -39,7 +42,7 @@ class WebformException extends Exception {
 	}
 
 	public function toXml() {
-		$xml = new DOMDocument();
+		$xml = new \DOMDocument();
 		$root = $xml->createElement('errors');
 
 		foreach ($this->errors as $error) {

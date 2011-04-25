@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package gossi\webform
+ */
 namespace gossi\webform;
 
 class Errors extends Exception implements Iterator {
@@ -55,7 +58,7 @@ class Errors extends Exception implements Iterator {
 	}
 
 	public function toXML() {
-		$xml = new DOMDocument();
+		$xml = new \DOMDocument();
 		$root = $xml->createElement('errors');
 
 		foreach ($this->errors as $error) {

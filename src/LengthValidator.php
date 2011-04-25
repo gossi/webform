@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package gossi\webform
+ */
 namespace gossi\webform;
 
 class LengthValidator extends Validator {
@@ -16,7 +19,7 @@ class LengthValidator extends Validator {
 		}
 	}
 
-	public function parse(DOMNode $node) {
+	public function parse(\DOMNode $node) {
 		$attribs = $node->attributes;
 
 		if ($min = $attribs->getNamedItem('min')) {
@@ -37,7 +40,7 @@ class LengthValidator extends Validator {
 	}
 
 	public function toXml() {
-		$xml = new DOMDocument('1.0');
+		$xml = new \DOMDocument('1.0');
 		$root = $xml->createElement('validator');
 		$root->setAttribute('type', 'Length');
 		$root->setAttribute('min', $this->min);

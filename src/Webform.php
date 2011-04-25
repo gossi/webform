@@ -1,7 +1,13 @@
 <?php
+/**
+ * @package gossi\webform
+ */
 namespace gossi\webform;
 
-class Webform implements IArea, IComposite, IValidationable {
+/**
+ * THE Webform.
+ */
+class Webform implements IArea, IComposite, IValidatable {
 
 	const POST = 'post';
 	const GET = 'get';
@@ -68,7 +74,7 @@ class Webform implements IArea, IComposite, IValidationable {
 
 	public function getI18n($path) {
 		if (!is_null($this->i18n)) {
-			$xpath = new DOMXPath($this->i18n);
+			$xpath = new \DOMXPath($this->i18n);
 			$entries = $xpath->query($path, $this->i18n->documentElement);
 			if ($entries->length) {
 				return $entries->item(0)->nodeValue;
@@ -107,20 +113,20 @@ class Webform implements IArea, IComposite, IValidationable {
 	private function loadLanguage() {
 		$langFile = $this->getI18nFile();
 		if (file_exists($langFile)) {
-			$this->i18n = new DOMDocument();
+			$this->i18n = new \DOMDocument();
 			$this->i18n->load($langFile);
 		}
 	}
 
 	public static function parseXML($filePath) {
 		if (file_exists($filePath)) {
-			$doc = new DOMDocument();
+			$doc = new \DOMDocument();
 			$doc->load($filePath);
 			return Webform::parseXMLDoc($doc);
 		}
 	}
 
-	public static function parseXMLDoc(DOMDocument $doc) {
+	public static function parseXMLDoc(\DOMDocument $doc) {
 		return Webform::parseXMLNode($doc->documentElement);
 	}
 
@@ -129,7 +135,7 @@ class Webform implements IArea, IComposite, IValidationable {
 	 *
 	 * @return Webform
 	 */
-	public static function parseXMLNode(DOMNode $node) {
+	public static function parseXMLNode(\DOMNode $node) {
 		$parser = new Parser($node);
 		return $parser->parse();
 	}
@@ -187,7 +193,7 @@ class Webform implements IArea, IComposite, IValidationable {
 	}
 
 	public function toXML() {
-		$xml = new DOMDocument();
+		$xml = new \DOMDocument();
 		$root = $xml->createElement('webform');
 		$root->setAttribute('target', $this->target);
 		$root->setAttribute('method', $this->method);

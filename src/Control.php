@@ -1,7 +1,11 @@
 <?php
+/**
+ * @package gossi\webform
+ */
 namespace gossi\webform;
 
-abstract class Control extends Element implements IValidationable {
+
+abstract class Control extends Element implements IValidatable {
 
 	private static $controls = 1;
 
@@ -19,6 +23,11 @@ abstract class Control extends Element implements IValidationable {
 
 	private $webform;
 
+	/**
+	 * Creates a new Control
+	 * 
+	 * @param IArea $parent
+	 */
 	public function __construct(IArea $parent) {
 		$this->id = 'webform-control' . ++Control::$controls;
 		$this->name = $this->id;
@@ -28,7 +37,7 @@ abstract class Control extends Element implements IValidationable {
 	}
 
 	protected function createXML($type) {
-		$xml = new DOMDocument();
+		$xml = new \DOMDocument();
 		$root = $xml->createElement('control');
 		$root->setAttribute('id', $this->getId());
 		$root->setAttribute('label', $this->getLabel());
@@ -49,10 +58,20 @@ abstract class Control extends Element implements IValidationable {
 		return $xml;
 	}
 
+	/**
+	 * Returns the receiver's default value
+	 * 
+	 * @return String
+	 */
 	public function getDefault() {
 		return $this->default;
 	}
 
+	/**
+	 * Returns the receiver's value that is transmitted via http
+	 * 
+	 * @return String
+	 */
 	public function getRequestValue() {
 		$method = $this->webform->getMethod();
 
@@ -65,16 +84,30 @@ abstract class Control extends Element implements IValidationable {
 		}
 	}
 
+	/**
+	 * Returns the receiver's value. When a value is transmitted via http, that value is 
+	 * returned anyway the default value
+	 * 
+	 * @see #getDefault
+	 * @see #getRequestValue
+	 * @return String
+	 */
 	public function getValue() {
 		return $this->getRequestValue() != null ? $this->getRequestValue() : $this->default;
 	}
 
+	/**
+	 * Returns the receiver's name. Typically this is used as &lt;input name=""&gt;
+	 * 
+	 * @return String
+	 */
 	public function getName() {
 		return $this->name;
 	}
 
 	/**
-	 *
+	 * Returns the receiver's Webform
+	 * 
 	 * @return Webform
 	 */
 	public function getWebform() {
@@ -82,7 +115,7 @@ abstract class Control extends Element implements IValidationable {
 	}
 
 	/**
-	 * Sets the name attribute of a controls &lt;input&gt; tag
+	 * Sets the receiver's name attribute of the &lt;input&gt; tag
 	 *
 	 * @param String $name the value for name
 	 */
@@ -94,7 +127,7 @@ abstract class Control extends Element implements IValidationable {
 
 
 	/**
-	 * Sets a default value for the &lt;input&gt;
+	 * Sets the receiver's default value.
 	 *
 	 * @param String $default the default value
 	 */
@@ -104,13 +137,19 @@ abstract class Control extends Element implements IValidationable {
 	}
 
 	/**
-	 * Sets en- or disabled state for this &lt;input&gt;
+	 * Sets the receiver's disabled state.
+	 * 
+	 * @param boolean $disabled true for disabled
 	 */
 	public function setDisabled($disabled) {
 		$this->disabled = $disabled;
 		return $this;
 	}
 
+	/*
+	 * 
+	 * @see gossi\webform.BaseElement::setId()
+	 */
 	public function setId($id) {
 		if (!$this->name) {
 			$this->name = $id;
@@ -120,11 +159,21 @@ abstract class Control extends Element implements IValidationable {
 		return $this;
 	}
 
+	/**
+	 * Sets the receiver's readonly state.
+	 * 
+	 * @param boolean $readonly true for readonly
+	 */
 	public function setReadonly($readonly) {
 		$this->readonly = $readonly;
 		return $this;
 	}
 
+	/**
+	 * Sets the receiver as a required field of the form
+	 * 
+	 * @param boolean $required true for required
+	 */
 	public function setRequired($required) {
 		$this->required = $required;
 		return $this;
@@ -137,6 +186,11 @@ abstract class Control extends Element implements IValidationable {
 		return $this;
 	}
 
+	/**
+	 * Adds a validator to the receiver.
+	 * 
+	 * @param Validator $validator the new validator
+	 */
 	public function addValidator(Validator $validator) {
 		if (!in_array($validator, $this->validators)) {
 			if ($validator->getControl() != $this) {
@@ -159,6 +213,11 @@ abstract class Control extends Element implements IValidationable {
 		return $this;
 	}
 
+	/**
+	 * Removes a validator from the receiver
+	 * 
+	 * @param Validator $validator
+	 */
 	public function removeValidator(Validator $validator) {
 		if ($offset = array_search($validator, $this->validators)) {
 			unset($this->validators[$offset]);
@@ -166,15 +225,23 @@ abstract class Control extends Element implements IValidationable {
 		return $this;
 	}
 
-	public abstract function toXML();
+	/**
+	 * Returns the receiver as XML.
+	 */
+	abstract public function toXML();
 
-	public function appendValidators(DOMDocument $xml) {
+	public function appendValidators(\DOMDocument $xml) {
 		$root = $xml->documentElement;
 		foreach ($this->validators as $validator) {
 			$root->appendChild($xml->importNode($validator->toXml()->documentElement, true));
 		}
 	}
 
+	/**
+	 * Validates the receiver
+	 * 
+	 * @throws Errors
+	 */
 	public function validate() {
 		$val = $this->getRequestValue();
 		$errors = new Errors();

@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package gossi\webform
+ */
 namespace gossi\webform;
 
 class FloatValidator extends Validator {
@@ -9,12 +12,12 @@ class FloatValidator extends Validator {
 		}
 	}
 
-	public function parse(DOMNode $node) {
+	public function parse(\DOMNode $node) {
 
 	}
 
 	public function toXml() {
-		$xml = new DOMDocument('1.0');
+		$xml = new \DOMDocument('1.0');
 		$root = $xml->createElement('validator');
 		$root->setAttribute('type', 'Float');
 		$xml->appendChild($root);

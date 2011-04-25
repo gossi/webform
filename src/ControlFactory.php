@@ -1,15 +1,18 @@
 <?php
+/**
+ * @package gossi\webform
+ */
 namespace gossi\webform;
 
 class ControlFactory {
 
 	/**
 	 *
-	 * @return \net\keeko\utils\webform\Control
+	 * @return \gossi\webform\Control
 	 */
-	public static function createControl($type, $form) {
+	public static function createControl($type, $parent) {
 		$className = $type;
-		return new $className($form);
+		return new $className($parent);
 	}
 }
 ?>

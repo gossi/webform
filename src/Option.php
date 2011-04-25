@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package gossi\webform
+ */
 namespace gossi\webform;
 
 class Option extends BaseElement {
@@ -25,7 +28,7 @@ class Option extends BaseElement {
 	}
 
 	public function toXml() {
-		$xml = new DOMDocument();
+		$xml = new \DOMDocument();
 		$root = $xml->createElement('option');
 		$root->setAttribute('id', $this->getId());
 		$root->setAttribute('label', $this->getLabel());

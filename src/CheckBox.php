@@ -1,6 +1,12 @@
 <?php
+/**
+ * @package gossi\webform
+ */
 namespace gossi\webform;
 
+/**
+ * Represents a Checkbox control.
+ */
 class CheckBox extends Checker {
 
 	public function isChecked() {
