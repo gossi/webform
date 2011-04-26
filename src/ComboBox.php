@@ -4,16 +4,32 @@
  */
 namespace gossi\webform;
 
+/**
+ * Represents a ComboBox
+ */
 class ComboBox extends Control {
 
 	private $options = array();
-
+	
+	/**
+	 * Adds an option to the receiver
+	 * 
+	 * @param Option $option the new option
+	 */
 	public function addOption(Option $option) {
 		if (!in_array($option, $this->options)) {
 			$this->options[] = $option;
 		}
 	}
 
+	/**
+	 * Creates an option and adds it to the receiver
+	 * 
+	 * @param String $value
+	 * @param String $label
+	 * @param (boolean) $checked
+	 * @param (String) $id
+	 */
 	public function createOption($value, $label, $checked = false, $id = null) {
 		// by incoming request
 		$val = $this->getRequestValue();

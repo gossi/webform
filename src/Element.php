@@ -16,10 +16,20 @@ class Element extends BaseElement {
 	 */
 	protected $title;
 
+	/**
+	 * Returns the description
+	 * 
+	 * @return String the description
+	 */
 	public function getDescription() {
 		return $this->description;
 	}
 
+	/**
+	 * Returns the title
+	 * 
+	 * @return String the title
+	 */
 	public function getTitle() {
 		return $this->title;
 	}

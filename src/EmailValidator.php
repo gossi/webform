@@ -4,6 +4,9 @@
  */
 namespace gossi\webform;
 
+/**
+ * A validator to parse email.
+ */
 class EmailValidator extends Validator {
 
 	public function validate($string) {
