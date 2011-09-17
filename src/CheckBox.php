@@ -10,6 +10,7 @@ namespace gossi\webform;
 class CheckBox extends Checker {
 
 	public function isChecked() {
+		$tempChecked = $this->checked;
 		$value = $this->getRequestValue() == null ? $this->default : $this->getRequestValue();
 
 		$r = null;
@@ -35,10 +36,13 @@ class CheckBox extends Checker {
 		}
 
 		// anyway natural
+		else if (isset($r[$this->name]) && $r[$this->name] == $value) {
+			$this->checked = true;
+		}
+		
+		// no request, use temp value
 		else {
-			if (isset($r[$this->name]) && $r[$this->name] == $value) {
-				$this->checked = true;
-			}
+			$this->checked = $tempChecked;
 		}
 		return $this->checked;
 	}
