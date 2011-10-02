@@ -216,6 +216,15 @@ class Webform implements IArea, IComposite, IValidatable {
 		$xml->appendChild($root);
 		return $xml;
 	}
+	
+	public function toHTML() {
+		$stylesheet = new DOMDocument();
+		$stylesheet->load($this->getTemplate('html'));
+		
+		$processor = new XSLTProcessor();
+		$processor->importStyleSheet($stylesheet);
+		return preg_replace('#xmlns="([^"]+)"#i', '', $processor->transformToXML($this->toXML()));
+	}
 
 	public function updateControlRegistration($oldId, $newId, $control) {
 		if (!array_key_exists($oldId, $this->allControls)) {
