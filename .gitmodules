@@ -1,3 +1,0 @@
-[submodule "lib/phpdoctor"]
-	path = lib/phpdoctor
-	url = git://github.com/peej/phpdoctor.git
