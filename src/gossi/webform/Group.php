@@ -9,13 +9,14 @@ class Group extends Control implements IArea {
 	const HORIZONTAL = 'horizontal';
 	const VERTICAL = 'vertical';
 
-	private $direction = Group::VERTICAL;
+	private $orientation = Group::VERTICAL;
 	private $controls = array();
 
 	public function addControl(Control $control) {
 		if (!in_array($control, $this->controls)) {
 			$this->controls[] = $control;
 		}
+		return $this;
 	}
 
 	/**
@@ -55,10 +56,20 @@ class Group extends Control implements IArea {
 		if ($offset) {
 			unset($this->controls[$offset]);
 		}
+		return $this;
 	}
 
-	public function setDirection($direction) {
-		$this->direction = $direction;
+	public function setOrientation($orientation) {
+		// remove classes
+		$this->removeClasses(array('webform-group-horizontal', 'webform-group-vertical'));
+		
+		// add class
+		$this->addClass('webform-group-'.$orientation);
+		
+		// save it
+		$this->orientation = $orientation;
+		
+		return $this;
 	}
 
 	public function toXML() {

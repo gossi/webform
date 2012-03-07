@@ -10,10 +10,13 @@
 		</xsl:call-template>
 	</xsl:template>-->
 	
+	<xsl:variable name="lcase" select="'abcdefghijklmnopqrstuvwxyz'" />
+	<xsl:variable name="ucase" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'" />
+	
 	<xsl:template name="Webform">
 		<xsl:param name="form"/>
 		
-		<form action="{$form/@target}" method="{$form/@method}">
+		<form action="{$form/@target}" method="{$form/@method}" class="webform {$form/@classes}">
 			<xsl:if test="$form/@id">
 				<xsl:attribute name="id"><xsl:value-of select="$form/@id"/></xsl:attribute>
 			</xsl:if>
@@ -87,74 +90,11 @@
 		<xsl:variable name="descEnd" select="$form/@description-position = 'desc-end'"/>
 
 		<xsl:choose>
-			<xsl:when test="$control/@type = 'SingleLine'">
-				<div class="webform-control-box {$control/@classes}" id="{$control/@id}-control">
-					<xsl:if test="$control/@label != ''">
-						<label class="webform-label" id="{$control/@id}-label" for="{$control/@id}">
-							<xsl:value-of select="$control/@label" disable-output-escaping="yes"/>
-							
-							<xsl:if test="$control/@description != '' and $descLabel">
-								<span class="webform-description"><xsl:value-of select="$control/@description" disable-output-escaping="yes"/></span>
-							</xsl:if>
-						</label>
-					</xsl:if>
-					<xsl:if test="$control/@description != '' and $descBetween">
-						<span class="webform-description"><xsl:value-of select="$control/@description" disable-output-escaping="yes"/></span>
-					</xsl:if>
-
-					<input type="text" value="{$control/@value}" name="{$control/@name}" id="{$control/@id}" class="webform-control {$control/@classes}">
-						<xsl:if test="$control/@disabled = 'yes'">
-							<xsl:attribute name="disabled">disabled</xsl:attribute>
-						</xsl:if>
-						<xsl:if test="$control/@readonly = 'yes'">
-							<xsl:attribute name="readonly">readonly</xsl:attribute>
-						</xsl:if>
-						<xsl:if test="$control/validator[@type = 'Length'] and $control/validator[@max]">
-							<xsl:attribute name="maxlength"><xsl:value-of select="$control/validator/@max"/></xsl:attribute>
-						</xsl:if>
-					</input>
-					
-					<xsl:if test="$control/@description != '' and $descEnd">
-						<span class="webform-description"><xsl:value-of select="$control/@description" disable-output-escaping="yes"/></span>
-					</xsl:if>
-				</div>
-			</xsl:when>
-
-			<xsl:when test="$control/@type = 'Password'">
-				<div class="webform-control-box {$control/@classes}" id="{$control/@id}-control">
-					<xsl:if test="$control/@label != ''">
-						<label class="webform-label" id="{$control/@id}-label" for="{$control/@id}">
-							<xsl:value-of select="$control/@label" disable-output-escaping="yes"/>
-							
-							<xsl:if test="$control/@description != '' and $descLabel">
-								<span class="webform-description"><xsl:value-of select="$control/@description" disable-output-escaping="yes"/></span>
-							</xsl:if>
-						</label>
-					</xsl:if>
-					<xsl:if test="$control/@description != '' and $descBetween">
-						<span class="webform-description"><xsl:value-of select="$control/@description" disable-output-escaping="yes"/></span>
-					</xsl:if>
-
-					<input type="password" value="{$control/@value}" name="{$control/@name}" id="{$control/@id}" class="webform-control {$control/@classes}">
-						<xsl:if test="$control/@disabled = 'yes'">
-							<xsl:attribute name="disabled">disabled</xsl:attribute>
-						</xsl:if>
-						<xsl:if test="$control/validator[@type = 'Length'] and $control/validator[@max]">
-							<xsl:attribute name="maxlength"><xsl:value-of select="$control/validator[@max]"/></xsl:attribute>
-						</xsl:if>
-					</input>
-					
-					<xsl:if test="$control/@description != '' and $descEnd">
-						<span class="webform-description"><xsl:value-of select="$control/@description" disable-output-escaping="yes"/></span>
-					</xsl:if>
-				</div>
-			</xsl:when>
-			
 			<xsl:when test="$control/@type = 'Hidden'">
 				<input type="hidden" value="{$control/@value}" name="{$control/@name}" id="{$control/@id}" class="{$control/@classes}"/>
 			</xsl:when>
 			
-			<xsl:when test="$control/@type = 'Radio'">
+			<xsl:when test="$control/@type = 'CheckBox' or $control/@type = 'Radio'">
 				<div class="webform-control-box {$control/@classes}" id="{$control/@id}-control">
 					<xsl:if test="$control/@orientation = 'left'">
 						<xsl:if test="$control/@label != ''">
@@ -171,55 +111,12 @@
 						</xsl:if>
 					</xsl:if>
 					
-					<input type="radio" value="{$control/@value}" name="{$control/@name}" id="{$control/@id}" class="webform-control {$control/@classes}">
+					<input type="{translace($control/@type, $lcase, $ucase)}" value="{$control/@value}" name="{$control/@name}" id="{$control/@id}" class="webform-control {$control/@classes}">
 						<xsl:if test="$control/@checked = 'yes'">
-							<xsl:attribute name="checked">checked</xsl:attribute>
+							<xsl:attribute name="checked"/>
 						</xsl:if>
 						<xsl:if test="$control/@disabled = 'yes'">
-							<xsl:attribute name="disabled">disabled</xsl:attribute>
-						</xsl:if>
-					</input>
-					
-					<xsl:if test="$control/@orientation = 'right'">
-						<xsl:if test="$control/@label != ''">
-							<label class="webform-label" id="{$control/@id}-label" for="{$control/@id}">
-								<xsl:value-of select="$control/@label" disable-output-escaping="yes"/>
-								
-								<xsl:if test="$control/@description != '' and $descLabel">
-									<span class="webform-description"><xsl:value-of select="$control/@description" disable-output-escaping="yes"/></span>
-								</xsl:if>
-							</label>
-						</xsl:if>
-						<xsl:if test="$control/@description != '' and ($descBetween or $descEnd)">
-							<span class="webform-description"><xsl:value-of select="$control/@description" disable-output-escaping="yes"/></span>
-						</xsl:if>
-					</xsl:if>
-				</div>
-			</xsl:when>
-			
-			<xsl:when test="$control/@type = 'CheckBox'">
-				<div class="webform-control-box {$control/@classes}" id="{$control/@id}-control">
-					<xsl:if test="$control/@orientation = 'left'">
-						<xsl:if test="$control/@label != ''">
-							<label class="webform-label" id="{$control/@id}-label" for="{$control/@id}">
-								<xsl:value-of select="$control/@label" disable-output-escaping="yes"/>
-								
-								<xsl:if test="$control/@description != '' and $descLabel">
-									<span class="webform-description"><xsl:value-of select="$control/@description" disable-output-escaping="yes"/></span>
-								</xsl:if>
-							</label>
-						</xsl:if>
-						<xsl:if test="$control/@description != '' and ($descBetween or $descEnd)">
-							<span class="webform-description"><xsl:value-of select="$control/@description" disable-output-escaping="yes"/></span>
-						</xsl:if>
-					</xsl:if>
-					
-					<input type="checkbox" value="{$control/@value}" name="{$control/@name}" id="{$control/@id}" class="webform-control {$control/@classes}">
-						<xsl:if test="$control/@checked = 'yes'">
-							<xsl:attribute name="checked">checked</xsl:attribute>
-						</xsl:if>
-						<xsl:if test="$control/@disabled = 'yes'">
-							<xsl:attribute name="disabled">disabled</xsl:attribute>
+							<xsl:attribute name="disabled"/>
 						</xsl:if>
 					</input>
 					
@@ -240,7 +137,15 @@
 				</div>
 			</xsl:when>
 
-			<xsl:when test="$control/@type = 'MultiLine'">
+			<xsl:when test="$control/@type = 'Submit' or $control/@type = 'Reset'">
+				<input type="{translate($control/@type, $ucase, $lcase)}" value="{$control/@label}" name="{$control/@name}" id="{$control/@id}" class="{$control/@classes} webform-control">
+					<xsl:if test="$control/@disabled = 'yes'">
+						<xsl:attribute name="disabled">disabled</xsl:attribute>
+					</xsl:if>
+				</input>
+			</xsl:when>
+			
+			<xsl:otherwise>
 				<div class="webform-control-box {$control/@classes}" id="{$control/@id}-control">
 					<xsl:if test="$control/@label != ''">
 						<label class="webform-label" id="{$control/@id}-label" for="{$control/@id}">
@@ -255,112 +160,141 @@
 						<span class="webform-description"><xsl:value-of select="$control/@description" disable-output-escaping="yes"/></span>
 					</xsl:if>
 
-					<textarea name="{$control/@name}" id="{$control/@id}" class="webform-control {$control/@classes}">
-						<xsl:if test="$control/@disabled = 'yes'">
-							<xsl:attribute name="disabled">disabled</xsl:attribute>
-						</xsl:if>
-						<xsl:value-of select="$control/@value"/>
-						<xsl:comment></xsl:comment>
-					</textarea>
+					<xsl:call-template name="WebformControlContent">
+						<xsl:with-param name="control" select="$control"/>
+						<xsl:with-param name="form" select="$form"/>
+					</xsl:call-template>
 					
 					<xsl:if test="$control/@description != '' and $descEnd">
 						<span class="webform-description"><xsl:value-of select="$control/@description" disable-output-escaping="yes"/></span>
 					</xsl:if>
 				</div>
-			</xsl:when>
-
-			<xsl:when test="$control/@type = 'Group'">
-				<div class="webform-control-box webform-group-{$control/@direction} {$control/@classes}" id="{$control/@id}-control">
-					<xsl:if test="$control/@label != ''">
-						<label class="webform-label" id="{$control/@id}-label">
-							<xsl:value-of select="$control/@label" disable-output-escaping="yes"/>
-							
-							<xsl:if test="$control/@description != '' and $descLabel">
-								<span class="webform-description"><xsl:value-of select="$control/@description" disable-output-escaping="yes"/></span>
-							</xsl:if>
-						</label>
-					</xsl:if>
-					
-					<xsl:if test="$control/@description != '' and $descBetween">
-						<span class="webform-description"><xsl:value-of select="$control/@description" disable-output-escaping="yes"/></span>
-					</xsl:if>
-					
-					<ul class="webform-control-content">
-						<xsl:for-each select="$control/control">
-							<li>
-								<xsl:call-template name="WebformControl">
-									<xsl:with-param name="control" select="."/>
-									<xsl:with-param name="form" select="$form"/>
-								</xsl:call-template>
-							</li>
-						</xsl:for-each>
-					</ul>
-					
-					<xsl:if test="$control/@description != '' and $descEnd">
-						<span class="webform-description"><xsl:value-of select="$control/@description" disable-output-escaping="yes"/></span>
-					</xsl:if>
-				</div>
-			</xsl:when>
-			
-			<xsl:when test="$control/@type = 'ComboBox'">
-				<div class="webform-control-box {$control/@classes}" id="{$control/@id}-control">
-					<xsl:if test="$control/@direction">
-						<xsl:attribute name="class">webform-group-<xsl:value-of select="$control/@direction"/></xsl:attribute>
-					</xsl:if>
-					
-					<xsl:if test="$control/@label != ''">
-						<label class="webform-label" id="{$control/@id}-label">
-							<xsl:value-of select="$control/@label" disable-output-escaping="yes"/>
-						</label>
-					</xsl:if>
-					
-					<xsl:if test="$control/@description != '' and $descBetween">
-						<span class="webform-description"><xsl:value-of select="$control/@description" disable-output-escaping="yes"/></span>
-					</xsl:if>
-					<select name="{$control/@name}" id="{$control/@id}" class="webform-control {$control/@classes}">
-						<xsl:if test="$control/@disabled = 'yes'">
-							<xsl:attribute name="disabled">disabled</xsl:attribute>
-						</xsl:if>
-						<xsl:for-each select="$control/option">
-							<option value="{@value}" class="{@classes}" id="{@id}">
-								<xsl:if test="@checked = 'yes'">						
-									<xsl:attribute name="selected">selected</xsl:attribute>
-								</xsl:if>
-								<xsl:value-of select="@label"/>
-							</option>
-						</xsl:for-each>
-					</select>
-					
-					<xsl:if test="$control/@description != '' and $descEnd">
-						<span class="webform-description"><xsl:value-of select="$control/@description" disable-output-escaping="yes"/></span>
-					</xsl:if>
-				</div>
-			</xsl:when>
-
-			<xsl:when test="$control/@type = 'Submit'">
-				<button type="submit" name="{$control/@name}" id="{$control/@id}" class="{$control/@classes} webform-control">
-					<xsl:if test="$control/@disabled = 'yes'">
-						<xsl:attribute name="disabled">disabled</xsl:attribute>
-					</xsl:if>
-					<xsl:if test="$control/validator[@type = 'Length'] and $control/validator[@max]">
-						<xsl:attribute name="maxlength"><xsl:value-of select="$control/validator[@max]"/></xsl:attribute>
-					</xsl:if>
-					<xsl:value-of select="$control/@label"/>
-				</button>
-			</xsl:when>
-
-			<xsl:when test="$control/@type = 'Reset'">
-				<button type="reset" name="{$control/@name}" id="{$control/@id}" class="{$control/@classes} webform-control">
-					<xsl:if test="$control/@disabled = 'yes'">
-						<xsl:attribute name="disabled">disabled</xsl:attribute>
-					</xsl:if>
-					<xsl:if test="$control/validator[@type = 'Length'] and $control/validator[@max]">
-						<xsl:attribute name="maxlength"><xsl:value-of select="$control/validator[@max]"/></xsl:attribute>
-					</xsl:if>
-					<xsl:value-of select="$control/@label"/>
-				</button>
-			</xsl:when>
+			</xsl:otherwise>
 		</xsl:choose>
 
 	</xsl:template>
+	
+	<xsl:template name="WebformControlContent">
+		<xsl:param name="control"/>
+		<xsl:param name="form"/>
+		
+		<xsl:choose>
+			<xsl:when test="$control/@type = 'ComboBox'">
+				<select name="{$control/@name}" id="{$control/@id}" class="webform-control {$control/@classes}">
+					<xsl:if test="$control/@disabled = 'yes'">
+						<xsl:attribute name="disabled">disabled</xsl:attribute>
+					</xsl:if>
+					<xsl:for-each select="$control/option">
+						<option value="{@value}" class="{@classes}" id="{@id}">
+							<xsl:if test="@checked = 'yes'">						
+								<xsl:attribute name="selected">selected</xsl:attribute>
+							</xsl:if>
+							<xsl:value-of select="@label"/>
+						</option>
+					</xsl:for-each>
+				</select>
+			</xsl:when>
+			
+			<xsl:when test="$control/@type = 'Group'">
+				<ul class="webform-control-content">
+					<xsl:for-each select="$control/control">
+						<li>
+							<xsl:call-template name="WebformControl">
+								<xsl:with-param name="control" select="."/>
+								<xsl:with-param name="form" select="$form"/>
+							</xsl:call-template>
+						</li>
+					</xsl:for-each>
+				</ul>
+			</xsl:when>
+			
+			<xsl:when test="$control/@type = 'MultiLine'">
+				<textarea name="{$control/@name}" id="{$control/@id}" class="webform-control {$control/@classes}">
+					<xsl:if test="$control/@disabled = 'yes'">
+						<xsl:attribute name="disabled"/>
+					</xsl:if>
+					<xsl:if test="$control/@required = 'yes'">
+						<xsl:attribute name="required"/>
+					</xsl:if>
+					<xsl:if test="$control/@readonly = 'yes'">
+						<xsl:attribute name="readonly"/>
+					</xsl:if>
+					<xsl:if test="$control/@dirname != ''">
+						<xsl:attribute name="dirname"><xsl:value-of select="$control/@dirname"/></xsl:attribute>
+					</xsl:if>
+					<xsl:if test="$control/@title">
+						<xsl:attribute name="title"><xsl:value-of select="$control/@title"/></xsl:attribute>
+					</xsl:if>
+					<xsl:if test="$control/@maxlength">
+						<xsl:attribute name="maxlength"><xsl:value-of select="$control/@maxlength"/></xsl:attribute>
+					</xsl:if>
+					<xsl:value-of select="$control/@value"/>
+					<xsl:comment></xsl:comment>
+				</textarea>
+			</xsl:when>
+			
+			<xsl:otherwise>
+				<xsl:variable name="type">
+					<xsl:choose>
+						<xsl:when test="$control/@type = 'SingleLine'">text</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="translate($control/@type, $ucase, $lcase)"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+
+				<input type="{$type}" value="{$control/@value}" name="{$control/@name}" id="{$control/@id}" class="webform-control {$control/@classes}">
+					<xsl:if test="$control/@disabled = 'yes'">
+						<xsl:attribute name="disabled"/>
+					</xsl:if>
+					<xsl:if test="$control/@required = 'yes'">
+						<xsl:attribute name="required"/>
+					</xsl:if>
+					<xsl:if test="$control/@readonly = 'yes'">
+						<xsl:attribute name="readonly"/>
+					</xsl:if>
+					<xsl:if test="$control/@multiple = 'yes'">
+						<xsl:attribute name="multiple"/>
+					</xsl:if>
+					<xsl:if test="$control/@dirname != ''">
+						<xsl:attribute name="dirname"><xsl:value-of select="$control/@dirname"/></xsl:attribute>
+					</xsl:if>
+					<xsl:if test="$control/@title != ''">
+						<xsl:attribute name="title"><xsl:value-of select="$control/@title"/></xsl:attribute>
+					</xsl:if>
+					<xsl:if test="$control/@autocomplete != ''">
+						<xsl:attribute name="autocomplete"><xsl:value-of select="$control/@autocomplete"/></xsl:attribute>
+					</xsl:if>
+					<xsl:if test="$control/@maxlength != ''">
+						<xsl:attribute name="maxlength"><xsl:value-of select="$control/@maxlength"/></xsl:attribute>
+					</xsl:if>
+					<xsl:if test="$control/@max != ''">
+						<xsl:attribute name="max"><xsl:value-of select="$control/@max"/></xsl:attribute>
+					</xsl:if>
+					<xsl:if test="$control/@min != ''">
+						<xsl:attribute name="min"><xsl:value-of select="$control/@min"/></xsl:attribute>
+					</xsl:if>
+					<xsl:if test="$control/@step != ''">
+						<xsl:attribute name="step"><xsl:value-of select="$control/@step"/></xsl:attribute>
+					</xsl:if>
+					<xsl:if test="$control/@pattern != ''">
+						<xsl:attribute name="pattern"><xsl:value-of select="$control/@pattern"/></xsl:attribute>
+					</xsl:if>
+					<xsl:if test="$control/@placeholder != ''">
+						<xsl:attribute name="placeholder"><xsl:value-of select="$control/@placeholder"/></xsl:attribute>
+					</xsl:if>
+					<xsl:if test="$control/suggestions">
+						<xsl:attribute name="list"><xsl:value-of select="$control/@id"/>-suggestions</xsl:attribute>
+					</xsl:if>
+				</input>
+				
+				<xsl:if test="$control/suggestions">
+					<datalist id="{$control/@id}-suggestions">
+						<xsl:copy-of select="$control/suggestions/*" disable-output-escaping="yes"/>
+					</datalist>
+				</xsl:if>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	
 </xsl:stylesheet>

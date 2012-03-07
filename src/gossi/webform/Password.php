@@ -4,7 +4,7 @@
  */
 namespace gossi\webform;
 
-class Password extends Control {
+class Password extends SingleLine {
 
 	public function toXml() {
 		return $this->createXml('Password');

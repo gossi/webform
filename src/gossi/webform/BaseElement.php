@@ -18,6 +18,7 @@ class BaseElement {
 	 * Adds a CSS classname on the receiver
 	 * 
 	 * @param String $class the new class name
+	 * @return \gossi\webform\BaseElement $this
 	 */
 	public function addClass($class) {
 		if (!in_array($class, $this->classes)) {
@@ -27,9 +28,11 @@ class BaseElement {
 	}
 
 	/**
-	 * Adds CSS classnames on the receiver
+	 * Adds CSS classnames on the receiver. This method either accepts an array of strings
+	 * or a whitespace delimited string.
 	 * 
-	 * @param String[] $classes
+	 * @param String[]|String $classes
+	 * @return \gossi\webform\BaseElement $this
 	 */
 	public function addClasses($classes) {
 		if (!is_array($classes)) {
@@ -52,8 +55,10 @@ class BaseElement {
 	}
 
 	/**
-	 * Returns the receiver's id.
+	 * Returns the receiver's <code>id</code> attribute.
 	 * 
+	 * @see setId
+	 * @see http://developers.whatwg.org/elements.html#the-id-attribute
 	 * @return String
 	 */
 	public function getId() {
@@ -73,6 +78,7 @@ class BaseElement {
 	 * Removes a CSS classname from the receiver
 	 * 
 	 * @param String $class the CSS classname
+	 * @return \gossi\webform\BaseElement $this
 	 */
 	public function removeClass($class) {
 		if ($offset = array_search($class, $this->classes)) {
@@ -85,6 +91,7 @@ class BaseElement {
 	 * Remoces CSS classnames from the receiver
 	 * 
 	 * @param String[] $classes the CSS classnames
+	 * @return \gossi\webform\BaseElement $this
 	 */
 	public function removeClasses($classes) {
 		if (!is_array($classes)) {
@@ -101,6 +108,7 @@ class BaseElement {
 	 * Sets the receiver's CSS classnames
 	 * 
 	 * @param String[] $classes the new CSS classnames
+	 * @return \gossi\webform\BaseElement $this
 	 */
 	public function setClasses($classes) {
 		$this->classes = $classes;
@@ -108,9 +116,12 @@ class BaseElement {
 	}
 
 	/**
-	 * Sets the receiver's id.
+	 * Sets the receiver's <code>id</code> attribute.
 	 * 
-	 * @param String $id the new id.
+	 * @see getId
+	 * @see http://developers.whatwg.org/elements.html#the-id-attribute
+	 * @param String $id the new id attribute
+	 * @return \gossi\webform\BaseElement $this
 	 */
 	public function setId($id) {
 		$this->id = $id;
@@ -121,6 +132,7 @@ class BaseElement {
 	 * Sets the label text for the control
 	 *
 	 * @param String $label the label text
+	 * @return \gossi\webform\BaseElement $this
 	 */
 	public function setLabel($label) {
 		$this->label = $label;

@@ -1,0 +1,230 @@
+/*
+ * Webform
+ */
+.webform {
+  /* Webform Control */
+
+  /* Buttons */
+
+  /* Description */
+
+  /* Webform Area */
+
+  /* Groups */
+
+  /* Layouts */
+
+  /* Errors */
+
+}
+.webform-control[type=text],
+.webform-control[type=password],
+.webform-control[type=email],
+.webform-control[type=url],
+.webform-control[type=tel],
+.webform button.webform-control,
+.webform textarea.webform-control,
+.webform select.webform-control {
+  border: 1px solid #DDD;
+  padding: 2px;
+  display: inline-block;
+  -o-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -o-box-shadow: 0 0 1px #EEE;
+  -ms-box-shadow: 0 0 1px #EEE;
+  -moz-box-shadow: 0 0 1px #E0E0E0;
+  -webkit-box-shadow: 0 0 1px #EEE;
+  box-shadow: 0 0 1px #E0E0E0;
+}
+.webform-control {
+  /* Box */
+
+  /* Checkable */
+
+  /* Disabled / Readonly */
+
+  /* Calendar */
+
+  /* Url */
+
+  /* Email */
+
+}
+.webform-control-box {
+  min-height: 27px;
+}
+.webform-control[type=checkbox],
+.webform-control[type=radio] {
+  margin-right: 5px;
+}
+.webform-control[readonly] {
+  color: #777;
+}
+.webform-control[type=date] {
+  background: url('../images/calendar.png') 2px center no-repeat;
+  padding-left: 21px;
+}
+.webform-control[type=url] {
+  background: url('../images/url.png') 2px center no-repeat;
+  padding-left: 21px;
+}
+.webform-control[type=email] {
+  background: url('../images/email.png') 2px center no-repeat;
+  padding-left: 21px;
+}
+.webform input:focus,
+.webform textarea:focus,
+.webform select:focus,
+.webform button:focus {
+  -o-box-shadow: 0 0 2px #5F96E1;
+  -ms-box-shadow: 0 0 2px #5F96E1;
+  -moz-box-shadow: 0 0 2px #5F96E1;
+  -webkit-box-shadow: 0 0 2px #5F96E1;
+  box-shadow: 0 0 2px #5F96E1;
+}
+.webform textarea.webform-control {
+  height: 100px;
+  margin-bottom: 6px;
+}
+.webform-control[type=submit],
+.webform-control[type=reset],
+.webform button {
+  margin: auto;
+  display: inline-block;
+  padding: 3px;
+  border-radius: 5px;
+  border: 1px solid #CCC;
+  -o-box-shadow: 0 0 1px #BBB;
+  -ms-box-shadow: 0 0 1px #BBB;
+  -moz-box-shadow: 0 0 1px #BBB;
+  -webkit-box-shadow: 0 0 1px #BBB;
+  box-shadow: 0 0 1px #DDD;
+  -o-outline: none;
+  -ms-outline: none;
+  -moz-outline: none;
+  -webkit-outline: none;
+  outline: none;
+  background: #EEE;
+  background-image: -o-linear-gradient(top, #ffffff, #eeeeee);
+  background-image: -ms-linear-gradient(top, #ffffff, #eeeeee);
+  background-image: -moz-linear-gradient(top, #ffffff, #eeeeee);
+  background-image: -webkit-linear-gradient(top, #ffffff, #eeeeee);
+  background-image: linear-gradient(top, #ffffff, #eeeeee);
+}
+.webform-control[type=submit]:hover,
+.webform-control[type=reset]:hover,
+.webform button:hover {
+  -o-box-shadow: 0 0 2px #5F96E1;
+  -ms-box-shadow: 0 0 2px #5F96E1;
+  -moz-box-shadow: 0 0 2px #5F96E1;
+  -webkit-box-shadow: 0 0 2px #5F96E1;
+  box-shadow: 0 0 2px #5F96E1;
+}
+.webform-control[type=submit]:focus,
+.webform-control[type=reset]:focus,
+.webform button:focus {
+  -o-outline: none;
+  -ms-outline: none;
+  -moz-outline: none;
+  -webkit-outline: none;
+  outline: none;
+}
+.webform-control[type=submit]::-moz-focus-inner,
+.webform-control[type=reset]::-moz-focus-inner,
+.webform button::-moz-focus-inner {
+  border: 0;
+}
+.webform-control[type=submit]:active,
+.webform-control[type=reset]:active,
+.webform button:active {
+  background-image: -o-linear-gradient(top, #eeeeee, #ffffff);
+  background-image: -ms-linear-gradient(top, #eeeeee, #ffffff);
+  background-image: -moz-linear-gradient(top, #eeeeee, #ffffff);
+  background-image: -webkit-linear-gradient(top, #eeeeee, #ffffff);
+  background-image: linear-gradient(top, #eeeeee, #ffffff);
+}
+.webform-description {
+  display: block;
+  color: #999;
+}
+.webform-area {
+  border-top: 1px solid #777;
+  margin-bottom: 15px;
+}
+.webform-area-label {
+  margin: 0 0 0 20px;
+  padding: 3px;
+  font-weight: bold;
+}
+.webform-area > .webform-description {
+  margin-bottom: 15px;
+}
+.webform-group {
+  /* Vertical */
+
+}
+.webform-group-vertical .webform-control-box {
+  min-height: 0;
+}
+.webform-group-vertical .webform-control-box .webform-label {
+  float: none;
+}
+.webform-layout {
+  /* Table Layout */
+
+  /* Vertical Layout */
+
+}
+.webform-layout-table .webform-control-box > .webform-label {
+  float: left;
+  width: 145px;
+}
+.webform-layout-table input:not([type=submit]),
+.webform-layout-table input:not([type=reset]),
+.webform-layout-table textarea,
+.webform-layout-table button {
+  width: 300px;
+}
+.webform-layout-table .webform-control-content {
+  margin-left: 150px;
+}
+.webform-layout-vertical .webform-control-box {
+  display: block;
+  margin: 5px  0;
+}
+.webform-layout-vertical .webform-control[type=submit],
+.webform-layout-vertical .webform-control[type=reset],
+.webform-layout-vertical button {
+  margin: 8px 0 5px 0;
+}
+.webform-errors {
+  border: 1px solid;
+  margin: 10px 0px;
+  padding: 15px 10px 15px 50px;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  color: #D63301;
+  background-color: #FFCCBA;
+  background-image: url('../images/validation.png');
+}
+.webform-errors ul {
+  margin-top: 10px;
+  margin-left: 20px;
+}
+.webform-errors li {
+  list-style-type: disc;
+}
+.webform .webform-control.webform-control-error {
+  border: 1px solid #D63301;
+}
+.webform .webform-errors li,
+.webform .webform-group-vertical li {
+  background-image: none;
+  padding: 0;
+}
+/*.webform-control[disabled=true], .webform-control[disabled=disabled], .webform-control[disabled] {
+	color: #999;
+}*/

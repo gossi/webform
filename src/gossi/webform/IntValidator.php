@@ -4,12 +4,10 @@
  */
 namespace gossi\webform;
 
-class IntValidator extends Validator {
+class IntValidator extends PatternValidator {
 
-	public function validate($string) {
-		if (preg_match('/\D/', $string)) {
-			throw new WebformException(sprintf($this->webform->getI18n('error/invalid'), $this->control->getLabel()));
-		}
+	public function __construct() {
+		$this->setPattern("\D");
 	}
 
 	public function parse(\DOMNode $node) {
@@ -17,7 +15,7 @@ class IntValidator extends Validator {
 	}
 
 	public function toXml() {
-		$xml = new \DOMDocument('1.0');
+		$xml = new \DOMDocument();
 		$root = $xml->createElement('validator');
 		$root->setAttribute('type', 'Int');
 		$xml->appendChild($root);

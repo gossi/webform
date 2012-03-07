@@ -6,17 +6,13 @@ namespace gossi\webform;
 
 /**
  * A validator to parse email.
+ * 
+ * @see http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#valid-e-mail-address
  */
-class EmailValidator extends Validator {
+class EmailValidator extends PatternValidator {
 
-	public function validate($string) {
-		if (!preg_match('/(([a-z0-9_\-\.])+@([a-z0-9\-àáâãäåāăąæçćĉċčďđèéêëēĕėęěŋðĝğġģĥħìíîïĩīĭįıĵķĸĺļľłñńņňòóôõöøōŏőœŕŗřśŝşšţťŧþùúûüũūŭůűųŵýÿŷźżž]\.?)+(\.[a-z]{2,4})+)/i', $string)) {
-			throw new WebformException(sprintf($this->webform->getI18n('error/invalid'), $this->control->getLabel()));
-		}
-	}
-
-	public function parse(\DOMNode $node) {
-
+	public function __construct() {
+		$this->setPattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$");
 	}
 
 	public function toXml() {

@@ -7,7 +7,7 @@ namespace gossi\webform;
 /**
  * THE Webform.
  */
-class Webform implements IArea, IComposite, IValidatable {
+class Webform extends BaseElement implements IArea, IComposite, IValidatable {
 
 	const POST = 'post';
 	const GET = 'get';
@@ -15,12 +15,18 @@ class Webform implements IArea, IComposite, IValidatable {
 	const DESC_LABEL = 'desc-label';
 	const DESC_BETWEEN = 'desc-between';
 	const DESC_END = 'desc-end';
+	
+	const LAYOUT_TABLE = 'table';
+	const LAYOUT_VERTICAL = 'vertical';
+	
+	private static $webforms = 1;
 
 	private $target;
 	private $method = Webform::POST;
 	private $desc = Webform::DESC_LABEL;
 	private $areas = array();
 	private $lang;
+	private $layout;
 	private $i18n = null;
 	private $i18nFile = null;
 	private $errors = null;
@@ -33,20 +39,22 @@ class Webform implements IArea, IComposite, IValidatable {
 	public function __construct($lang = 'en') {
 		$this->lang = $lang;
 		$this->loadLanguage();
-	}
-
-	public function addControl(Control $control) {
-		if (!in_array($control, $this->controls)) {
-			$this->controls[] = $control;
-		}
+		$this->id = 'webform-' . ++Webform::$webforms;
 	}
 
 	public function addArea(Area $area) {
 		if (!array_key_exists($area->getId(), $this->areas)) {
 			$this->areas[$area->getId()] = $area;
 		}
+		return $this;
 	}
 
+	public function addControl(Control $control) {
+		if (!in_array($control, $this->controls)) {
+			$this->controls[] = $control;
+		}
+	}	
+	
 	public function addValidation(Validation $validation) {
 		if (!in_array($validation, $this->validations)) {
 			$this->validations[] = $validation;
@@ -54,7 +62,7 @@ class Webform implements IArea, IComposite, IValidatable {
 		return $this;
 	}
 
-	public function assertTrue($statement, $message) {
+	public function addTest($statement, $message) {
 		$this->validations[] = new Validation($statement, $message);
 	}
 
@@ -146,19 +154,20 @@ class Webform implements IArea, IComposite, IValidatable {
 		}
 		$this->allControls[$id] = $control;
 	}
-
-	public function removeControl(Control $control) {
-		$offset = array_search($control, $this->controls);
-		if ($offset) {
-			unset($this->controls[$offset]);
-		}
-	}
-
+	
 	public function removeArea(Area $area) {
 		if ($offset = array_search($area, $this->areas)) {
 			unset($this->areas[$offset]);
 		}
+		return $this;
 	}
+
+	public function removeControl(Control $control) {
+		if ($offset = array_search($control, $this->controls)) {
+			unset($this->controls[$offset]);
+		}
+		return $this;
+	}	
 
 	public function removeValidation(Validation $validation) {
 		if ($offset = array_search($validation, $this->validations)) {
@@ -174,6 +183,13 @@ class Webform implements IArea, IComposite, IValidatable {
 
 	public function setErrors(Errors $e) {
 		$this->errors = $e;
+		return $this;
+	}
+	
+	public function setLayout($layout) {
+		$this->removeClasses(array('webform-layout-table', 'webform-layout-vertical'));
+		$this->addClass('webform-layout-' . $layout);
+		$this->layout = $layout;
 		return $this;
 	}
 
@@ -195,9 +211,11 @@ class Webform implements IArea, IComposite, IValidatable {
 	public function toXML() {
 		$xml = new \DOMDocument();
 		$root = $xml->createElement('webform');
+		$root->setAttribute('id', $this->id);
 		$root->setAttribute('target', $this->target);
 		$root->setAttribute('method', $this->method);
 		$root->setAttribute('description-position', $this->desc);
+		$root->setAttribute('classes', implode(' ', $this->classes));
 
 		if (!is_null($this->errors)) {
 			$errs = $xml->importNode($this->errors->toXML()->documentElement, true);
@@ -218,25 +236,23 @@ class Webform implements IArea, IComposite, IValidatable {
 	}
 	
 	public function toHTML() {
-		$stylesheet = new DOMDocument();
+		$stylesheet = new \DOMDocument();
 		$stylesheet->load($this->getTemplate('html'));
 		
-		$processor = new XSLTProcessor();
+		$processor = new \XSLTProcessor();
 		$processor->importStyleSheet($stylesheet);
 		return preg_replace('#xmlns="([^"]+)"#i', '', $processor->transformToXML($this->toXML()));
 	}
 
-	public function updateControlRegistration($oldId, $newId, $control) {
-		if (!array_key_exists($oldId, $this->allControls)) {
-			throw new WebformException('Control with given id ('+$oldId+') does not exists in this Webform');
+	public function unregisterControl($id) {
+		if (array_key_exists($id, $this->allControls)) {
+			unset($this->allControls[$id]);
 		}
-		unset($this->allControls[$oldId]);
-		$this->allControls[$newId] = $control;
 	}
 
 	/**
 	 *
-	 * @throws WebformException
+	 * @throws \gossi\webform\Errors
 	 */
 	public function validate() {
 		$e = new Errors();
