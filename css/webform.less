@@ -4,9 +4,8 @@
 .webform {
 	
 	/* Webform Control */
-	&-control[type=text], &-control[type=password], &-control[type=email],
-	&-control[type=url], &-control[type=tel],
-	button.webform-control, textarea.webform-control, select.webform-control {
+	&-control {
+
 		border: 1px solid #DDD;
 		padding: 2px;
 		display: inline-block;
@@ -22,23 +21,25 @@
 		-moz-box-shadow: 0 0 1px #E0E0E0;
 		-webkit-box-shadow: 0 0 1px #EEE;
 		box-shadow: 0 0 1px #E0E0E0;
-	}
-	
-	&-control {
 	
 		/* Box */
 		&-box {
 			min-height: 27px;
 		}
 	
+		/* Disabled / Readonly */
+		&[readonly] {
+			color: #777;
+		}
+		
 		/* Checkable */
 		&[type=checkbox], &[type=radio] {
 			margin-right: 5px;
 		}
 		
-		/* Disabled / Readonly */
-		&[readonly] {
-			color: #777;
+		/* Range */
+		&[type=range] {
+			border: 0;
 		}
 	
 		/* Calendar */
@@ -56,6 +57,18 @@
 		/* Email */
 		&[type=email] {
 			background: url('../images/email.png') 2px center no-repeat;
+			padding-left: 21px;
+		}
+		
+		/* Tel */
+		&[type=tel] {
+			background: url('../images/tel.png') 2px center no-repeat;
+			padding-left: 21px;
+		}
+		
+		/* Color */
+		&[type=color] {
+			background: url('../images/color.png') 2px center no-repeat;
 			padding-left: 21px;
 		}	
 	}
@@ -180,7 +193,7 @@
 				width: 145px;
 			}
 			
-			input:not([type=submit]), input:not([type=reset]), textarea, button {
+			input:not([type=submit]):not([type=reset]), textarea, button {
 				width: 300px;
 			}
 

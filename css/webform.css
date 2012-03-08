@@ -17,14 +17,7 @@
   /* Errors */
 
 }
-.webform-control[type=text],
-.webform-control[type=password],
-.webform-control[type=email],
-.webform-control[type=url],
-.webform-control[type=tel],
-.webform button.webform-control,
-.webform textarea.webform-control,
-.webform select.webform-control {
+.webform-control {
   border: 1px solid #DDD;
   padding: 2px;
   display: inline-block;
@@ -38,13 +31,13 @@
   -moz-box-shadow: 0 0 1px #E0E0E0;
   -webkit-box-shadow: 0 0 1px #EEE;
   box-shadow: 0 0 1px #E0E0E0;
-}
-.webform-control {
   /* Box */
+
+  /* Disabled / Readonly */
 
   /* Checkable */
 
-  /* Disabled / Readonly */
+  /* Range */
 
   /* Calendar */
 
@@ -52,16 +45,23 @@
 
   /* Email */
 
+  /* Tel */
+
+  /* Color */
+
 }
 .webform-control-box {
   min-height: 27px;
+}
+.webform-control[readonly] {
+  color: #777;
 }
 .webform-control[type=checkbox],
 .webform-control[type=radio] {
   margin-right: 5px;
 }
-.webform-control[readonly] {
-  color: #777;
+.webform-control[type=range] {
+  border: 0;
 }
 .webform-control[type=date] {
   background: url('../images/calendar.png') 2px center no-repeat;
@@ -73,6 +73,14 @@
 }
 .webform-control[type=email] {
   background: url('../images/email.png') 2px center no-repeat;
+  padding-left: 21px;
+}
+.webform-control[type=tel] {
+  background: url('../images/tel.png') 2px center no-repeat;
+  padding-left: 21px;
+}
+.webform-control[type=color] {
+  background: url('../images/color.png') 2px center no-repeat;
   padding-left: 21px;
 }
 .webform input:focus,
@@ -182,8 +190,7 @@
   float: left;
   width: 145px;
 }
-.webform-layout-table input:not([type=submit]),
-.webform-layout-table input:not([type=reset]),
+.webform-layout-table input:not([type=submit]):not([type=reset]),
 .webform-layout-table textarea,
 .webform-layout-table button {
   width: 300px;

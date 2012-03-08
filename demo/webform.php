@@ -1,6 +1,11 @@
 <?php
-//include '../build/gossi-webform.phar';
+namespace test;
 include '../src/Autoload.php';
+//include '../build/gossi-webform.phar';
+
+
+
+use gossi\webform\Color;
 
 use gossi\webform;
 
@@ -16,6 +21,8 @@ $lastName = new webform\SingleLine($personal);
 $lastName->setLabel('Last Name');
 $email = new webform\Email($personal);
 $email->setLabel('Email');
+$tel = new webform\Tel($personal);
+$tel->setLabel('Phone Number');
 $hp = new webform\Url($personal);
 $hp->setLabel('Homepage');
 $hp->setPlaceholder('http://');
@@ -29,6 +36,16 @@ $size->setMin(1);
 $size->setMax(50);
 $size->setStep(10);
 
+$weight = new webform\Number($personal);
+$weight->setLabel('Weight');
+
+
+$color = new Color($personal);
+$color->setLabel('Favorite Color');
+
+
+
+
 $submit = new webform\Submit($wf);
 $submit->setLabel('Submit');
 ?>
@@ -37,12 +54,23 @@ $submit->setLabel('Submit');
 <head>
 	<title>webform demo</title>
 	<link rel="stylesheet" href="../css/webform.css" type="text/css">
-	<script src="../js/jquery-1.7.1.min.js"></script>
-	<script src="../js/extras/modernizr-custom.js"></script>
-	<script src="../js/polyfiller.js"></script>
+	<link rel="stylesheet" href="../webshim/smoothness/jquery-ui-1.8.18.custom.css" type="text/css">
+	<script src="../webshim/jquery-1.7.1.min.js"></script>
+	<script src="../webshim/extras/modernizr-custom.js"></script>
+	<script src="../webshim/polyfiller.js"></script>
 	<script>
+	$.webshims.setOptions('forms-ext', {
+		datepicker: {
+			dateFormat: 'yy-mm-dd',
+			constrainInput: true,
+			changeMonth: true,
+			changeYear: true,
+			showWeek: true
+		}
+	});
 	$.webshims.polyfill("forms forms-ext");
 	</script>
+	
 </head>
 <body>
 <h1>Webform Demo</h1>
