@@ -198,7 +198,7 @@ abstract class Control extends Element implements IValidatable {
 	 *
 	 * @see http://developers.whatwg.org/common-input-element-attributes.html#the-required-attribute W3C Specification
 	 * @see setRequired
-	 * @return $required the <code>required</code> state
+	 * @return boolean the <code>required</code> state
 	 */
 	public function getRequired() {
 		return $this->required;
@@ -242,9 +242,35 @@ abstract class Control extends Element implements IValidatable {
 	
 	/**
 	 * Sets the receiver's <code>dirname</code> attribute.
+	 * 
+	 * The <code>dirname</code> attribute, when it applies, is a form control 
+	 * <code>dirname</code> attribute.
+	 * 
+	 * <p class="example">In this example, a form contains a text field and a submission 
+	 * button:</p>
+	 * 
+	 * <code class="example">&lt;form action="addcomment.cgi" method=post&gt;
+	 * &lt;p&gt;&lt;label&gt;Comment: &lt;input type=text name="comment" dirname="comment.dir" required&gt;&lt;/label&gt;&lt;/p&gt;
+	 * &lt;p&gt;&lt;button name="mode" type=submit value="add"&gt;Post Comment&lt;/button&gt;&lt;/p&gt;
+	 * &lt;/form&gt;</code>
+	 * 
+	 * <p class="example">When the user submits the form, the user agent includes three
+	 * fields, one called "comment", one called "comment.dir", and one
+	 * called "mode"; so if the user types "Hello", the submission body
+	 * might be something like:</p>
+	 * 
+	 * <code class="example">comment=Hello&amp;<strong>comment.dir=ltr</strong>&amp;mode=add</code>
+	 * 
+	 * <p class="example">If the user manually switches to a right-to-left writing
+	 * direction and enters "<span dir="rtl" lang="ar" title="">&#1605;&#1585;&#1581;&#1576;&#1611;&#1575;</span>", the
+	 * submission body might be something like:</p>
+	 * 
+	 * <code class="example">comment=%D9%85%D8%B1%D8%AD%D8%A8%D9%8B%D8%A7&amp;<strong>comment.dir=rtl</strong>&amp;mode=add</code>
 	 *
 	 * @see http://developers.whatwg.org/common-input-element-attributes.html#the-dirname-attribute W3C Specification
+	 * @see http://developers.whatwg.org/association-of-controls-and-forms.html#form-control-dirname-attribute form control dirname attribute
 	 * @see getDirname
+	 * 
 	 * @param String $dirname the new dirname value
 	 * @return \gossi\webform\Control $this
 	 */
@@ -255,6 +281,10 @@ abstract class Control extends Element implements IValidatable {
 
 	/**
 	 * Sets the receiver's <code>disabled</code> attribute.
+	 * 
+	 * A form control is disabled if its <code>disabled</code> attribute is set, or if it is 
+	 * a descendant of a fieldset element whose disabled attribute is set and is not a 
+	 * descendant of that fieldset element's first legend element child, if any.
 	 * 
 	 * @see http://developers.whatwg.org/association-of-controls-and-forms.html#attr-fe-disabled W3C Specification
 	 * @see getDisabled
@@ -273,6 +303,7 @@ abstract class Control extends Element implements IValidatable {
 	 * @see http://developers.whatwg.org/elements.html#the-id-attribute W3C Specification
 	 * @see setName
 	 * @see getId
+	 * 
 	 * @see \gossi\webform\BaseElement::setId()
 	 * @return \gossi\webform\Control $this
 	 */
@@ -285,12 +316,26 @@ abstract class Control extends Element implements IValidatable {
 		parent::setId($id);
 		return $this;
 	}
-	
+
 	/**
 	 * Sets the receiver's <code>maxlength</code> attribute.
 	 * 
+	 * The <code>maxlength</code> attribute is a form control maxlength attribute.
+	 * 
+	 * If the <code>input</code> element has a maximum allowed value length, then the 
+	 * code-point length of the value of the element's <code>value</code> attribute must be 
+	 * equal to or less than the element's maximum allowed value length.
+	 * 
+	 * <p class="example">The following extract shows how a messaging client's text entry
+	 * could be arbitrarily restricted to a fixed number of characters,
+	 * thus forcing any conversation through this medium to be terse and
+	 * discouraging intelligent discourse.</p>
+	 * 
+	 * <code class="example">&lt;label&gt;What are you doing? &lt;input name="status" maxlength="140"&gt;&lt;/label&gt;</code>
+	 * 
 	 * @see http://developers.whatwg.org/common-input-element-attributes.html#the-maxlength-attribute W3C Specification
 	 * @see getMaxlength
+	 * 
 	 * @param int $maxlength the new <code>maxlength</code> value
 	 * @return \gossi\webform\Control $this
 	 */
@@ -298,13 +343,18 @@ abstract class Control extends Element implements IValidatable {
 		$this->maxlength = $maxlength;
 		return $this;
 	}
-	
+
 	/**
 	 * Sets the receiver's <code>name</code> attribute.
+	 *
+	 * The <code>name</code> attribute represents the form's name within the forms 
+	 * collection. The value must not be the empty string, and the value must be unique 
+	 * amongst the form elements in the forms collection that it is in, if any.
 	 *
 	 * @see http://developers.whatwg.org/forms.html#attr-form-name W3C Specification
 	 * @see setId
 	 * @see getName
+	 * 
 	 * @param String $name the new <code>name</code> value
 	 * @return \gossi\webform\Control $this
 	 */

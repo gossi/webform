@@ -338,6 +338,28 @@ class SingleLine extends Control {
 	/**
 	 * Sets the receiver's <code>placeholder</code> attribute.
 	 * 
+	 * The <code>placeholder</code> attribute represents a short hint (a word or short 
+	 * phrase) intended to aid the user with data entry. A hint could be a sample value 
+	 * or a brief description of the expected format. The attribute, if specified, must 
+	 * have a value that contains no U+000A LINE FEED (LF) or U+000D CARRIAGE RETURN (CR) 
+	 * characters.
+	 * 
+	 * For a longer hint or other advisory text, the <code>title</code> attribute is more 
+	 * appropriate.
+	 * 
+	 * The <code>placeholder</code> attribute should not be used as an alternative to a 
+	 * <code>label</code>.
+	 *  
+	 * <p class="example">Here is an example of a mail configuration user interface that
+	 * uses the <code>placeholder</code> attribute:</p>
+	 * 
+	 * <code class="example">&lt;fieldset&gt;
+	 * &lt;legend&gt;Mail Account&lt;/legend&gt;
+	 * &lt;p&gt;&lt;label&gt;Name: &lt;input type="text" name="fullname" placeholder="John Ratzenberger"&gt;&lt;/label&gt;&lt;/p&gt;
+	 * &lt;p&gt;&lt;label&gt;Address: &lt;input type="email" name="address" placeholder="john@example.net"&gt;&lt;/label&gt;&lt;/p&gt;
+	 * &lt;p&gt;&lt;label&gt;Password: &lt;input type="password" name="password"&gt;&lt;/label&gt;&lt;/p&gt;&lt;p&gt;&lt;label&gt;Description: &lt;input type="text" name="desc" placeholder="My Email Account"&gt;&lt;/label&gt;&lt;/p&gt;
+	 * &lt;/fieldset&gt;</code>
+	 * 
 	 * @see http://developers.whatwg.org/common-input-element-attributes.html#the-placeholder-attribute W3C Specification
 	 * @see getPlaceholder
 	 * 
