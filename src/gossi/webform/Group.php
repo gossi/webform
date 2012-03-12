@@ -31,7 +31,7 @@ class Group extends Control implements IArea {
 		$val = null;
 		$len = count($this->controls);
 		for ($i = 0; is_null($val) && $i < $len; ++$i) {
-			$val = $this->controls[$i]->getRequestValue();
+			$val = $this->controls[$i]->getValue();
 		}
 		return $val;
 	}
@@ -45,7 +45,7 @@ class Group extends Control implements IArea {
 		$vals = array();
 		foreach ($this->controls as $control) {
 			if ($control instanceof Checker && $control->isChecked()) {
-				$vals[] = $control->getDefault();
+				$vals[] = $control->getValue();
 			}
 		}
 		return $vals;
@@ -75,10 +75,10 @@ class Group extends Control implements IArea {
 	public function toXML() {
 		$xml = $this->createXML('Group');
 		$root = $xml->documentElement;
-		$root->setAttribute('direction', $this->direction);
+		$root->setAttribute('orientation', $this->orientation);
 
 		foreach($this->controls as $control) {
-			$import = $xml->importNode($control->toXml()->documentElement, true);
+			$import = $xml->importNode($control->toXML()->documentElement, true);
 			$root->appendChild($import);
 		}
 
@@ -88,29 +88,24 @@ class Group extends Control implements IArea {
 	}
 
 	public function validate() {
-		$errors = new Errors();
+		$errors = null;
+		try {
+			parent::validate();
+		} catch(WebformErrors $errs) {
+			$errors = $errs;
+		}
 
 		if ($this->required && !count($this->getValues())) {
-			$errors->addError(sprintf($this->getWebform()->getI18n('error/required'), $this->label));
-		}
-
-		foreach ($this->validators as $validator) {
-			try {
-				$validator->validate($val);
-			} catch (WebformException $e) {
-				$errors->addError($e->getMessage());
+			if (is_null($errors)) {
+				$errors = new WebformErrors();
 			}
+			$e = sprintf($this->getWebform()->getI18n('error/required'), $this->label);
+			$this->addError($e);
+			$errors->addError($e);
 		}
-
-		foreach ($this->validations as $validation) {
-			if (!$validation->getStatement()) {
-				$errors->addError($validation->getMessage());
-			}
-		}
-
-		if ($errors->size()) {
-			$this->error = true;
-			$this->addClass('webform-control-error');
+		
+		// throw errors if present
+		if (!is_null($errors)) {
 			throw $errors;
 		}
 	}

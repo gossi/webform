@@ -1,22 +1,15 @@
 <?php
-/**
- * @package gossi\webform
- */
-namespace gossi\webform;
+namespace gossi\webform\validation;
 
 class FloatValidator extends Validator {
 
 	public function validate($string) {
 		if (!is_numeric($string)) {
-			throw new WebformException(sprintf($this->webform->getI18n('error/invalid'), $this->control->getLabel()));
+			throw new \Exception(sprintf($this->webform->getI18n('error/invalid'), $this->control->getLabel()));
 		}
 	}
 
-	public function parse(\DOMNode $node) {
-
-	}
-
-	public function toXml() {
+	public function toXML() {
 		$xml = new \DOMDocument('1.0');
 		$root = $xml->createElement('validator');
 		$root->setAttribute('type', 'Float');

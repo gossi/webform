@@ -1,8 +1,5 @@
 <?php
-/**
- * @package gossi\webform
- */
-namespace gossi\webform;
+namespace gossi\webform\validation;
 
 /**
  * A pattern validator.
@@ -13,8 +10,8 @@ namespace gossi\webform;
  */
 class PatternValidator extends Validator {
 
-	private $pattern;
-	private $modifiers;
+	private $pattern = '';
+	private $modifiers = '';
 	
 	public function setPattern($pattern) {
 		$this->pattern = $pattern;
@@ -25,8 +22,11 @@ class PatternValidator extends Validator {
 	}
 	
 	public function validate($string) {
-		if (!preg_match('/'.$this->pattern.'/'.$this->modifiers, $string)) {
-			throw new WebformException(sprintf($this->webform->getI18n('error/invalid'), $this->control->getLabel()));
+		if (strlen($string)) {
+			$modifiers = str_replace('uu', 'u', $this->modifiers.'u');
+			if (!preg_match('/'.$this->pattern.'/'.$modifiers, $string)) {
+				throw new \Exception(sprintf($this->webform->getI18n('error/invalid'), $this->control->getLabel()));
+			}
 		}
 	}
 
@@ -42,7 +42,7 @@ class PatternValidator extends Validator {
 		}
 	}
 
-	public function toXml() {
+	public function toXML() {
 		$xml = new \DOMDocument('1.0');
 		$root = $xml->createElement('validator');
 		$root->setAttribute('type', 'Pattern');

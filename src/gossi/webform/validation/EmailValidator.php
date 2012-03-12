@@ -1,8 +1,5 @@
 <?php
-/**
- * @package gossi\webform
- */
-namespace gossi\webform;
+namespace gossi\webform\validation;
 
 /**
  * A validator to parse email.
@@ -12,10 +9,10 @@ namespace gossi\webform;
 class EmailValidator extends PatternValidator {
 
 	public function __construct() {
-		$this->setPattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$");
+		$this->setPattern("^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$");
 	}
 
-	public function toXml() {
+	public function toXML() {
 		$xml = new \DOMDocument('1.0');
 		$root = $xml->createElement('validator');
 		$root->setAttribute('type', 'Email');

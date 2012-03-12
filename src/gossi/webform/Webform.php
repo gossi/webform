@@ -4,6 +4,9 @@
  */
 namespace gossi\webform;
 
+use gossi\webform\validation\Test;
+use gossi\webform\validation\IValidatable;
+
 /**
  * THE Webform.
  */
@@ -25,21 +28,35 @@ class Webform extends BaseElement implements IArea, IComposite, IValidatable {
 	private $method = Webform::POST;
 	private $desc = Webform::DESC_LABEL;
 	private $areas = array();
-	private $lang;
+	private $language = null;
 	private $layout;
+	private $submitted;
 	private $i18n = null;
 	private $i18nFile = null;
 	private $errors = null;
 	private $allControls = array();
+	private $columns = null;
 	private $controls = array();
-	private $validations = array();
+	private $tests = array();
 
 	protected $template = null;
 
-	public function __construct($lang = 'en') {
-		$this->lang = $lang;
-		$this->loadLanguage();
-		$this->id = 'webform-' . ++Webform::$webforms;
+	public function __construct($config = array()) {
+		parent::__construct($config);
+		$this->config($config, array('language', 'columns', 'target', 'method'));
+
+		Webform::$webforms++;
+
+		if (is_null($this->language)) {
+			$this->language = 'en';
+			$this->loadLanguage();
+		}
+
+		if (is_null($this->id)) {
+			$this->id = 'webform-' . Webform::$webforms;
+		}
+		
+		$this->submitted = new Hidden($this);
 	}
 
 	public function addArea(Area $area) {
@@ -55,15 +72,15 @@ class Webform extends BaseElement implements IArea, IComposite, IValidatable {
 		}
 	}	
 	
-	public function addValidation(Validation $validation) {
-		if (!in_array($validation, $this->validations)) {
-			$this->validations[] = $validation;
-		}
-		return $this;
+	public function addError($message) {
+		$this->errors[] = $message;
 	}
 
-	public function addTest($statement, $message) {
-		$this->validations[] = new Validation($statement, $message);
+	public function addTest(Test $test) {
+		if (!in_array($test, $this->tests)) {
+			$this->tests[] = $test;
+		}
+		return $this;
 	}
 
 	public function getArea($id) {
@@ -72,12 +89,24 @@ class Webform extends BaseElement implements IArea, IComposite, IValidatable {
 		}
 		return null;
 	}
+	
+	/*
+	 * (non-PHPdoc)
+	 * @see \gossi\webform\IComposite::getColumns()
+	 */
+	public function getColumns() {
+		return $this->columns;
+	}
 
 	public function getControl($id) {
 		if (array_key_exists($id, $this->allControls)) {
 			return $this->allControls[$id];
 		}
 		return null;
+	}
+	
+	public function getErrors() {
+		return $this->errors;
 	}
 
 	public function getI18n($path) {
@@ -92,9 +121,13 @@ class Webform extends BaseElement implements IArea, IComposite, IValidatable {
 
 	public function getI18nFile() {
 		if (is_null($this->i18nFile)) {
-			$this->i18nFile = sprintf('%s/i18n/%s.xml', dirname(__FILE__), $this->lang);
+			$this->i18nFile = sprintf('%s/i18n/%s.xml', __DIR__, $this->language);
 		}
 		return $this->i18nFile;
+	}
+	
+	public function getLanguage() {
+		return $this->language;
 	}
 
 	public function getMethod() {
@@ -116,6 +149,26 @@ class Webform extends BaseElement implements IArea, IComposite, IValidatable {
 
 	public function getWebform() {
 		return $this;
+	}
+
+	public function hasErrors() {
+		return count($this->errors);
+	}
+	
+	public function isSubmitted() {
+		return !is_null($this->submitted->getRequestValue());
+	}
+	
+	public function isValid() {
+		if ($this->isSubmitted()) {
+			try {
+				$this->validate();
+				return true;
+			} catch(WebformErrors $e) {
+				return false;
+			}
+		}
+		return false;
 	}
 
 	private function loadLanguage() {
@@ -169,10 +222,30 @@ class Webform extends BaseElement implements IArea, IComposite, IValidatable {
 		return $this;
 	}	
 
-	public function removeValidation(Validation $validation) {
-		if ($offset = array_search($validation, $this->validations)) {
-			unset($this->validations[$offset]);
+	public function removeTest(Test $test) {
+		if ($offset = array_search($test, $this->tests)) {
+			unset($this->tests[$offset]);
 		}
+		return $this;
+	}
+	
+	/*
+	 * (non-PHPdoc)
+	 * @see \gossi\webform\IComposite::setColumns()
+	 */
+	public function setColumns($columns) {
+	
+		// enable column layout
+		if (is_null($this->columns) && !is_null($columns)) {
+			$this->addClass('webform-layout-column');
+		}
+	
+		// disable column layout
+		if (!is_null($this->columns) && is_null($columns)) {
+			$this->removeClass('webform-layout-column');
+		}
+	
+		$this->columns = $columns;
 		return $this;
 	}
 
@@ -186,6 +259,11 @@ class Webform extends BaseElement implements IArea, IComposite, IValidatable {
 		return $this;
 	}
 	
+	public function setLanguage($language) {
+		$this->language = $language;
+		return $this;
+	}
+
 	public function setLayout($layout) {
 		$this->removeClasses(array('webform-layout-table', 'webform-layout-vertical'));
 		$this->addClass('webform-layout-' . $layout);
@@ -208,6 +286,15 @@ class Webform extends BaseElement implements IArea, IComposite, IValidatable {
 		return $this;
 	}
 
+	public function toHTML() {
+		$stylesheet = new \DOMDocument();
+		$stylesheet->load($this->getTemplate('html'));
+	
+		$processor = new \XSLTProcessor();
+		$processor->importStyleSheet($stylesheet);
+		return preg_replace('#xmlns="([^"]+)"#i', '', $processor->transformToXML($this->toXML()));
+	}
+	
 	public function toXML() {
 		$xml = new \DOMDocument();
 		$root = $xml->createElement('webform');
@@ -217,9 +304,13 @@ class Webform extends BaseElement implements IArea, IComposite, IValidatable {
 		$root->setAttribute('description-position', $this->desc);
 		$root->setAttribute('classes', implode(' ', $this->classes));
 
-		if (!is_null($this->errors)) {
-			$errs = $xml->importNode($this->errors->toXML()->documentElement, true);
-			$errs->setAttribute('occur', $this->getI18n('error/occur'));
+		if ($this->hasErrors()) {
+			$errs = $xml->createElement('errors');
+			$errs->setAttribute('occur', $this->getI18n('/webform/error/occur'));
+			foreach ($this->getErrors() as $error) {
+				$err = $xml->createElement('error', $error);
+				$errs->appendChild($err);
+			}
 			$root->appendChild($errs);
 		}
 
@@ -234,15 +325,6 @@ class Webform extends BaseElement implements IArea, IComposite, IValidatable {
 		$xml->appendChild($root);
 		return $xml;
 	}
-	
-	public function toHTML() {
-		$stylesheet = new \DOMDocument();
-		$stylesheet->load($this->getTemplate('html'));
-		
-		$processor = new \XSLTProcessor();
-		$processor->importStyleSheet($stylesheet);
-		return preg_replace('#xmlns="([^"]+)"#i', '', $processor->transformToXML($this->toXML()));
-	}
 
 	public function unregisterControl($id) {
 		if (array_key_exists($id, $this->allControls)) {
@@ -252,33 +334,37 @@ class Webform extends BaseElement implements IArea, IComposite, IValidatable {
 
 	/**
 	 *
-	 * @throws \gossi\webform\Errors
+	 * @throws \gossi\webform\WebformErrors
 	 */
 	public function validate() {
-		$e = new Errors();
+		$this->errors = array();
 		foreach ($this->areas as $area) {
 			try {
 				$area->validate();
-			} catch (Errors $ex) {
-				$e->addErrors($ex);
+			} catch (WebformErrors $ex) {
+				$this->errors = array_merge($this->errors, $ex->getErrors());
 			}
 		}
 
 		foreach ($this->controls as $control) {
 			try {
 				$control->validate();
-			} catch (Errors $ex) {
-				$e->addErrors($ex);
+			} catch (WebformErrors $ex) {
+				$this->errors = array_merge($this->errors, $ex->getErrors());
 			}
 		}
 
-		foreach ($this->validations as $validation) {
-			if (!$validation->getStatement()) {
-				$e->addError($validation->getMessage());
+		foreach ($this->tests as $test) {
+			try {
+				$test->validate();
+			} catch (\Exception $e) {
+				$this->addError($e->getMessage());
 			}
 		}
 
-		if ($e->size()) {
+		if ($this->hasErrors()) {
+			$e = new WebformErrors();
+			$e->addErrors($this->errors);
 			throw $e;
 		}
 	}

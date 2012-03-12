@@ -1,6 +1,6 @@
-#Tue Mar 06 01:52:39 CET 2012
+#Fri Mar 09 00:52:10 CET 2012
 eclipse.preferences.version=1
-encoding//src/gossi/webform/EmailValidator.php=UTF-8
-encoding//src/gossi/webform/PatternValidator.php=UTF-8
-encoding//src/gossi/webform/UrlValidator.php=UTF-8
+encoding//src/gossi/webform/validation/EmailValidator.php=UTF-8
+encoding//src/gossi/webform/validation/PatternValidator.php=UTF-8
+encoding//src/gossi/webform/validation/UrlValidator.php=UTF-8
 encoding/<project>=UTF-8

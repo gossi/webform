@@ -6,8 +6,8 @@ namespace gossi\webform;
 
 class Radio extends Checker {
 
-	public function __construct(IArea $parent) {
-		parent::__construct($parent);
+	public function __construct(IArea $parent, $config = array()) {
+		parent::__construct($parent, $config);
 		$this->setName($parent->getId());
 	}
 
@@ -35,7 +35,6 @@ class Radio extends Checker {
 	public function toXML() {
 		$xml = $this->createXML('Radio');
 		$root = $xml->documentElement;
-		$root->setAttribute('value', $this->getDefault());
 		$root->setAttribute('checked', $this->isChecked() ? 'yes' : 'no');
 		$root->setAttribute('orientation', $this->getOrientation());
 

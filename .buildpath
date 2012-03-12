@@ -2,5 +2,4 @@
 <buildpath>
 	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
 	<buildpathentry kind="src" path="src"/>
-	<buildpathentry kind="lib" path="build/gossi-webform.phar"/>
 </buildpath>

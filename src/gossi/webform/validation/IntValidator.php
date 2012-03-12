@@ -1,8 +1,5 @@
 <?php
-/**
- * @package gossi\webform
- */
-namespace gossi\webform;
+namespace gossi\webform\validation;
 
 class IntValidator extends PatternValidator {
 
@@ -10,11 +7,7 @@ class IntValidator extends PatternValidator {
 		$this->setPattern("\D");
 	}
 
-	public function parse(\DOMNode $node) {
-
-	}
-
-	public function toXml() {
+	public function toXML() {
 		$xml = new \DOMDocument();
 		$root = $xml->createElement('validator');
 		$root->setAttribute('type', 'Int');

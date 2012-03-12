@@ -10,9 +10,24 @@ namespace gossi\webform;
  */
 class BaseElement {
 
-	protected $id;
+	protected $id = null;
 	protected $classes = array();
-	protected $label;
+	protected $label = null;
+	
+	public function __construct($config = array()) {
+		$this->config($config, array('id', 'label', 'classes'));
+	}
+	
+	protected function config($config, $fields) {
+		foreach ($fields as $field) {
+			$fn = 'set'.$field;
+			$fn{3} = ucfirst($fn{3});
+			
+			if (isset($config[$field])) {
+				$this->$fn($config[$field]);
+			}
+		}
+	}
 
 	/**
 	 * Adds a CSS classname on the receiver
@@ -107,10 +122,14 @@ class BaseElement {
 	/**
 	 * Sets the receiver's CSS classnames
 	 * 
-	 * @param String[] $classes the new CSS classnames
+	 * @param String[]|String $classes the new CSS classnames, as array or space delimited string
 	 * @return \gossi\webform\BaseElement $this
 	 */
 	public function setClasses($classes) {
+		if (!is_array($classes)) {
+			$classes = empty($classes) ? array() : explode(' ', $classes);
+		}
+
 		$this->classes = $classes;
 		return $this;
 	}

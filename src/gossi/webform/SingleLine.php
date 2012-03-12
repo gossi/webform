@@ -4,6 +4,8 @@
  */
 namespace gossi\webform;
 
+use gossi\webform\validation\PatternValidator;
+
 class SingleLine extends Control {
 
 	protected $autocomplete = null;
@@ -16,6 +18,10 @@ class SingleLine extends Control {
 	protected $step;
 	protected $suggestions = array();
 	
+	public function __construct(IArea $parent, $config = array()) {
+		parent::__construct($parent, $config);
+		$this->config($config, array('autocomplete', 'max', 'min', 'multiple', 'pattern', 'placeholder', 'step', 'suggestions'));
+	}
 	
 	/**
 	 * Adds an item to the suggestion's list

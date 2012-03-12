@@ -13,6 +13,8 @@ class Area extends Element implements IArea, IComposite {
 
 	private $areas = array();
 	private $controls = array();
+	private $columns = null;
+	private $parent;
 
 	private $webform;
 
@@ -22,10 +24,18 @@ class Area extends Element implements IArea, IComposite {
 	 * @param IComposite $parent the parent container
 	 * @param String $label a label for the area
 	 */
-	public function __construct(IComposite $parent, $label = '') {
+	public function __construct(IComposite $parent, $config = array()) {
+		parent::__construct($config);
+		$this->config($config, array('columns'));
+		
+		Area::$area++;
+		$this->parent = $parent;
 		$this->webform = $parent->getWebform();
-		$this->id = 'webform-area' . ++Area::$area;
-		$this->label = $label;
+		
+		
+		if (is_null($this->id)) {
+			$this->id = 'webform-area' . Area::$area;
+		}
 		$parent->addArea($this);
 	}
 
@@ -40,6 +50,14 @@ class Area extends Element implements IArea, IComposite {
 			$this->areas[$area->getId()] = $area;
 		}
 	}
+	
+	/*
+	 * (non-PHPdoc)
+	 * @see \gossi\webform\IComposite::getColumns()
+	 */
+	public function getColumns() {
+		return $this->columns;
+	}
 
 	/**
 	 * Returns the receiver's controls
@@ -48,10 +66,6 @@ class Area extends Element implements IArea, IComposite {
 	 */
 	public function getControls() {
 		return $this->controls;
-	}
-
-	public function getId() {
-		return $this->id;
 	}
 
 	public function getWebform() {
@@ -70,7 +84,27 @@ class Area extends Element implements IArea, IComposite {
 			unset($this->controls[$offset]);
 		}
 	}
-
+	
+	/*
+	 * (non-PHPdoc)
+	 * @see \gossi\webform\IComposite::setColumns()
+	 */
+	public function setColumns($columns) {
+		
+		// enable column layout
+		if (is_null($this->columns) && !is_null($columns)) {
+			$this->addClass('webform-layout-column');
+		}
+		
+		// disable column layout
+		if (!is_null($this->columns) && is_null($columns)) {
+			$this->removeClass('webform-layout-column');
+		}
+		
+		$this->columns = $columns;
+		return $this;
+	}
+	
 	/**
 	 * Sets a webform the receiver belongs to
 	 * 
@@ -78,10 +112,6 @@ class Area extends Element implements IArea, IComposite {
 	 */
 	public function setWebform(Webform $webform) {
 		$this->webform = $webform;
-	}
-
-	public function setId($id) {
-		$this->id = $id;
 	}
 
 	/**
@@ -98,6 +128,14 @@ class Area extends Element implements IArea, IComposite {
 		$root->setAttribute('title', $this->getTitle());
 		$root->setAttribute('classes', implode(' ', $this->getClasses()));
 
+		if ($this->parent->getColumns() > 0) {
+			$root->setAttribute('width', floor(100 / $this->parent->getColumns()) - 0.5);
+		}
+		
+		if ($this->columns > 0) {
+			$root->setAttribute('columns', $this->getColumns());
+		}
+
 		foreach ($this->areas as $area) {
 			$root->appendChild($xml->importNode($area->toXML()->documentElement, true));
 		}
@@ -113,14 +151,14 @@ class Area extends Element implements IArea, IComposite {
 	/**
 	 * Validates the receiver
 	 * 
-	 * @throws Errors
+	 * @throws \gossi\webform\WebformErrors
 	 */
 	public function validate() {
-		$e = new Errors();
+		$e = new WebformErrors();
 		foreach ($this->areas as $area) {
 			try {
 				$area->validate();
-			} catch (Errors $ex) {
+			} catch (WebformErrors $ex) {
 				$e->addErrors($ex);
 			}
 		}
@@ -128,7 +166,7 @@ class Area extends Element implements IArea, IComposite {
 		foreach ($this->controls as $control) {
 			try {
 				$control->validate();
-			} catch (Errors $ex) {
+			} catch (WebformErrors $ex) {
 				$e->addErrors($ex);
 			}
 		}

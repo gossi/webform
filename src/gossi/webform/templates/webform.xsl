@@ -54,6 +54,9 @@
 		<xsl:param name="form"/>
 		
 		<fieldset class="webform-area {$area/@classes}" id="{$area/@id}">
+			<xsl:if test="$area/@width != ''">
+				<xsl:attribute name="style">width: <xsl:value-of select="$area/@width"/>%;</xsl:attribute>
+			</xsl:if>
 			<xsl:if test="$area/@label != ''">
 				<legend id="{$area/@id}-label" class="webform-area-label"><xsl:value-of select="$area/@label"/></legend>
 			</xsl:if>
@@ -111,7 +114,7 @@
 						</xsl:if>
 					</xsl:if>
 					
-					<input type="{translace($control/@type, $lcase, $ucase)}" value="{$control/@value}" name="{$control/@name}" id="{$control/@id}" class="webform-control {$control/@classes}">
+					<input type="{translate($control/@type, $ucase, $lcase)}" value="{$control/@value}" name="{$control/@name}" id="{$control/@id}" class="webform-control {$control/@classes}">
 						<xsl:if test="$control/@checked = 'yes'">
 							<xsl:attribute name="checked"/>
 						</xsl:if>
@@ -119,6 +122,14 @@
 							<xsl:attribute name="disabled"/>
 						</xsl:if>
 					</input>
+					
+					<xsl:if test="count($control/error) &gt; 0">
+						<ul class="webform-errors">
+							<xsl:for-each select="$control/error">
+								<li><xsl:value-of select="."/></li>
+							</xsl:for-each>
+						</ul>
+					</xsl:if>
 					
 					<xsl:if test="$control/@orientation = 'right'">
 						<xsl:if test="$control/@label != ''">
@@ -165,6 +176,14 @@
 						<xsl:with-param name="form" select="$form"/>
 					</xsl:call-template>
 					
+					<xsl:if test="count($control/error) &gt; 0">
+						<ul class="webform-errors">
+							<xsl:for-each select="$control/error">
+								<li><xsl:value-of select="."/></li>
+							</xsl:for-each>
+						</ul>
+					</xsl:if>
+					
 					<xsl:if test="$control/@description != '' and $descEnd">
 						<span class="webform-description"><xsl:value-of select="$control/@description" disable-output-escaping="yes"/></span>
 					</xsl:if>
@@ -183,6 +202,18 @@
 				<select name="{$control/@name}" id="{$control/@id}" class="webform-control {$control/@classes}">
 					<xsl:if test="$control/@disabled = 'yes'">
 						<xsl:attribute name="disabled">disabled</xsl:attribute>
+					</xsl:if>
+					<xsl:if test="$control/@required = 'yes'">
+						<xsl:attribute name="required"/>
+					</xsl:if>
+					<xsl:if test="$control/@readonly = 'yes'">
+						<xsl:attribute name="readonly"/>
+					</xsl:if>
+					<xsl:if test="$control/@dirname != ''">
+						<xsl:attribute name="dirname"><xsl:value-of select="$control/@dirname"/></xsl:attribute>
+					</xsl:if>
+					<xsl:if test="$control/@title">
+						<xsl:attribute name="title"><xsl:value-of select="$control/@title"/></xsl:attribute>
 					</xsl:if>
 					<xsl:for-each select="$control/option">
 						<option value="{@value}" class="{@classes}" id="{@id}">

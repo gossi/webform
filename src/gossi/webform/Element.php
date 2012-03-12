@@ -9,12 +9,17 @@ class Element extends BaseElement {
 	/**
 	 * @var String
 	 */
-	protected $description;
+	protected $description = null;
 
 	/**
 	 * @var String
 	 */
-	protected $title;
+	protected $title = null;
+	
+	public function __construct($config = array()) {
+		parent::__construct($config);
+		$this->config($config, array('description', 'title'));
+	}
 
 	/**
 	 * Returns the description

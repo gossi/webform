@@ -1,22 +1,22 @@
 <?php
-/**
- * @package gossi\webform
- */
 namespace gossi\webform;
 
+use gossi\webform\validation\Validator;
+use gossi\webform\validation\Test;
+use gossi\webform\validation\IValidatable;
 
 abstract class Control extends Element implements IValidatable {
 
 	private static $controls = 1;
 
 	// config
-	protected $name;
-	protected $default = null;
+	protected $name = null;
+	protected $value = null;
 	protected $dirname = null;
 	protected $maxlength = null;
 	protected $validators = array();
-	protected $validations = array();
-	protected $error = false;
+	protected $tests = array();
+	protected $errors = array();
 
 	// options
 	protected $required = false;
@@ -30,26 +30,35 @@ abstract class Control extends Element implements IValidatable {
 	 * 
 	 * @param IArea $parent
 	 */
-	public function __construct(IArea $parent, $id = null) {
+	public function __construct(IArea $parent, $config = array()) {
+		parent::__construct($config);
+		
+		$this->config($config, array('default', 'dirname', 'disabled', 'maxlength', 'name', 'readonly', 'required'));
+		
 		Control::$controls++;
-		$this->id = is_null($id) ? 'webform-control' . Control::$controls : $id;
-		$this->name = $this->id;
+		
+		if (is_null($this->id)) {
+			$this->id = 'webform-control' . Control::$controls;
+		}
+		
+		if (is_null($this->name)) {
+			$this->name = $this->id;
+		}
+
 		$this->webform = $parent->getWebform();
 		$this->webform->registerControl($this->id, $this);
 		$parent->addControl($this);
 	}
 	
-	public function addTest($statement, $message) {
-		$this->validations[] = new Validation($statement, $message);
+	public function addError($message) {
+		$this->addClass('ui-invalid');
+		$this->errors[] = $message;
 	}
 	
-	/*
-	 * (non-PHPdoc)
-	 * @see \gossi\webform\IValidatable::addValidation()
-	 */
-	public function addValidation(Validation $validation) {
-		if (!in_array($validation, $this->validations)) {
-			$this->validations[] = $validation;
+	public function addTest(Test $test) {
+		if (!in_array($test, $this->tests)) {
+			$test->addControl($this);
+			$this->tests[] = $test;
 		}
 		return $this;
 	}
@@ -57,7 +66,7 @@ abstract class Control extends Element implements IValidatable {
 	/**
 	 * Adds a validator to the receiver.
 	 *
-	 * @param Validator $validator the new validator
+	 * @param \gossi\webform\validation\Validator $validator the new validator
 	 * @return \gossi\webform\Control $this
 	 */
 	public function addValidator(Validator $validator) {
@@ -71,12 +80,12 @@ abstract class Control extends Element implements IValidatable {
 		return $this;
 	}
 	
-	public function appendValidators(\DOMDocument $xml) {
-		$root = $xml->documentElement;
-		foreach ($this->validators as $validator) {
-			$root->appendChild($xml->importNode($validator->toXml()->documentElement, true));
-		}
-	}
+// 	public function appendValidators(\DOMDocument $xml) {
+// 		$root = $xml->documentElement;
+// 		foreach ($this->validators as $validator) {
+// 			$root->appendChild($xml->importNode($validator->toXml()->documentElement, true));
+// 		}
+// 	}
 
 	/**
 	 * Creates a XML Document representing the abstract control.
@@ -85,16 +94,15 @@ abstract class Control extends Element implements IValidatable {
 	 * @return \DOMDocument the XML Document
 	 */
 	protected function createXML($type) {
-		$xml = new \DOMDocument();
+		$xml = new \DOMDocument('1.0', 'utf8');
 		$root = $xml->createElement('control');
 		$root->setAttribute('id', $this->getId());
 		$root->setAttribute('label', $this->getLabel());
 		$root->setAttribute('name', $this->getName());
 		$root->setAttribute('description', $this->getDescription());
 		$root->setAttribute('title', $this->getTitle());
-		$root->setAttribute('value', $this->getValue());
+		$root->setAttribute('value', mb_convert_encoding($this->getValue(), 'utf-8'));
 		$root->setAttribute('dirname', $this->getDirname());
-		$root->setAttribute('error', $this->error ? 'yes' : 'no');
 		$root->setAttribute('required', $this->required ? 'yes' : 'no');
 		$root->setAttribute('disabled', $this->disabled ? 'yes' : 'no');
 		$root->setAttribute('readonly', $this->readonly ? 'yes' : 'no');
@@ -102,23 +110,20 @@ abstract class Control extends Element implements IValidatable {
 		$root->setAttribute('type', $type);
 
 		$xml->appendChild($root);
-		$this->appendValidators($xml);
+		
+		// validators
+		foreach ($this->validators as $validator) {
+			$root->appendChild($xml->importNode($validator->toXml()->documentElement, true));
+		}
+		
+		// errors
+		foreach ($this->errors as $error) {
+			$root->appendChild($xml->createElement('error', $error));
+		}
 
 		return $xml;
 	}
 
-	/**
-	 * Returns the receiver's default value.
-	 * 
-	 * @see http://developers.whatwg.org/the-input-element.html#attr-input-value W3C Specification
-	 * @see setDefault
-	 * @see getValue
-	 * @return String the default value
-	 */
-	public function getDefault() {
-		return $this->default;
-	}
-	
 	/**
 	 * Returns the receiver's <code>dirname</code> attribute.
 	 *
@@ -139,6 +144,10 @@ abstract class Control extends Element implements IValidatable {
 	 */
 	public function getDisabled() {
 		return $this->disabled;
+	}
+	
+	public function getErrors() {
+		return $this->errors;
 	}
 	
 	/**
@@ -214,7 +223,7 @@ abstract class Control extends Element implements IValidatable {
 	 */
 	public function getValue() {
 		$rqvalue = $this->getRequestValue();
-		return !is_null($rqvalue) ? $rqvalue : $this->getDefault();
+		return !is_null($rqvalue) ? $rqvalue : $this->value;
 	}
 
 	/**
@@ -224,6 +233,10 @@ abstract class Control extends Element implements IValidatable {
 	 */
 	public function getWebform() {
 		return $this->webform;
+	}
+	
+	public function hasErrors() {
+		return count($this->errors);
 	}
 
 	/**
@@ -235,8 +248,8 @@ abstract class Control extends Element implements IValidatable {
 	 * @param String $default the default value
 	 * @return \gossi\webform\Control $this
 	 */
-	public function setDefault($default) {
-		$this->default = $default;
+	public function setValue($value) {
+		$this->value = $value;
 		return $this;
 	}
 	
@@ -400,9 +413,9 @@ abstract class Control extends Element implements IValidatable {
 	 * (non-PHPdoc)
 	 * @see gossi\webform.IValidatable::removeValidation()
 	 */
-	public function removeValidation(Validation $validation) {
-		if ($offset = array_search($validation, $this->validations)) {
-			unset($this->validations[$offset]);
+	public function removeTest(Test $test) {
+		if ($offset = array_search($test, $this->tests)) {
+			unset($this->tests[$offset]);
 		}
 		return $this;
 	}
@@ -410,7 +423,7 @@ abstract class Control extends Element implements IValidatable {
 	/**
 	 * Removes a validator from the receiver
 	 * 
-	 * @param \gossi\webform\Validator $validator
+	 * @param \gossi\webform\validation\Validator $validator
 	 * @return \gossi\webform\Control $this
 	 */
 	public function removeValidator(Validator $validator) {
@@ -432,30 +445,37 @@ abstract class Control extends Element implements IValidatable {
 	 * @throws Errors
 	 */
 	public function validate() {
+		// reset validation
+		$this->errors = array();
 		$val = $this->getRequestValue();
-		$errors = new Errors();
 
+		// check required
 		if ($this->required && empty($val)) {
-			$errors->addError(sprintf($this->webform->getI18n('error/required'), $this->label));
+			$this->addError(sprintf($this->webform->getI18n('error/required'), $this->label));
 		}
 
+		// validate validators
 		foreach ($this->validators as $validator) {
 			try {
 				$validator->validate($val);
-			} catch (WebformException $e) {
-				$errors->addError($e->getMessage());
+			} catch (\Exception $e) {
+				$this->addError($e->getMessage());
 			}
 		}
 
-		foreach ($this->validations as $validation) {
-			if (!$validation->getStatement()) {
-				$errors->addError($validation->getMessage());
+		// validate additional tests
+		foreach ($this->tests as $test) {
+			try {
+				$test->validate($val);
+			} catch (\Exception $e) {
+				$this->addError($e->getMessage());
 			}
 		}
 
-		if ($errors->size()) {
-			$this->error = true;
-			$this->addClass('webform-control-error');
+		// throw errors if present
+		if ($this->hasErrors()) {
+			$errors = new WebformErrors();
+			$errors->addErrors($this->errors);
 			throw $errors;
 		}
 	}

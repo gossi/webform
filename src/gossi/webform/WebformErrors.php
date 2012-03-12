@@ -4,7 +4,7 @@
  */
 namespace gossi\webform;
 
-class Errors extends Exception implements Iterator {
+class WebformErrors extends \Exception implements \Iterator {
 
 	private $position = 0;
 	private $errors = array();
@@ -26,7 +26,7 @@ class Errors extends Exception implements Iterator {
 		return $this;
 	}
 
-	public function addErrors(Errors $errors) {
+	public function addErrors($errors) {
 		foreach ($errors as $error) {
 			$this->errors[] = $error;
 		}

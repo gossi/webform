@@ -4,19 +4,21 @@
  */
 namespace gossi\webform;
 
+use gossi\webform\validation\PatternValidator;
+
 /**
  * Represents a date control
  */
 class Date extends SingleLine {
 	
-	public function __construct(IArea $parent) {
-		parent::__construct($parent);
+	public function __construct(IArea $parent, $config = array()) {
+		parent::__construct($parent, $config);
 		$pv = new PatternValidator();
 		$pv->setPattern('[0-9]{4}-[0-9]{2}-[0-9]{2}');
 		$this->addValidator($pv);
 	}
 
-	public function toXml() {
+	public function toXML() {
 		return $this->createXml('Date');
 	}
 }

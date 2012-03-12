@@ -50,7 +50,6 @@ class CheckBox extends Checker {
 	public function toXML() {
 		$xml = $this->createXML('CheckBox');
 		$root = $xml->documentElement;
-		$root->setAttribute('value', $this->getDefault());
 		$root->setAttribute('checked', $this->isChecked() ? 'yes' : 'no');
 		$root->setAttribute('orientation', $this->getOrientation());
 

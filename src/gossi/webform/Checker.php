@@ -14,6 +14,11 @@ abstract class Checker extends Control {
 
 	protected $checked = false;
 	private $orientation = Checker::RIGHT;
+	
+	public function __construct(IArea $parent, $config = array()) {
+		parent::__construct($parent, $config);
+		$this->config($config, array('checked', 'orientation'));
+	}
 
 	/**
 	 * Returns the receiver's layout orientation

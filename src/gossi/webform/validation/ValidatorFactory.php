@@ -1,8 +1,5 @@
 <?php
-/**
- * @package gossi\webform
- */
-namespace gossi\webform;
+namespace gossi\webform\validation;
 
 class ValidatorFactory {
 

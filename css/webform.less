@@ -3,8 +3,18 @@
  */
 .webform {
 	
+	/* Reset */
+	ul, ol {
+		margin: 0;
+		padding: 0;
+	}
+	
+	ul {
+		list-style-type: none;
+	}
+	
 	/* Webform Control */
-	&-control {
+	&-control, &-control.input-date {
 
 		border: 1px solid #DDD;
 		padding: 2px;
@@ -26,6 +36,15 @@
 		&-box {
 			min-height: 27px;
 		}
+		
+		/* Group */
+		&-content {
+		
+			/* Disable min-height */
+			.webform-control-box {
+				min-height: 0;
+			}
+		}
 	
 		/* Disabled / Readonly */
 		&[readonly] {
@@ -42,9 +61,21 @@
 			border: 0;
 		}
 	
-		/* Calendar */
-		&[type=date] {
-			background: url('../images/calendar.png') 2px center no-repeat;
+		/* Date */
+		&[type=date], &.input-date {
+			background: url('../images/calendar_day.png') 2px center no-repeat;
+			padding-left: 21px;
+		}
+		
+		/* Week */
+		&[type=week] {
+			background: url('../images/calendar_week.png') 2px center no-repeat;
+			padding-left: 21px;
+		}
+		
+		/* Time */
+		&[type=time] {
+			background: url('../images/time.png') 2px center no-repeat;
 			padding-left: 21px;
 		}
 		
@@ -70,7 +101,13 @@
 		&[type=color] {
 			background: url('../images/color.png') 2px center no-repeat;
 			padding-left: 21px;
-		}	
+		}
+		
+		/* Password */
+		&[type=password] {
+			background: url('../images/key.png') 2px center no-repeat;
+			padding-left: 21px;
+		}
 	}
 
 	input:focus, textarea:focus, select:focus, button:focus {
@@ -154,6 +191,12 @@
 	&-area {
 		border-top: 1px solid #777;
 		margin-bottom: 15px;
+		
+		-o-box-sizing: border-box;
+		-ms-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
 	
 		&-label {
 			margin: 0 0 0 20px;
@@ -163,6 +206,12 @@
 		
 		> .webform-description {
 			margin-bottom: 15px;
+		}
+		
+		&-blind {
+			margin: 0;
+			padding: 0;
+			border: 0;
 		}
 	}
 	 
@@ -182,6 +231,43 @@
 		}
 	}
 	
+	/* Errors */
+	> .webform-errors {
+		border: 1px solid;
+		margin: 10px 0px;
+		padding:15px 10px 15px 50px;
+		background-repeat: no-repeat;
+		background-position: 10px center;
+		color: #D63301;
+	    background-color: #FFCCBA;
+	    background-image: url('../images/validation.png');
+	    
+	    ul {
+			margin-top: 10px;
+			margin-left: 20px;
+		}
+	    
+	    li {
+			list-style-type: disc;
+		}
+	}
+
+	&-control:invalid, &-control.ui-invalid {
+		border: 1px solid #D63301;
+	}
+	
+	&-control-box .webform-errors {
+		padding: 5px;
+		list-style-type: disc;
+		color: #D63301;
+	}
+	
+	.webform-errors li,
+	.webform-group-vertical li {
+		background-image: none;
+		padding: 0;
+	}
+	
 	
 	/* Layouts */
 	&-layout {
@@ -193,12 +279,22 @@
 				width: 145px;
 			}
 			
-			input:not([type=submit]):not([type=reset]), textarea, button {
+			input:not([type=submit]):not([type=reset]):not([type=radio]):not([type=checkbox]), 
+			textarea, button {
 				width: 300px;
 			}
 
 			.webform-control-content {
 				margin-left: 150px;
+				
+				.webform-control-box > .webform-label {
+					float: none;
+					width: auto;
+				}
+			}
+			
+			.webform-control-box .webform-errors {
+				margin-left: 155px;
 			}
 		}
 
@@ -213,41 +309,72 @@
 				margin: 8px 0 5px 0;
 			}
 		}
+		
+		/* Column Layout (fieldset - Area) */
+		&-column {
+			& > .webform-area {
+				float: left;
+			}
+			
+			& > .webform-area:last-child {
+				/*clear: left;*/
+			}
+		}
 	}
 	
-	/* Errors */
-	&-errors {
-		border: 1px solid;
-		margin: 10px 0px;
-		padding:15px 10px 15px 50px;
+	/* Override webshim widgets */
+	
+	.step-controls {
+		margin-left: -16.5px;
+	}
+	
+	.step-controls span {
+		background: none;
+		border: 1px solid #CCC;
+		background-color: #EEE;
+		background-image: -o-linear-gradient(top, #FFF, #E0E0E0);
+		background-image: -ms-linear-gradient(top, #FFF, #E0E0E0);
+		background-image: -moz-linear-gradient(top, #FFF, #E0E0E0);
+		background-image: -webkit-linear-gradient(top, #FFF, #E0E0E0);
+		background-image: linear-gradient(top, #FFF, #E0E0E0);
+		
+		-o-box-sizing: border-box;
+		-ms-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+	
+	.step-controls span:hover {
+		background-color: #DDD;
+		background-image: -o-linear-gradient(top, #FFF, #EEE);
+		background-image: -ms-linear-gradient(top, #FFF, #EEE);
+		background-image: -moz-linear-gradient(top, #FFF, #E7E7E7);
+		background-image: -webkit-linear-gradient(top, #FFF, #EEE);
+		background-image: linear-gradient(top, #FFF, #EEE);
+	}
+	
+	.step-controls span.step-down {
+		bottom: 0.5px;
+	}
+	
+	.step-controls span.step-down:before,
+	.step-controls span.step-up:before {
+		content: " ";
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 13px;
+		height: 7px;
 		background-repeat: no-repeat;
-		background-position: 10px center;
-	    color: #D63301;
-	    background-color: #FFCCBA;
-	    background-image: url('../images/validation.png');
-	    
-	    ul {
-			margin-top: 10px;
-			margin-left: 20px;
-		}
-	    
-	    li {
-			list-style-type: disc;
-		}
+		background-position: center center;
 	}
 	
-	.webform-control.webform-control-error {
-		border: 1px solid #D63301;
+	.step-controls span.step-up:before {
+		background-image: url('../images/arrow_up.png');
 	}
 	
-	.webform-errors li,
-	.webform-group-vertical li {
-		background-image: none;
-		padding: 0;
+	.step-controls span.step-down:before {
+		background-image: url('../images/arrow_down.png');
 	}
 }
-
-
-/*.webform-control[disabled=true], .webform-control[disabled=disabled], .webform-control[disabled] {
-	color: #999;
-}*/
