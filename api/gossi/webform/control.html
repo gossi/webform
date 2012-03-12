@@ -1,0 +1,655 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="generator" content="PHPDoctor 2RC4 (http://peej.github.com/phpdoctor/)">
+<meta name="when" content="Mon, 12 Mar 2012 02:16:08 +0000">
+
+<link rel="stylesheet" type="text/css" href="../../stylesheet.css">
+<link rel="start" href="../../overview-summary.html">
+
+<title>Control (gossi-webform)</title>
+
+</head>
+<body id="definition" onload="parent.document.title=document.title;">
+
+<div class="header">
+<h1>gossi-webform</h1>
+<ul>
+<li><a href="../../overview-summary.html">Overview</a></li>
+<li><a href="../../gossi/webform/package-summary.html">Namespace</a></li>
+<li class="active">Class</li>
+<li><a href="../../gossi/webform/package-tree.html">Tree</a></li>
+<li><a href="../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../todo-list.html">Todo</a></li>
+<li><a href="../../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../../index.html" target="_top">Frames</a>
+<a href="../../gossi/webform/control.html" target="_top">No frames</a>
+</div>
+<div class="small_links">
+Summary: <a href="#summary_field">Field</a> | <a href="#summary_method">Method</a> | <a href="#summary_constr">Constr</a>
+Detail: <a href="#detail_field">Field</a> | <a href="#detail_method">Method</a> | <a href="#summary_constr">Constr</a>
+</div>
+<hr>
+
+<div class="qualifiedName">gossi\webform\Control</div>
+<div class="location">Control.php at line 8</div>
+<h1>Class Control</h1>
+
+<pre class="tree"><a href="../../gossi/webform/baseelement.html">BaseElement</a><br>    └─<a href="../../gossi/webform/element.html">Element</a><br>       └─<strong>Control</strong><br /></pre>
+
+<dl>
+<dt>All Known Subclasses:</dt>
+<dd><a href="../../gossi/webform/checker.html">Checker</a> <a href="../../gossi/webform/combobox.html">ComboBox</a> <a href="../../gossi/webform/custom.html">Custom</a> <a href="../../gossi/webform/group.html">Group</a> <a href="../../gossi/webform/hidden.html">Hidden</a> <a href="../../gossi/webform/multiline.html">MultiLine</a> <a href="../../gossi/webform/reset.html">Reset</a> <a href="../../gossi/webform/singleline.html">SingleLine</a> <a href="../../gossi/webform/submit.html">Submit</a> </dd>
+</dl>
+
+<hr>
+
+<p class="signature">public abstract  class <strong>Control</strong><br>extends <a href="../../gossi/webform/element.html">Element</a>
+
+</p>
+
+<div class="comment" id="overview_description"><p>The BaseElement containing information about the CSS Classes, Label and ID.
+This class is meant to be subclassed.</p></div>
+
+<hr>
+
+<table id="summary_constructor">
+<tr><th colspan="2">Constructor Summary</th></tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#__construct()">__construct</a>(<a href="../../gossi/webform/iarea.html">IArea</a> parent, mixed config)</p><p class="description">Creates a new Control</p></td>
+</tr>
+</table>
+
+<table id="summary_method">
+<tr><th colspan="2">Method Summary</th></tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#addError()">addError</a>(mixed message)</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#addTest()">addTest</a>(<a href="../../gossi/webform/validation/test.html">Test</a> test)</p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../gossi/webform/control.html">Control</a></td>
+<td class="description"><p class="name"><a href="#addValidator()">addValidator</a>(<a href="../../gossi/webform/validation/validator.html">Validator</a> validator)</p><p class="description">Adds a validator to the receiver.</p></td>
+</tr>
+<tr>
+<td class="type">protected  \DOMDocument</td>
+<td class="description"><p class="name"><a href="#createXML()">createXML</a>(String type)</p><p class="description">Creates a XML Document representing the abstract control.</p></td>
+</tr>
+<tr>
+<td class="type"> String</td>
+<td class="description"><p class="name"><a href="#getDefault()">getDefault</a>()</p><p class="description">Returns the receiver's default value.</p></td>
+</tr>
+<tr>
+<td class="type"> String</td>
+<td class="description"><p class="name"><a href="#getDirname()">getDirname</a>()</p><p class="description">Returns the receiver's dirname attribute.</p></td>
+</tr>
+<tr>
+<td class="type"> boolean</td>
+<td class="description"><p class="name"><a href="#getDisabled()">getDisabled</a>()</p><p class="description">Returns the receiver's disabled attribute.</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#getErrors()">getErrors</a>()</p></td>
+</tr>
+<tr>
+<td class="type"> int</td>
+<td class="description"><p class="name"><a href="#getMaxlength()">getMaxlength</a>()</p><p class="description">Returns the receiver's maxlength attribute.</p></td>
+</tr>
+<tr>
+<td class="type"> String</td>
+<td class="description"><p class="name"><a href="#getName()">getName</a>()</p><p class="description">Returns the receiver's name attribute.</p></td>
+</tr>
+<tr>
+<td class="type"> boolean</td>
+<td class="description"><p class="name"><a href="#getReadonly()">getReadonly</a>(boolean readonly)</p><p class="description">Returns the receiver's readonly attribute.</p></td>
+</tr>
+<tr>
+<td class="type"> String</td>
+<td class="description"><p class="name"><a href="#getRequestValue()">getRequestValue</a>()</p><p class="description">Returns the receiver's value that is transmitted via HTTP.</p></td>
+</tr>
+<tr>
+<td class="type"> boolean</td>
+<td class="description"><p class="name"><a href="#getRequired()">getRequired</a>()</p><p class="description">Returns the receiver's required state.</p></td>
+</tr>
+<tr>
+<td class="type"> String</td>
+<td class="description"><p class="name"><a href="#getValue()">getValue</a>()</p><p class="description">Returns the receiver's value. </p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../gossi/webform/webform.html">Webform</a></td>
+<td class="description"><p class="name"><a href="#getWebform()">getWebform</a>()</p><p class="description">Returns the receiver's Webform.</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#hasErrors()">hasErrors</a>()</p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../gossi/webform/control.html">Control</a></td>
+<td class="description"><p class="name"><a href="#setDefault()">setDefault</a>(String default)</p><p class="description">Sets the receiver's default value.</p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../gossi/webform/control.html">Control</a></td>
+<td class="description"><p class="name"><a href="#setDirname()">setDirname</a>(String dirname)</p><p class="description">Sets the receiver's dirname attribute.
+</p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../gossi/webform/control.html">Control</a></td>
+<td class="description"><p class="name"><a href="#setDisabled()">setDisabled</a>(boolean disabled)</p><p class="description">Sets the receiver's disabled attribute.
+</p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../gossi/webform/control.html">Control</a></td>
+<td class="description"><p class="name"><a href="#setId()">setId</a>(String id)</p><p class="description">Sets the receiver's id attribute. </p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../gossi/webform/control.html">Control</a></td>
+<td class="description"><p class="name"><a href="#setMaxlength()">setMaxlength</a>(int maxlength)</p><p class="description">Sets the receiver's maxlength attribute.
+</p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../gossi/webform/control.html">Control</a></td>
+<td class="description"><p class="name"><a href="#setName()">setName</a>(String name)</p><p class="description">Sets the receiver's name attribute.
+</p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../gossi/webform/control.html">Control</a></td>
+<td class="description"><p class="name"><a href="#setReadonly()">setReadonly</a>(boolean readonly)</p><p class="description">Sets the receiver's readonly attribute.
+</p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../gossi/webform/control.html">Control</a></td>
+<td class="description"><p class="name"><a href="#setRequired()">setRequired</a>(boolean required)</p><p class="description">Sets the receiver's required attribute.
+</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#removeTest()">removeTest</a>(<a href="../../gossi/webform/validation/test.html">Test</a> test)</p></td>
+</tr>
+<tr>
+<td class="type"> <a href="../../gossi/webform/control.html">Control</a></td>
+<td class="description"><p class="name"><a href="#removeValidator()">removeValidator</a>(<a href="../../gossi/webform/validation/validator.html">Validator</a> validator)</p><p class="description">Removes a validator from the receiver</p></td>
+</tr>
+<tr>
+<td class="type">abstract  \DOMDocument</td>
+<td class="description"><p class="name"><a href="#toXML()">toXML</a>()</p><p class="description">Returns the receiver as XML.</p></td>
+</tr>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#validate()">validate</a>()</p><p class="description">Validates the receiver</p></td>
+</tr>
+</table>
+
+<table class="inherit">
+<tr><th colspan="2">Methods inherited from gossi\webform\Element</th></tr>
+<tr><td><a href="../../gossi/webform/element.html#__construct()">__construct</a>, <a href="../../gossi/webform/element.html#getDescription()">getDescription</a>, <a href="../../gossi/webform/element.html#getTitle()">getTitle</a>, <a href="../../gossi/webform/element.html#setDescription()">setDescription</a>, <a href="../../gossi/webform/element.html#setTitle()">setTitle</a></td></tr></table>
+
+<table class="inherit">
+<tr><th colspan="2">Methods inherited from gossi\webform\BaseElement</th></tr>
+<tr><td><a href="../../gossi/webform/baseelement.html#__construct()">__construct</a>, <a href="../../gossi/webform/baseelement.html#addClass()">addClass</a>, <a href="../../gossi/webform/baseelement.html#addClasses()">addClasses</a>, <a href="../../gossi/webform/baseelement.html#config()">config</a>, <a href="../../gossi/webform/baseelement.html#getClasses()">getClasses</a>, <a href="../../gossi/webform/baseelement.html#getId()">getId</a>, <a href="../../gossi/webform/baseelement.html#getLabel()">getLabel</a>, <a href="../../gossi/webform/baseelement.html#removeClass()">removeClass</a>, <a href="../../gossi/webform/baseelement.html#removeClasses()">removeClasses</a>, <a href="../../gossi/webform/baseelement.html#setClasses()">setClasses</a>, <a href="../../gossi/webform/baseelement.html#setId()">setId</a>, <a href="../../gossi/webform/baseelement.html#setLabel()">setLabel</a></td></tr></table>
+
+<h2 id="detail_method">Constructor Detail</h2>
+<div class="location">Control.php at line 33</div>
+<h3 id="__construct()">__construct</h3>
+<code class="signature">public  void <strong>__construct</strong>(<a href="../../gossi/webform/iarea.html">IArea</a> parent, mixed config)</code>
+<div class="details">
+<p>Creates a new Control</p></div>
+
+<hr>
+
+<h2 id="detail_method">Method Detail</h2>
+<div class="location">Control.php at line 53</div>
+<h3 id="addError()">addError</h3>
+<code class="signature">public  void <strong>addError</strong>(mixed message)</code>
+<div class="details">
+</div>
+
+<hr>
+
+<div class="location">Control.php at line 58</div>
+<h3 id="addTest()">addTest</h3>
+<code class="signature">public  void <strong>addTest</strong>(<a href="../../gossi/webform/validation/test.html">Test</a> test)</code>
+<div class="details">
+</div>
+
+<hr>
+
+<div class="location">Control.php at line 72</div>
+<h3 id="addValidator()">addValidator</h3>
+<code class="signature">public  <a href="../../gossi/webform/control.html">Control</a> <strong>addValidator</strong>(<a href="../../gossi/webform/validation/validator.html">Validator</a> validator)</code>
+<div class="details">
+<p>Adds a validator to the receiver.</p><dl>
+<dt>Parameters:</dt>
+<dd>validator - the new validator</dd>
+<dt>Returns:</dt>
+<dd>$this</dd>
+</dl>
+</div>
+
+<hr>
+
+<div class="location">Control.php at line 96</div>
+<h3 id="createXML()">createXML</h3>
+<code class="signature">protected  \DOMDocument <strong>createXML</strong>(String type)</code>
+<div class="details">
+<p>Creates a XML Document representing the abstract control.</p><dl>
+<dt>Parameters:</dt>
+<dd>type - the type of the control</dd>
+<dt>Returns:</dt>
+<dd>the XML Document</dd>
+</dl>
+</div>
+
+<hr>
+
+<div class="location">Control.php at line 135</div>
+<h3 id="getDefault()">getDefault</h3>
+<code class="signature">public  String <strong>getDefault</strong>()</code>
+<div class="details">
+<p>Returns the receiver's default value.</p><dl>
+<dt>See Also:</dt>
+<dd><a href="http://developers.whatwg.org/the-input-element.html#attr-input-value">W3C Specification</a></dd>
+<dd><a href="../../gossi/webform/control.html#setDefault()">setDefault</a></dd>
+<dd><a href="../../gossi/webform/control.html#getValue()">getValue</a></dd>
+<dt>Returns:</dt>
+<dd>the default value</dd>
+</dl>
+</div>
+
+<hr>
+
+<div class="location">Control.php at line 146</div>
+<h3 id="getDirname()">getDirname</h3>
+<code class="signature">public  String <strong>getDirname</strong>()</code>
+<div class="details">
+<p>Returns the receiver's <code>dirname</code> attribute.</p><dl>
+<dt>See Also:</dt>
+<dd><a href="http://developers.whatwg.org/common-input-element-attributes.html#the-dirname-attribute">W3C Specification</a></dd>
+<dd><a href="../../gossi/webform/control.html#setDirname()">setDirname</a></dd>
+<dt>Returns:</dt>
+<dd>The receiver's <code>dirname</code> value</dd>
+</dl>
+</div>
+
+<hr>
+
+<div class="location">Control.php at line 157</div>
+<h3 id="getDisabled()">getDisabled</h3>
+<code class="signature">public  boolean <strong>getDisabled</strong>()</code>
+<div class="details">
+<p>Returns the receiver's <code>disabled</code> attribute.</p><dl>
+<dt>See Also:</dt>
+<dd><a href="http://developers.whatwg.org/association-of-controls-and-forms.html#attr-fe-disabled">W3C Specification</a></dd>
+<dd><a href="../../gossi/webform/control.html#setDisabled()">setDisabled</a></dd>
+<dt>Returns:</dt>
+<dd>the <code>disabled</code> state</dd>
+</dl>
+</div>
+
+<hr>
+
+<div class="location">Control.php at line 161</div>
+<h3 id="getErrors()">getErrors</h3>
+<code class="signature">public  void <strong>getErrors</strong>()</code>
+<div class="details">
+</div>
+
+<hr>
+
+<div class="location">Control.php at line 172</div>
+<h3 id="getMaxlength()">getMaxlength</h3>
+<code class="signature">public  int <strong>getMaxlength</strong>()</code>
+<div class="details">
+<p>Returns the receiver's <code>maxlength</code> attribute.</p><dl>
+<dt>See Also:</dt>
+<dd><a href="http://developers.whatwg.org/common-input-element-attributes.html#the-maxlength-attribute">W3C Specification</a></dd>
+<dd><a href="../../gossi/webform/control.html#setMaxlength()">setMaxlength</a></dd>
+<dt>Returns:</dt>
+<dd>the <code>maxlength</code> value</dd>
+</dl>
+</div>
+
+<hr>
+
+<div class="location">Control.php at line 184</div>
+<h3 id="getName()">getName</h3>
+<code class="signature">public  String <strong>getName</strong>()</code>
+<div class="details">
+<p>Returns the receiver's <code>name</code> attribute.</p><dl>
+<dt>See Also:</dt>
+<dd><a href="http://developers.whatwg.org/forms.html#attr-form-name">W3C Specification</a></dd>
+<dd><a href="../../gossi/webform/baseelement.html#setId()">setId</a></dd>
+<dd><a href="../../gossi/webform/control.html#setName()">setName</a></dd>
+<dt>Returns:</dt>
+<dd>the <code>name</code> value</dd>
+</dl>
+</div>
+
+<hr>
+
+<div class="location">Control.php at line 196</div>
+<h3 id="getReadonly()">getReadonly</h3>
+<code class="signature">public  boolean <strong>getReadonly</strong>(boolean readonly)</code>
+<div class="details">
+<p>Returns the receiver's <code>readonly</code> attribute.</p><dl>
+<dt>See Also:</dt>
+<dd><a href="http://developers.whatwg.org/common-input-element-attributes.html#the-readonly-attribute">W3C Specification</a></dd>
+<dd><a href="../../gossi/webform/control.html#setReadonly()">setReadonly</a></dd>
+<dt>Parameters:</dt>
+<dd>readonly - true for readonly</dd>
+<dt>Returns:</dt>
+<dd>the <code>readonly</code> state</dd>
+</dl>
+</div>
+
+<hr>
+
+<div class="location">Control.php at line 205</div>
+<h3 id="getRequestValue()">getRequestValue</h3>
+<code class="signature">public  String <strong>getRequestValue</strong>()</code>
+<div class="details">
+<p>Returns the receiver's value that is transmitted via HTTP.</p><dl>
+<dt>Returns:</dt>
+<dd>the request's value</dd>
+</dl>
+</div>
+
+<hr>
+
+<div class="location">Control.php at line 224</div>
+<h3 id="getRequired()">getRequired</h3>
+<code class="signature">public  boolean <strong>getRequired</strong>()</code>
+<div class="details">
+<p>Returns the receiver's <code>required</code> state.</p><dl>
+<dt>See Also:</dt>
+<dd><a href="http://developers.whatwg.org/common-input-element-attributes.html#the-required-attribute">W3C Specification</a></dd>
+<dd><a href="../../gossi/webform/control.html#setRequired()">setRequired</a></dd>
+<dt>Returns:</dt>
+<dd>the <code>required</code> state</dd>
+</dl>
+</div>
+
+<hr>
+
+<div class="location">Control.php at line 236</div>
+<h3 id="getValue()">getValue</h3>
+<code class="signature">public  String <strong>getValue</strong>()</code>
+<div class="details">
+<p>Returns the receiver's value. When a value is transmitted via HTTP, that value is
+returned anyway the default value.</p><dl>
+<dt>See Also:</dt>
+<dd><a href="../../gossi/webform/control.html#getDefault()">getDefault</a></dd>
+<dd><a href="../../gossi/webform/control.html#getRequestValue()">getRequestValue</a></dd>
+<dt>Returns:</dt>
+<dd>the receiver's value</dd>
+</dl>
+</div>
+
+<hr>
+
+<div class="location">Control.php at line 246</div>
+<h3 id="getWebform()">getWebform</h3>
+<code class="signature">public  <a href="../../gossi/webform/webform.html">Webform</a> <strong>getWebform</strong>()</code>
+<div class="details">
+<p>Returns the receiver's <code>Webform</code>.</p><dl>
+<dt>Returns:</dt>
+<dd>the associated <code>Webform</code></dd>
+</dl>
+</div>
+
+<hr>
+
+<div class="location">Control.php at line 250</div>
+<h3 id="hasErrors()">hasErrors</h3>
+<code class="signature">public  void <strong>hasErrors</strong>()</code>
+<div class="details">
+</div>
+
+<hr>
+
+<div class="location">Control.php at line 263</div>
+<h3 id="setDefault()">setDefault</h3>
+<code class="signature">public  <a href="../../gossi/webform/control.html">Control</a> <strong>setDefault</strong>(String default)</code>
+<div class="details">
+<p>Sets the receiver's default value.</p><dl>
+<dt>See Also:</dt>
+<dd><a href="http://developers.whatwg.org/the-input-element.html#attr-input-value">W3C Specification</a></dd>
+<dd><a href="../../gossi/webform/control.html#getDefault()">getDefault</a></dd>
+<dd><a href="../../gossi/webform/control.html#getValue()">getValue</a></dd>
+<dt>Parameters:</dt>
+<dd>default - the default value</dd>
+<dt>Returns:</dt>
+<dd>$this</dd>
+</dl>
+</div>
+
+<hr>
+
+<div class="location">Control.php at line 302</div>
+<h3 id="setDirname()">setDirname</h3>
+<code class="signature">public  <a href="../../gossi/webform/control.html">Control</a> <strong>setDirname</strong>(String dirname)</code>
+<div class="details">
+<p>Sets the receiver's <code>dirname</code> attribute.</p><p>The <code>dirname</code> attribute, when it applies, is a form control
+<code>dirname</code> attribute.</p><p><p class="example">In this example, a form contains a text field and a submission
+button:</p></p><p><code class="example">&lt;form action="addcomment.cgi" method=post&gt;
+&lt;p&gt;&lt;label&gt;Comment: &lt;input type=text name="comment" dirname="comment.dir" required&gt;&lt;/label&gt;&lt;/p&gt;
+&lt;p&gt;&lt;button name="mode" type=submit value="add"&gt;Post Comment&lt;/button&gt;&lt;/p&gt;
+&lt;/form&gt;</code></p><p><p class="example">When the user submits the form, the user agent includes three
+fields, one called "comment", one called "comment.dir", and one
+called "mode"; so if the user types "Hello", the submission body
+might be something like:</p></p><p><code class="example">comment=Hello&amp;<strong>comment.dir=ltr</strong>&amp;mode=add</code></p><p><p class="example">If the user manually switches to a right-to-left writing
+direction and enters "<span dir="rtl" lang="ar" title="">&#1605;&#1585;&#1581;&#1576;&#1611;&#1575;</span>", the
+submission body might be something like:</p></p><p><code class="example">comment=%D9%85%D8%B1%D8%AD%D8%A8%D9%8B%D8%A7&amp;<strong>comment.dir=rtl</strong>&amp;mode=add</code></p><dl>
+<dt>See Also:</dt>
+<dd><a href="http://developers.whatwg.org/common-input-element-attributes.html#the-dirname-attribute">W3C Specification</a></dd>
+<dd><a href="http://developers.whatwg.org/association-of-controls-and-forms.html#form-control-dirname-attribute">form control dirname attribute</a></dd>
+<dd><a href="../../gossi/webform/control.html#getDirname()">getDirname</a></dd>
+<dt>Parameters:</dt>
+<dd>dirname - the new dirname value</dd>
+<dt>Returns:</dt>
+<dd>$this</dd>
+</dl>
+</div>
+
+<hr>
+
+<div class="location">Control.php at line 319</div>
+<h3 id="setDisabled()">setDisabled</h3>
+<code class="signature">public  <a href="../../gossi/webform/control.html">Control</a> <strong>setDisabled</strong>(boolean disabled)</code>
+<div class="details">
+<p>Sets the receiver's <code>disabled</code> attribute.</p><p>A form control is disabled if its <code>disabled</code> attribute is set, or if it is
+a descendant of a fieldset element whose disabled attribute is set and is not a
+descendant of that fieldset element's first legend element child, if any.</p><dl>
+<dt>See Also:</dt>
+<dd><a href="http://developers.whatwg.org/association-of-controls-and-forms.html#attr-fe-disabled">W3C Specification</a></dd>
+<dd><a href="../../gossi/webform/control.html#getDisabled()">getDisabled</a></dd>
+<dt>Parameters:</dt>
+<dd>disabled - the new disabled state</dd>
+<dt>Returns:</dt>
+<dd>$this</dd>
+</dl>
+</div>
+
+<hr>
+
+<div class="location">Control.php at line 335</div>
+<h3 id="setId()">setId</h3>
+<code class="signature">public  <a href="../../gossi/webform/control.html">Control</a> <strong>setId</strong>(String id)</code>
+<div class="details">
+<p>Sets the receiver's <code>id</code> attribute. If a name is not set yet, the name
+attribute will be set to the new id value, too.</p><dl>
+<dt>See Also:</dt>
+<dd><a href="http://developers.whatwg.org/elements.html#the-id-attribute">W3C Specification</a></dd>
+<dd><a href="../../gossi/webform/control.html#setName()">setName</a></dd>
+<dd><a href="../../gossi/webform/baseelement.html#getId()">getId</a></dd>
+<dd><a href="../../gossi/webform/baseelement.html#setId()">\gossi\webform\BaseElement::setId()</a></dd>
+<dt>Returns:</dt>
+<dd>$this</dd>
+<dt>Parameters:</dt>
+<dd>id - the new id attribute</dd>
+</dl>
+</div>
+
+<hr>
+
+<div class="location">Control.php at line 367</div>
+<h3 id="setMaxlength()">setMaxlength</h3>
+<code class="signature">public  <a href="../../gossi/webform/control.html">Control</a> <strong>setMaxlength</strong>(int maxlength)</code>
+<div class="details">
+<p>Sets the receiver's <code>maxlength</code> attribute.</p><p>The <code>maxlength</code> attribute is a form control maxlength attribute.</p><p>If the <code>input</code> element has a maximum allowed value length, then the
+code-point length of the value of the element's <code>value</code> attribute must be
+equal to or less than the element's maximum allowed value length.</p><p><p class="example">The following extract shows how a messaging client's text entry
+could be arbitrarily restricted to a fixed number of characters,
+thus forcing any conversation through this medium to be terse and
+discouraging intelligent discourse.</p></p><p><code class="example">&lt;label&gt;What are you doing? &lt;input name="status" maxlength="140"&gt;&lt;/label&gt;</code></p><dl>
+<dt>See Also:</dt>
+<dd><a href="http://developers.whatwg.org/common-input-element-attributes.html#the-maxlength-attribute">W3C Specification</a></dd>
+<dd><a href="../../gossi/webform/control.html#getMaxlength()">getMaxlength</a></dd>
+<dt>Parameters:</dt>
+<dd>maxlength - the new <code>maxlength</code> value</dd>
+<dt>Returns:</dt>
+<dd>$this</dd>
+</dl>
+</div>
+
+<hr>
+
+<div class="location">Control.php at line 386</div>
+<h3 id="setName()">setName</h3>
+<code class="signature">public  <a href="../../gossi/webform/control.html">Control</a> <strong>setName</strong>(String name)</code>
+<div class="details">
+<p>Sets the receiver's <code>name</code> attribute.</p><p>The <code>name</code> attribute represents the form's name within the forms
+collection. The value must not be the empty string, and the value must be unique
+amongst the form elements in the forms collection that it is in, if any.</p><dl>
+<dt>See Also:</dt>
+<dd><a href="http://developers.whatwg.org/forms.html#attr-form-name">W3C Specification</a></dd>
+<dd><a href="../../gossi/webform/baseelement.html#setId()">setId</a></dd>
+<dd><a href="../../gossi/webform/control.html#getName()">getName</a></dd>
+<dt>Parameters:</dt>
+<dd>name - the new <code>name</code> value</dd>
+<dt>Returns:</dt>
+<dd>$this</dd>
+</dl>
+</div>
+
+<hr>
+
+<div class="location">Control.php at line 402</div>
+<h3 id="setReadonly()">setReadonly</h3>
+<code class="signature">public  <a href="../../gossi/webform/control.html">Control</a> <strong>setReadonly</strong>(boolean readonly)</code>
+<div class="details">
+<p>Sets the receiver's <code>readonly</code> attribute.</p><p>The <code>readonly</code> attribute is a boolean attribute that controls whether or
+not the user can edit the form control.</p><dl>
+<dt>See Also:</dt>
+<dd><a href="http://developers.whatwg.org/common-input-element-attributes.html#the-readonly-attribute">W3C Specification</a></dd>
+<dd><a href="../../gossi/webform/control.html#getReadonly()">getReadonly</a></dd>
+<dt>Parameters:</dt>
+<dd>readonly - the new <code>readonly</code> state</dd>
+<dt>Returns:</dt>
+<dd>$this</dd>
+</dl>
+</div>
+
+<hr>
+
+<div class="location">Control.php at line 418</div>
+<h3 id="setRequired()">setRequired</h3>
+<code class="signature">public  <a href="../../gossi/webform/control.html">Control</a> <strong>setRequired</strong>(boolean required)</code>
+<div class="details">
+<p>Sets the receiver's <code>required</code> attribute.</p><p>The <code>required</code> attribute is a boolean attribute. When specified, the element
+is required.</p><dl>
+<dt>See Also:</dt>
+<dd><a href="http://developers.whatwg.org/common-input-element-attributes.html#the-required-attribute">W3C Specification</a></dd>
+<dd><a href="../../gossi/webform/control.html#getRequired()">getRequired</a></dd>
+<dt>Parameters:</dt>
+<dd>required - the new <code>required</code> state</dd>
+<dt>Returns:</dt>
+<dd>$this</dd>
+</dl>
+</div>
+
+<hr>
+
+<div class="location">Control.php at line 428</div>
+<h3 id="removeTest()">removeTest</h3>
+<code class="signature">public  void <strong>removeTest</strong>(<a href="../../gossi/webform/validation/test.html">Test</a> test)</code>
+<div class="details">
+</div>
+
+<hr>
+
+<div class="location">Control.php at line 441</div>
+<h3 id="removeValidator()">removeValidator</h3>
+<code class="signature">public  <a href="../../gossi/webform/control.html">Control</a> <strong>removeValidator</strong>(<a href="../../gossi/webform/validation/validator.html">Validator</a> validator)</code>
+<div class="details">
+<p>Removes a validator from the receiver</p><dl>
+<dt>Returns:</dt>
+<dd>$this</dd>
+</dl>
+</div>
+
+<hr>
+
+<div class="location">Control.php at line 452</div>
+<h3 id="toXML()">toXML</h3>
+<code class="signature">public abstract  \DOMDocument <strong>toXML</strong>()</code>
+<div class="details">
+<p>Returns the receiver as XML.</p><dl>
+<dt>Returns:</dt>
+<dd>the receiver's XML representation</dd>
+</dl>
+</div>
+
+<hr>
+
+<div class="location">Control.php at line 459</div>
+<h3 id="validate()">validate</h3>
+<code class="signature">public  void <strong>validate</strong>()</code>
+<div class="details">
+<p>Validates the receiver</p><dl>
+<dt>Throws:</dt>
+<dd>Errors</dd>
+</dl>
+</div>
+
+<hr>
+
+<div class="header">
+<h1>gossi-webform</h1>
+<ul>
+<li><a href="../../overview-summary.html">Overview</a></li>
+<li><a href="../../gossi/webform/package-summary.html">Namespace</a></li>
+<li class="active">Class</li>
+<li><a href="../../gossi/webform/package-tree.html">Tree</a></li>
+<li><a href="../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../todo-list.html">Todo</a></li>
+<li><a href="../../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../../index.html" target="_top">Frames</a>
+<a href="../../gossi/webform/control.html" target="_top">No frames</a>
+</div>
+<div class="small_links">
+Summary: <a href="#summary_field">Field</a> | <a href="#summary_method">Method</a> | <a href="#summary_constr">Constr</a>
+Detail: <a href="#detail_field">Field</a> | <a href="#detail_method">Method</a> | <a href="#summary_constr">Constr</a>
+</div>
+<hr>
+
+<p id="footer">This document was generated by <a href="http://peej.github.com/phpdoctor/">PHPDoctor: The PHP Documentation Creator</a></p>
+
+</body>
+
+</html>

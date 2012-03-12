@@ -1,6 +1,0 @@
-# the command to run php from the command line
-php.command =
-
-dir.doc = ${basedir}/doc
-dir.libs = ${basedir}/libs
-dir.phpdoc = ${dir.libs}/phpdoctor
