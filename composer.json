@@ -11,21 +11,9 @@
         }
     ],
     "require": {
-    	"afarkas/webshim": "1.8.9"
+    
     },
     "autoload": {
     	"psr-0": {"gossi\\webform": "src/gossi/webform"}
-    },
-    "repositories": [{
-    	"type": "package",
-    	"package": {
-    		"name": "afarkas/webshim",
-				"version": "1.8.9",
-				"dist": {
-					"url": "https://github.com/downloads/aFarkas/webshim/webshims-1.8.9.zip",
-					"type": "zip"
-				}
-            }
-        }
-    ]
+    }
 }
