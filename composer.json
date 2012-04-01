@@ -1,0 +1,31 @@
+{
+    "name": "gossi/webform",
+    "description": "A component to create webforms",
+    "type": "library",
+    "keywords": ["webform", "form", "validation"],
+    "homepage": "http://gossi.github.com/webform",
+    "authors": [
+        {
+            "name": "gossi",
+            "homepage": "http://gos.si"
+        }
+    ],
+    "require": {
+    	"afarkas/webshim": "1.8.9"
+    },
+    "autoload": {
+    	"psr-0": {"gossi\\webform": "src/gossi/webform"}
+    },
+    "repositories": [{
+    	"type": "package",
+    	"package": {
+    		"name": "afarkas/webshim",
+				"version": "1.8.9",
+				"dist": {
+					"url": "https://github.com/downloads/aFarkas/webshim/webshims-1.8.9.zip",
+					"type": "zip"
+				}
+            }
+        }
+    ]
+}
