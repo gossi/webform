@@ -1,9 +1,329 @@
-jQuery.webshims.register("form-native-fix",function(b,d,h,j,p){if(Modernizr.formvalidation&&!Modernizr.bugfreeformvalidation){var k=b.browser.webkit,o=k&&534.5>=d.browserVersion,q=o?"input:invalid-element, select:invalid-element, textarea:invalid-element":":invalid",i=[],g,l;if(h.addEventListener){var m=p,n=!1;h.addEventListener("submit",function(c){if(!n&&c.target.checkValidity&&null==b.attr(c.target,"novalidate")&&(b(q,c.target).length&&(b(c.target).unbind("submit.preventInvalidSubmit").bind("submit.preventInvalidSubmit",
-function(a){null==b.attr(c.target,"novalidate")&&(a.stopImmediatePropagation(),k&&a.preventDefault());c.target&&b(c.target).unbind("submit.preventInvalidSubmit")}),d.moveToFirstEvent(c.target,"submit")),!h.opera))d.fromSubmit=!0,b(c.target).checkValidity(),d.fromSubmit=!1},!0);j=function(c){null!=b.attr(c.target,"formnovalidate")&&(m&&clearTimeout(m),n=!0,m=setTimeout(function(){n=!1},20))};h.addEventListener("click",j,!0);h.addEventListener("touchstart",j,!0);h.addEventListener("touchend",j,!0)}b(document).bind("firstinvalidsystem",
-function(b,a){if(l=a.form)g=!1,i=[],d.fromSubmit&&(g=a)}).bind("invalid",function(b){-1==i.indexOf(b.target)?i.push(b.target):b.stopImmediatePropagation()}).bind("lastinvalid",function(c,a){var e=a.invalidlist[0];e&&(k||!Modernizr.requiredSelect&&b.nodeName(e,"select"))&&document.activeElement&&e!==document.activeElement&&g&&!g.isInvalidUIPrevented()&&d.validityAlert.showFor(e);g=!1;i=[];l&&b(l).unbind("submit.preventInvalidSubmit")});(function(){o&&(["input","textarea","select"].forEach(function(c){var a=
-d.defineNodeNameProperty(c,"checkValidity",{prop:{value:function(){if(!this.willValidate)return!0;var c=(b.prop(this,"validity")||{valid:!0}).valid;d.fromCheckValidity=!0;!c&&a.prop._supvalue&&a.prop._supvalue.call(this)&&b(this).trigger("invalid");d.fromCheckValidity=!1;return c}}})}),d.defineNodeNameProperty("form","checkValidity",{prop:{value:function(){var c=!0;b(this.elements||[]).getNativeElement().each(function(){!1===b(this).checkValidity()&&(c=!1)});return c}}}))})();Modernizr.requiredSelect||
-d.ready("form-extend",function(){d.addValidityRule("valueMissing",function(c,a,e,d){if("select"==e.nodeName&&!a&&c.prop("required")){if(!e.type)e.type=c[0].type;if(a=!a)if(!(a=0>c[0].selectedIndex))c=c[0],a="select-one"==c.type&&2>c.size?b("> option:first-child",c).prop("selected"):!1;if(a)return!0}return d.valueMissing});d.defineNodeNamesBooleanProperty(["select"],"required",{set:function(c){this.setAttribute("aria-required",c?"true":"false");b.prop(this,"validity")},initAttr:!0})});"formTarget"in
-document.createElement("input")||function(){var c={submit:1,button:1,image:1},a={};[{name:"enctype",limitedTo:{"application/x-www-form-urlencoded":1,"multipart/form-data":1,"text/plain":1},defaultProp:"application/x-www-form-urlencoded",proptype:"enum"},{name:"method",limitedTo:{get:1,post:1},defaultProp:"get",proptype:"enum"},{name:"action",proptype:"url"},{name:"target"}].forEach(function(e){var d="form"+(e.propName||e.name).replace(/^[a-z]/,function(b){return b.toUpperCase()}),f="form"+e.name,
-h=e.name,g="click.webshimssubmittermutate"+h,j=function(){if("form"in this&&c[this.type]){var a=b.prop(this,"form");if(a){var g=b.attr(this,f);if(null!=g&&(!e.limitedTo||g.toLowerCase()===b.prop(this,d))){var i=b.attr(a,h);b.attr(a,h,g);setTimeout(function(){null!=i?b.attr(a,h,i):b(a).removeAttr(h)},9)}}}};switch(e.proptype){case "url":var i=document.createElement("form");a[d]={prop:{set:function(a){b.attr(this,f,a)},get:function(){var a=b.attr(this,f);if(null==a)return"";i.setAttribute("action",
-a);return i.action}}};break;case "boolean":a[d]={prop:{set:function(a){a?b.attr(this,"formnovalidate","formnovalidate"):b(this).removeAttr("formnovalidate")},get:function(){return null!=b.attr(this,"formnovalidate")}}};break;case "enum":a[d]={prop:{set:function(a){b.attr(this,f,a)},get:function(){var a=b.attr(this,f);return!a||(a=a.toLowerCase())&&!e.limitedTo[a]?e.defaultProp:a}}};break;default:a[d]={prop:{set:function(a){b.attr(this,f,a)},get:function(){var a=b.attr(this,f);return null!=a?a:""}}}}a[f]||
-(a[f]={});a[f].attr={set:function(c){a[f].attr._supset.call(this,c);b(this).unbind(g).bind(g,j)},get:function(){return a[f].attr._supget.call(this)}};a[f].initAttr=!0;a[f].removeAttr={value:function(){b(this).unbind(g);a[f].removeAttr._supvalue.call(this)}}});d.defineNodeNamesProperties(["input","button"],a)}()}});
+jQuery.webshims.register('form-native-fix', function($, webshims, window, doc, undefined){
+	
+	if(!Modernizr.formvalidation || Modernizr.bugfreeformvalidation){return;}
+	
+	var badWebkit = ($.browser.webkit);
+	var badValidity = badWebkit && webshims.browserVersion <= 534.5;
+	var invalidSelector = (badValidity) ? 'input:invalid-element, select:invalid-element, textarea:invalid-element' : ':invalid';
+	var invalids = [],
+		firstInvalidEvent,
+		form
+	;
+	
+	
+	//opera/chrome fix (this will double all invalid events in opera, we have to stop them!)
+	//opera throws a submit-event and then the invalid events,
+	//chrome7/safari5.0.2 has disabled invalid events, this brings them back
+	//safari 5.0.2 reports false invalid events, if setCustomValidity was used
+	if(window.addEventListener){
+		var formnovalidate = {
+			timer: undefined,
+			prevented: false
+		};
+		window.addEventListener('submit', function(e){
+			if(!formnovalidate.prevented && e.target.checkValidity && $.attr(e.target, 'novalidate') == null){
+				if($(invalidSelector, e.target).length){
+					$(e.target)
+						.unbind('submit.preventInvalidSubmit')
+						.bind('submit.preventInvalidSubmit', function(submitEvent){
+							if( $.attr(e.target, 'novalidate') == null ){
+								submitEvent.stopImmediatePropagation();
+								if(badWebkit){
+									submitEvent.preventDefault();
+								}
+							}
+							if(e.target){
+								$(e.target).unbind('submit.preventInvalidSubmit');
+							}
+						})
+					;
+					webshims.moveToFirstEvent(e.target, 'submit');
+				}
+				if(!window.opera){
+					webshims.fromSubmit = true;
+					$(e.target).checkValidity();
+					webshims.fromSubmit = false;
+				}
+			}
+		}, true);
+		
+		var preventValidityTest = function(e){
+			if($.attr(e.target, 'formnovalidate') == null){return;}
+			if(formnovalidate.timer){
+				clearTimeout(formnovalidate.timer);
+			}
+			formnovalidate.prevented = true;
+			formnovalidate.timer = setTimeout(function(){
+				formnovalidate.prevented = false;
+			}, 20);
+		};
+		window.addEventListener('click', preventValidityTest, true);
+		window.addEventListener('touchstart', preventValidityTest, true);
+		window.addEventListener('touchend', preventValidityTest, true);
+	}
+	
+	$(document)
+		.bind('firstinvalidsystem', function(e, data){
+			form = data.form;
+			if(!form){return;}
+			firstInvalidEvent = false;
+			invalids = [];
+						
+			
+			if(!webshims.fromSubmit){return;}
+			firstInvalidEvent = data;
+		})
+		.bind('invalid', function(e){
+			if(invalids.indexOf(e.target) == -1){
+				invalids.push(e.target);
+			} else {
+				e.stopImmediatePropagation();
+			}
+		})
+		.bind('lastinvalid', function(e, data){
+			var firstTarget = data.invalidlist[0];
+				
+			if( firstTarget && (badWebkit || (!Modernizr.requiredSelect && $.nodeName(firstTarget, 'select'))) && document.activeElement && firstTarget !== document.activeElement && firstInvalidEvent && !firstInvalidEvent.isInvalidUIPrevented() ){
+				webshims.validityAlert.showFor(firstTarget);
+			}
+			firstInvalidEvent = false;
+			invalids = [];
+			//remove webkit/operafix
+			if(!form){return;}
+			$(form).unbind('submit.preventInvalidSubmit');
+			
+		})
+	;
+	
+	
+		
+	(function(){
+		//safari 5.0.x has serious issues with checkValidity in combination with setCustomValidity so we mimic checkValidity using validity-property (webshims.fix.checkValidity)
+		if(!badValidity){return;}
+		['input', 'textarea', 'select'].forEach(function(name){
+			var desc = webshims.defineNodeNameProperty(name, 'checkValidity', {
+				prop: {
+					value: function(){
+						if(!this.willValidate){return true;}
+						var valid = ($.prop(this, 'validity') || {valid: true}).valid;
+						
+						webshims.fromCheckValidity = true;
+						if(!valid && desc.prop._supvalue && desc.prop._supvalue.call(this)){
+							$(this).trigger('invalid');
+						}
+						webshims.fromCheckValidity = false;
+						return valid;
+					}
+				}
+			});
+		});
+		
+		webshims.defineNodeNameProperty('form', 'checkValidity', {
+			prop: {
+				value: function(){
+					var ret = true;
+					$(this.elements || [])
+						.getNativeElement()
+						.each(function(){
+							 if($(this).checkValidity() === false){
+								ret = false;
+							}
+						})
+					;
+					return ret;
+				}
+			}
+		});
+		
+	})();
+	
+	
+	if(!Modernizr.requiredSelect){
+		
+		webshims.ready('form-extend', function(){
+			
+			var isPlaceholderOptionSelected = function(select){
+				if(select.type == 'select-one' && select.size < 2){
+					var option = $('> option:first-child', select);
+					return option.prop('selected');
+				} 
+				return false;
+			};
+			
+			webshims.addValidityRule('valueMissing', function(jElm, val, cache, validityState){
+				
+				if(cache.nodeName == 'select' && !val && jElm.prop('required')){
+					if(!cache.type){
+						cache.type = jElm[0].type;
+					}
+					
+					if(!val && (jElm[0].selectedIndex < 0 || isPlaceholderOptionSelected(jElm[0]) )){
+						return true;
+					}
+				}
+				return validityState.valueMissing;
+			});
+			
+			webshims.defineNodeNamesBooleanProperty(['select'], 'required', {
+				set: function(value){
+					this.setAttribute('aria-required', (value) ? 'true' : 'false');
+					$.prop(this, 'validity');
+				},
+				initAttr: true
+			});
+		});
+	}
+
+//simply copied from form-shim-extend without novalidate for safari 5.0.1
+if( !('formTarget' in document.createElement('input')) ){
+	(function(){
+		
+		var submitterTypes = {submit: 1, button: 1, image: 1};
+		var formSubmitterDescriptors = {};
+		[
+			{
+				name: "enctype",
+				limitedTo: {
+					"application/x-www-form-urlencoded": 1,
+					"multipart/form-data": 1,
+					"text/plain": 1
+				},
+				defaultProp: "application/x-www-form-urlencoded",
+				proptype: "enum"
+			},
+			{
+				name: "method",
+				limitedTo: {
+					"get": 1,
+					"post": 1
+				},
+				defaultProp: "get",
+				proptype: "enum"
+			},
+			{
+				name: "action",
+				proptype: "url"
+			},
+			{
+				name: "target"
+			}
+		].forEach(function(desc){
+			var propName = 'form'+ (desc.propName || desc.name).replace(/^[a-z]/, function(f){
+				return f.toUpperCase();
+			});
+			var attrName = 'form'+ desc.name;
+			var formName = desc.name;
+			var eventName = 'click.webshimssubmittermutate'+formName;
+			
+			var changeSubmitter = function(){
+				var elem = this;
+				if( !('form' in elem) || !submitterTypes[elem.type] ){return;}
+				var form = $.prop(elem, 'form');
+				if(!form){return;}
+				var attr = $.attr(elem, attrName);
+				if(attr != null && ( !desc.limitedTo || attr.toLowerCase() === $.prop(elem, propName))){
+					
+					var oldAttr = $.attr(form, formName);
+					
+					$.attr(form, formName, attr);
+					setTimeout(function(){
+						if(oldAttr != null){
+							$.attr(form, formName, oldAttr);
+						} else {
+							$(form).removeAttr(formName);
+						}
+					}, 9);
+				}
+			};
+			
+			
+		
+		switch(desc.proptype) {
+				case "url":
+					var urlForm = document.createElement('form');
+					formSubmitterDescriptors[propName] = {
+						prop: {
+							set: function(value){
+								$.attr(this, attrName, value);
+							},
+							get: function(){
+								var value = $.attr(this, attrName);
+								if(value == null){return '';}
+								urlForm.setAttribute('action', value);
+								return urlForm.action;
+							}
+						}
+					};
+					break;
+				case "boolean":
+					formSubmitterDescriptors[propName] = {
+						prop: {
+							set: function(val){
+								val = !!val;
+								if(val){
+									$.attr(this, 'formnovalidate', 'formnovalidate');
+								} else {
+									$(this).removeAttr('formnovalidate');
+								}
+							},
+							get: function(){
+								return $.attr(this, 'formnovalidate') != null;
+							}
+						}
+					};
+					break;
+				case "enum":
+					formSubmitterDescriptors[propName] = {
+						prop: {
+							set: function(value){
+								$.attr(this, attrName, value);
+							},
+							get: function(){
+								var value = $.attr(this, attrName);
+								return (!value || ( (value = value.toLowerCase()) && !desc.limitedTo[value] )) ? desc.defaultProp : value;
+							}
+						}
+				};
+				break;
+				default:
+					formSubmitterDescriptors[propName] = {
+						prop: {
+							set: function(value){
+								$.attr(this, attrName, value);
+							},
+							get: function(){
+								var value = $.attr(this, attrName);
+								return (value != null) ? value : "";
+							}
+						}
+					};
+			}
+		
+		
+			if(!formSubmitterDescriptors[attrName]){
+				formSubmitterDescriptors[attrName] = {};
+			}
+			formSubmitterDescriptors[attrName].attr = {
+				set: function(value){
+					formSubmitterDescriptors[attrName].attr._supset.call(this, value);
+					$(this).unbind(eventName).bind(eventName, changeSubmitter);
+				},
+				get: function(){
+					return formSubmitterDescriptors[attrName].attr._supget.call(this);
+				}
+			};
+			formSubmitterDescriptors[attrName].initAttr = true;
+			formSubmitterDescriptors[attrName].removeAttr = {
+				value: function(){
+					$(this).unbind(eventName);
+					formSubmitterDescriptors[attrName].removeAttr._supvalue.call(this);
+				}
+			};
+		});
+		
+		webshims.defineNodeNamesProperties(['input', 'button'], formSubmitterDescriptors);
+	})();
+}	
+
+	
+});

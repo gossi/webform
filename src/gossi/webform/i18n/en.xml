@@ -4,5 +4,6 @@
 		<occur>Errors occured</occur>
 		<required>%s is required</required>
 		<invalid>%s is invalid</invalid>
+		<nomatch>%s do not match</nomatch>
 	</error>
 </webform>

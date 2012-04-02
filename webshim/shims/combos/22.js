@@ -1,56 +1,2203 @@
-(function(){var a=Function.prototype.call,e=Object.prototype,j=Array.prototype.slice,i,g;if(!Function.prototype.bind)Function.prototype.bind=function(a){var f=this;if("function"!=typeof f)throw new TypeError;var m=j.call(arguments,1),c=function(){if(this instanceof c){var b=function(){};b.prototype=f.prototype;var b=new b,g=f.apply(b,m.concat(j.call(arguments)));return null!==g&&Object(g)===g?g:b}return f.apply(a,m.concat(j.call(arguments)))};return c};g=a.bind(e.toString);i=a.bind(e.hasOwnProperty);
-if(!Array.isArray)Array.isArray=function(a){return"[object Array]"==g(a)};if(!Array.prototype.forEach)Array.prototype.forEach=function(a,f){var m=q(this),c=0,b=m.length>>>0;if("[object Function]"!=g(a))throw new TypeError;for(;c<b;)c in m&&a.call(f,m[c],c,m),c++};if(!Array.prototype.map)Array.prototype.map=function(a,f){var b=q(this),c=b.length>>>0,e=Array(c);if("[object Function]"!=g(a))throw new TypeError;for(var h=0;h<c;h++)h in b&&(e[h]=a.call(f,b[h],h,b));return e};if(!Array.prototype.filter)Array.prototype.filter=
-function(a,b){var f=q(this),c=f.length>>>0,e=[];if("[object Function]"!=g(a))throw new TypeError;for(var h=0;h<c;h++)h in f&&a.call(b,f[h],h,f)&&e.push(f[h]);return e};if(!Array.prototype.every)Array.prototype.every=function(a,f){var b=q(this),c=b.length>>>0;if("[object Function]"!=g(a))throw new TypeError;for(var e=0;e<c;e++)if(e in b&&!a.call(f,b[e],e,b))return!1;return!0};if(!Array.prototype.some)Array.prototype.some=function(a,f){var b=q(this),c=b.length>>>0;if("[object Function]"!=g(a))throw new TypeError;
-for(var e=0;e<c;e++)if(e in b&&a.call(f,b[e],e,b))return!0;return!1};if(!Array.prototype.reduce)Array.prototype.reduce=function(a){var b=q(this),f=b.length>>>0;if("[object Function]"!=g(a))throw new TypeError;if(!f&&1==arguments.length)throw new TypeError;var c=0,e;if(2<=arguments.length)e=arguments[1];else{do{if(c in b){e=b[c++];break}if(++c>=f)throw new TypeError;}while(1)}for(;c<f;c++)c in b&&(e=a.call(void 0,e,b[c],c,b));return e};if(!Array.prototype.reduceRight)Array.prototype.reduceRight=function(a){var b=
-q(this),f=b.length>>>0;if("[object Function]"!=g(a))throw new TypeError;if(!f&&1==arguments.length)throw new TypeError;var c,f=f-1;if(2<=arguments.length)c=arguments[1];else{do{if(f in b){c=b[f--];break}if(0>--f)throw new TypeError;}while(1)}do f in this&&(c=a.call(void 0,c,b[f],f,b));while(f--);return c};if(!Array.prototype.indexOf)Array.prototype.indexOf=function(a){var b=q(this),f=b.length>>>0;if(!f)return-1;var c=0;1<arguments.length&&(c=v(arguments[1]));for(c=0<=c?c:f-Math.abs(c);c<f;c++)if(c in
-b&&b[c]===a)return c;return-1};if(!Array.prototype.lastIndexOf)Array.prototype.lastIndexOf=function(b){var a=q(this),f=a.length>>>0;if(!f)return-1;var c=f-1;1<arguments.length&&(c=v(arguments[1]));for(c=0<=c?c:f-Math.abs(c);0<=c;c--)if(c in a&&b===a[c])return c;return-1};if(!Object.keys){var f=!0,b="toString,toLocaleString,valueOf,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,constructor".split(","),y=b.length,k;for(k in{toString:null})f=!1;Object.keys=function(a){if("object"!=typeof a&&"function"!=
-typeof a||null===a)throw new TypeError("Object.keys called on a non-object");var e=[],g;for(g in a)i(a,g)&&e.push(g);if(f)for(g=0;g<y;g++){var c=b[g];i(a,c)&&e.push(c)}return e}}if(!Date.prototype.toISOString)Date.prototype.toISOString=function(){var a,f,b;if(!isFinite(this))throw new RangeError;a=[this.getUTCFullYear(),this.getUTCMonth()+1,this.getUTCDate(),this.getUTCHours(),this.getUTCMinutes(),this.getUTCSeconds()];for(f=a.length;f--;)b=a[f],10>b&&(a[f]="0"+b);return a.slice(0,3).join("-")+"T"+
-a.slice(3).join(":")+"."+("000"+this.getUTCMilliseconds()).slice(-3)+"Z"};if(!Date.now)Date.now=function(){return(new Date).getTime()};if(!Date.prototype.toJSON)Date.prototype.toJSON=function(){if("function"!=typeof this.toISOString)throw new TypeError;return this.toISOString()};a="\t\n\u000b\u000c\r \u00a0\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000\u2028\u2029\ufeff";if(!String.prototype.trim||a.trim()){var a="["+a+"]",z=RegExp("^"+a+a+"*"),h=
-RegExp(a+a+"*$");String.prototype.trim=function(){return(""+this).replace(z,"").replace(h,"")}}var v=function(a){a=+a;a!==a?a=-1:0!==a&&a!==1/0&&a!==-(1/0)&&(a=(0<a||-1)*Math.floor(Math.abs(a)));return a},t="a"!="a"[0],q=function(a){if(null==a)throw new TypeError;return t&&"string"==typeof a&&a?a.split(""):Object(a)}})();
-(function(a,e){var j=!(!Object.create||!Object.defineProperties||!Object.getOwnPropertyDescriptor);j&&!a.browser.msie&&Object.defineProperty&&Object.prototype.__defineGetter__&&function(){try{var a=document.createElement("foo");Object.defineProperty(a,"bar",{get:function(){return!0}});j=!!a.bar}catch(f){j=!1}a=null}();Modernizr.objectAccessor=!(!(j||Object.prototype.__defineGetter__&&Object.prototype.__lookupSetter__)||a.browser.opera&&!(11<=e.browserVersion));Modernizr.advancedObjectProperties=j;
-if(!j||!Object.create||!Object.defineProperties||!Object.getOwnPropertyDescriptor||!Object.defineProperty){var i=Function.prototype.call.bind(Object.prototype.hasOwnProperty);e.objectCreate=function(a,f,b,i){var k;k=function(){};k.prototype=a;k=new k;if(!i&&!("__proto__"in k)&&!Modernizr.objectAccessor)k.__proto__=a;f&&e.defineProperties(k,f);if(b)k.options=jQuery.extend(!0,{},k.options||{},b),b=k.options;k._create&&jQuery.isFunction(k._create)&&k._create(b);return k};e.defineProperties=function(a,
-f){for(var b in f)i(f,b)&&e.defineProperty(a,b,f[b]);return a};e.defineProperty=function(a,f,b){if("object"!=typeof b||null===b)return a;if(i(b,"value"))return a[f]=b.value,a;a.__defineGetter__&&("function"==typeof b.get&&a.__defineGetter__(f,b.get),"function"==typeof b.set&&a.__defineSetter__(f,b.set));return a};e.getPrototypeOf=function(a){return Object.getPrototypeOf&&Object.getPrototypeOf(a)||a.__proto__||a.constructor&&a.constructor.prototype};e.getOwnPropertyDescriptor=function(a,f){if("object"!==
-typeof a&&"function"!==typeof a||null===a)throw new TypeError("Object.getOwnPropertyDescriptor called on a non-object");var b;if(Object.defineProperty&&Object.getOwnPropertyDescriptor)try{return b=Object.getOwnPropertyDescriptor(a,f)}catch(e){}b={configurable:!0,enumerable:!0,writable:!0,value:void 0};var k=a.__lookupGetter__&&a.__lookupGetter__(f),j=a.__lookupSetter__&&a.__lookupSetter__(f);if(!k&&!j){if(!i(a,f))return;b.value=a[f];return b}delete b.writable;delete b.value;b.get=b.set=void 0;if(k)b.get=
-k;if(j)b.set=j;return b}}})(jQuery,jQuery.webshims);
-(function(a,e,j){var i=e.audio&&e.video,g=!1;if(i)a=document.createElement("video"),e.videoBuffered="buffered"in a,g="loop"in a,j.capturingEvents("play,playing,waiting,paused,ended,durationchange,loadedmetadata,canplay,volumechange".split(",")),e.videoBuffered||(j.addPolyfill("mediaelement-native-fix",{f:"mediaelement",test:e.videoBuffered,d:["dom-support"]}),j.reTest("mediaelement-native-fix"));jQuery.webshims.register("mediaelement-core",function(a,b,e,k,j){var h=b.mediaelement,v=b.cfg.mediaelement,
-t=function(o,e){var o=a(o),c={src:o.attr("src")||"",elem:o,srcProp:o.prop("src")};if(!c.src)return c;var n=o.attr("type");if(n)c.type=n,c.container=a.trim(n.split(";")[0]);else if(e||(e=o[0].nodeName.toLowerCase(),"source"==e&&(e=(o.closest("video, audio")[0]||{nodeName:"video"}).nodeName.toLowerCase())),n=h.getTypeForSrc(c.src,e))c.type=n,c.container=n,b.warn("you should always provide a proper mime-type using the source element. "+c.src+" detected as: "+n),a.nodeName(o[0],"source")&&o.attr("type",
-n);if(n=o.attr("media"))c.media=n;return c},q=swfobject.hasFlashPlayerVersion("9.0.115"),x=function(){b.ready("mediaelement-swf",function(){if(!h.createSWF)b.modules["mediaelement-swf"].test=a.noop,b.reTest(["mediaelement-swf"],i)})};h.mimeTypes={audio:{"audio/ogg":["ogg","oga","ogm"],"audio/mpeg":["mp2","mp3","mpga","mpega"],"audio/mp4":"mp4,mpg4,m4r,m4a,m4p,m4b,aac".split(","),"audio/wav":["wav"],"audio/3gpp":["3gp","3gpp"],"audio/webm":["webm"],"audio/fla":["flv","f4a","fla"],"application/x-mpegURL":["m3u8",
-"m3u"]},video:{"video/ogg":["ogg","ogv","ogm"],"video/mpeg":["mpg","mpeg","mpe"],"video/mp4":["mp4","mpg4","m4v"],"video/quicktime":["mov","qt"],"video/x-msvideo":["avi"],"video/x-ms-asf":["asf","asx"],"video/flv":["flv","f4v"],"video/3gpp":["3gp","3gpp"],"video/webm":["webm"],"application/x-mpegURL":["m3u8","m3u"],"video/MP2T":["ts"]}};h.mimeTypes.source=a.extend({},h.mimeTypes.audio,h.mimeTypes.video);h.getTypeForSrc=function(b,c){if(-1!=b.indexOf("youtube.com/watch?")||-1!=b.indexOf("youtube.com/v/"))return"video/youtube";
-var b=b.split("?")[0].split("."),b=b[b.length-1],e;a.each(h.mimeTypes[c],function(a,c){if(-1!==c.indexOf(b))return e=a,!1});return e};h.srces=function(b,c){b=a(b);if(c)b.removeAttr("src").removeAttr("type").find("source").remove(),a.isArray(c)||(c=[c]),c.forEach(function(a){var c=k.createElement("source");"string"==typeof a&&(a={src:a});c.setAttribute("src",a.src);a.type&&c.setAttribute("type",a.type);a.media&&c.setAttribute("media",a.media);b.append(c)});else{var c=[],e=b[0].nodeName.toLowerCase(),
-h=t(b,e);h.src?c.push(h):a("source",b).each(function(){h=t(this,e);h.src&&c.push(h)});return c}};a.fn.loadMediaSrc=function(b,c){return this.each(function(){c!==j&&(a(this).removeAttr("poster"),c&&a.attr(this,"poster",c));h.srces(this,b);a(this).mediaLoad()})};h.swfMimeTypes="video/3gpp,video/x-msvideo,video/quicktime,video/x-m4v,video/mp4,video/m4p,video/x-flv,video/flv,audio/mpeg,audio/aac,audio/mp4,audio/x-m4a,audio/m4a,audio/mp3,audio/x-fla,audio/fla,youtube/flv,jwplayer/jwplayer,video/youtube".split(",");
-h.canSwfPlaySrces=function(b,c){var e="";q&&(b=a(b),c=c||h.srces(b),a.each(c,function(a,b){if(b.container&&b.src&&-1!=h.swfMimeTypes.indexOf(b.container))return e=b,!1}));return e};var p={};h.canNativePlaySrces=function(b,c){var e="";if(i){var b=a(b),n=(b[0].nodeName||"").toLowerCase();if(!p[n])return e;c=c||h.srces(b);a.each(c,function(a,c){if(c.type&&p[n].prop._supvalue.call(b[0],c.type))return e=c,!1})}return e};h.setError=function(c,e){e||(e="can't play sources");a(c).pause().data("mediaerror",
-e);b.warn("mediaelementError: "+e);setTimeout(function(){a(c).data("mediaerror")&&a(c).trigger("mediaerror")},1)};var m=function(){var a;return function(c,e,f){b.ready("mediaelement-swf",function(){h.createSWF?h.createSWF(c,e,f):a||(a=!0,x(),m(c,e,f))})}}(),c=function(a,b,e,f,g){e||!1!==e&&b&&"flash"==b.isActive?(e=h.canSwfPlaySrces(a,f))?m(a,e,b):g?h.setError(a,!1):c(a,b,!1,f,!0):(e=h.canNativePlaySrces(a,f))?b&&"flash"==b.isActive&&h.setActive(a,"html5",b):g?(h.setError(a,!1),b&&"flash"==b.isActive&&
-h.setActive(a,"html5",b)):c(a,b,!0,f,!0)},C=/^(?:embed|object|datalist)$/i,u=function(e,g){var k=b.data(e,"mediaelementBase")||b.data(e,"mediaelementBase",{}),n=h.srces(e),i=e.parentNode;clearTimeout(k.loadTimer);a.data(e,"mediaerror",!1);if(n.length&&i&&!(1!=i.nodeType||C.test(i.nodeName||"")))g=g||b.data(e,"mediaelement"),c(e,g,v.preferFlash||j,n)};a(k).bind("ended",function(c){var e=b.data(c.target,"mediaelement");(!g||e&&"html5"!=e.isActive||a.prop(c.target,"loop"))&&setTimeout(function(){!a.prop(c.target,
-"paused")&&a.prop(c.target,"loop")&&a(c.target).prop("currentTime",0).play()},1)});g||b.defineNodeNamesBooleanProperty(["audio","video"],"loop");["audio","video"].forEach(function(c){var e=b.defineNodeNameProperty(c,"load",{prop:{value:function(){var a=b.data(this,"mediaelement");u(this,a);i&&(!a||"html5"==a.isActive)&&e.prop._supvalue&&e.prop._supvalue.apply(this,arguments)}}});p[c]=b.defineNodeNameProperty(c,"canPlayType",{prop:{value:function(b){var e="";i&&p[c].prop._supvalue&&(e=p[c].prop._supvalue.call(this,
-b),"no"==e&&(e=""));!e&&q&&(b=a.trim((b||"").split(";")[0]),-1!=h.swfMimeTypes.indexOf(b)&&(e="maybe"));return e}}})});b.onNodeNamesPropertyModify(["audio","video"],["src","poster"],{set:function(){var a=this,c=b.data(a,"mediaelementBase")||b.data(a,"mediaelementBase",{});clearTimeout(c.loadTimer);c.loadTimer=setTimeout(function(){u(a);a=null},9)}});i&&b.isReady("mediaelement-core",!0);b.addReady(function(c,e){a("video, audio",c).add(e.filter("video, audio")).each(function(){a.browser.msie&&8<b.browserVersion&&
-a.prop(this,"paused")&&!a.prop(this,"readyState")&&a(this).is('audio[preload="none"][controls]:not([autoplay])')?a(this).prop("preload","metadata").mediaLoad():u(this);if(i){var c,e,h=this,g=function(){var b=a.prop(h,"buffered");if(b){for(var c="",e=0,g=b.length;e<g;e++)c+=b.end(e);return c}},k=function(){var b=g();b!=e&&(e=b,a(h).triggerHandler("progress"))};a(this).bind("play loadstart progress",function(a){"progress"==a.type&&(e=g());clearTimeout(c);c=setTimeout(k,999)}).bind("emptied stalled mediaerror abort suspend",
-function(a){"emptied"==a.type&&(e=!1);clearTimeout(c)})}})});i&&q&&b.ready("WINDOWLOAD mediaelement",x)})})(jQuery,Modernizr,jQuery.webshims);
-jQuery.webshims.register("mediaelement-swf",function(a,e,j,i,g,f){var b=e.mediaelement,y=j.swfobject,k=Modernizr.audio&&Modernizr.video,z=y.hasFlashPlayerVersion("9.0.115"),h=0,j={paused:!0,ended:!1,currentSrc:"",duration:j.NaN,readyState:0,networkState:0,videoHeight:0,videoWidth:0,error:null,buffered:{start:function(a){if(a)e.error("buffered index size error");else return 0},end:function(a){if(a)e.error("buffered index size error");else return 0},length:0}},v=Object.keys(j),t={currentTime:0,volume:1,
-muted:!1};Object.keys(t);var q=a.extend({isActive:"html5",activating:"html5",wasSwfReady:!1,_bufferedEnd:0,_bufferedStart:0,_metadata:!1,_durationCalcs:-1,_callMeta:!1,currentTime:0,_ppFlag:g},j,t),x=/^jwplayer-/,p=function(a){if(a=i.getElementById(a.replace(x,"")))return a=e.data(a,"mediaelement"),"flash"==a.isActive?a:null},m=function(a){return(a=e.data(a,"mediaelement"))&&"flash"==a.isActive?a:null},c=function(l,d){d=a.Event(d);d.preventDefault();a.event.trigger(d,g,l)},C=f.playerPath||e.cfg.basePath+
-"jwplayer/"+(f.playerName||"player.swf"),u=f.pluginPath||e.cfg.basePath+"swf/jwwebshims.swf";e.extendUNDEFProp(f.jwParams,{allowscriptaccess:"always",allowfullscreen:"true",wmode:"transparent"});e.extendUNDEFProp(f.jwVars,{screencolor:"ffffffff"});e.extendUNDEFProp(f.jwAttrs,{bgcolor:"#000000"});var o=function(l,d){var e=l.duration;if(!(e&&0<l._durationCalcs)){try{if(l.duration=l.jwapi.getPlaylist()[0].duration,!l.duration||0>=l.duration||l.duration===l._lastDuration)l.duration=e}catch(f){}l.duration&&
-l.duration!=l._lastDuration?(c(l._elem,"durationchange"),("audio"==l._elemNodeName||l._callMeta)&&b.jwEvents.Model.META(a.extend({duration:l.duration},d),l),l._durationCalcs--):l._durationCalcs++}},s=function(a,d){3>a&&clearTimeout(d._canplaythroughTimer);if(3<=a&&3>d.readyState)d.readyState=a,c(d._elem,"canplay"),clearTimeout(d._canplaythroughTimer),d._canplaythroughTimer=setTimeout(function(){s(4,d)},4E3);if(4<=a&&4>d.readyState)d.readyState=a,c(d._elem,"canplaythrough");d.readyState=a};b.jwEvents=
-{View:{PLAY:function(a){var d=p(a.id);if(d&&!d.stopPlayPause&&(d._ppFlag=!0,d.paused==a.state)){d.paused=!a.state;if(d.ended)d.ended=!1;c(d._elem,a.state?"play":"pause")}}},Model:{BUFFER:function(l){var d=p(l.id);if(d&&"percentage"in l&&d._bufferedEnd!=l.percentage){d.networkState=100==l.percentage?1:2;(isNaN(d.duration)||5<l.percentage&&25>l.percentage||100===l.percentage)&&o(d,l);if(d.ended)d.ended=!1;if(d.duration){2<l.percentage&&20>l.percentage?s(3,d):20<l.percentage&&s(4,d);if(d._bufferedEnd&&
-d._bufferedEnd>l.percentage)d._bufferedStart=d.currentTime||0;d._bufferedEnd=l.percentage;d.buffered.length=1;if(100==l.percentage)d.networkState=1,s(4,d);a.event.trigger("progress",g,d._elem,!0)}}},META:function(a,d){if(d=d&&d.networkState?d:p(a.id))if("duration"in a){if(!d._metadata||!((!a.height||d.videoHeight==a.height)&&a.duration===d.duration)){d._metadata=!0;var b=d.duration;if(a.duration)d.duration=a.duration;d._lastDuration=d.duration;if(a.height||a.width)d.videoHeight=a.height||0,d.videoWidth=
-a.width||0;if(!d.networkState)d.networkState=2;1>d.readyState&&s(1,d);d.duration&&b!==d.duration&&c(d._elem,"durationchange");c(d._elem,"loadedmetadata")}}else d._callMeta=!0},TIME:function(a){var d=p(a.id);if(d&&d.currentTime!==a.position){d.currentTime=a.position;d.duration&&d.duration<d.currentTime&&o(d,a);2>d.readyState&&s(2,d);if(d.ended)d.ended=!1;c(d._elem,"timeupdate")}},STATE:function(a){var d=p(a.id);if(d)switch(a.newstate){case "BUFFERING":if(d.ended)d.ended=!1;s(1,d);c(d._elem,"waiting");
-break;case "PLAYING":d.paused=!1;d._ppFlag=!0;d.duration||o(d,a);3>d.readyState&&s(3,d);if(d.ended)d.ended=!1;c(d._elem,"playing");break;case "PAUSED":if(!d.paused&&!d.stopPlayPause)d.paused=!0,d._ppFlag=!0,c(d._elem,"pause");break;case "COMPLETED":4>d.readyState&&s(4,d),d.ended=!0,c(d._elem,"ended")}}},Controller:{ERROR:function(a){var d=p(a.id);d&&b.setError(d._elem,a.message)},SEEK:function(a){var d=p(a.id);if(d){if(d.ended)d.ended=!1;if(d.paused)try{d.jwapi.sendEvent("play","false")}catch(b){}if(d.currentTime!=
-a.position)d.currentTime=a.position,c(d._elem,"timeupdate")}},VOLUME:function(a){var d=p(a.id);if(d&&(a=a.percentage/100,d.volume!=a))d.volume=a,c(d._elem,"volumechange")},MUTE:function(a){if(!a.state){var d=p(a.id);if(d&&d.muted!=a.state)d.muted=a.state,c(d._elem,"volumechange")}}}};var I=function(c){a.each(b.jwEvents,function(d,b){a.each(b,function(a){c.jwapi["add"+d+"Listener"](a,"jQuery.webshims.mediaelement.jwEvents."+d+"."+a)})})},n=function(b){b&&(b._ppFlag===g&&a.prop(b._elem,"autoplay")||
-!b.paused)&&setTimeout(function(){if("flash"==b.isActive&&(b._ppFlag===g||!b.paused))try{a(b._elem).play()}catch(d){}},1)},J=function(b){if(b&&"video"==b._elemNodeName){var d,c,e,f,h,r,g,k,i=function(i,j){if(j&&i&&!(1>j||1>i||"flash"!=b.isActive))if(d&&(d.remove(),d=!1),f=i,h=j,clearTimeout(g),c="auto"==b._elem.style.width,e="auto"==b._elem.style.height,c||e){r=r||a(b._elem).getShadowElement();var m;c&&!e?(m=r.height(),i*=m/j,j=m):!c&&e&&(m=r.width(),j*=m/i,i=m);k=!0;setTimeout(function(){k=!1},9);
-r.css({width:i,height:j})}},j=function(){if(!("flash"!=b.isActive||a.prop(b._elem,"readyState")&&a.prop(this,"videoWidth"))){var f=a.prop(b._elem,"poster");if(f&&(c="auto"==b._elem.style.width,e="auto"==b._elem.style.height,c||e))d&&(d.remove(),d=!1),d=a('<img style="position: absolute; height: auto; width: auto; top: 0px; left: 0px; visibility: hidden;" />'),d.bind("load error alreadycomplete",function(){clearTimeout(g);var b=this,c=b.naturalWidth||b.width||b.offsetWidth,e=b.naturalHeight||b.height||
-b.offsetHeight;e&&c?(i(c,e),b=null):setTimeout(function(){c=b.naturalWidth||b.width||b.offsetWidth;e=b.naturalHeight||b.height||b.offsetHeight;i(c,e);d&&(d.remove(),d=!1);b=null},9);a(this).unbind()}).prop("src",f).appendTo("body").each(function(){this.complete||this.error?a(this).triggerHandler("alreadycomplete"):(clearTimeout(g),g=setTimeout(function(){a(b._elem).triggerHandler("error")},9999))})}};a(b._elem).bind("loadedmetadata",function(){i(a.prop(this,"videoWidth"),a.prop(this,"videoHeight"))}).bind("emptied",
-j).bind("swfstageresize",function(){k||i(f,h)}).bind("emptied",function(){f=void 0;h=void 0}).triggerHandler("swfstageresize");j();a.prop(b._elem,"readyState")&&i(a.prop(b._elem,"videoWidth"),a.prop(b._elem,"videoHeight"))}};b.playerResize=function(b){b&&(b=i.getElementById(b.replace(x,"")))&&a(b).triggerHandler("swfstageresize")};a(i).bind("emptied",function(a){a=m(a.target);n(a)});var A;b.jwPlayerReady=function(b){var d=p(b.id);if(d&&d.jwapi){clearTimeout(A);d.jwData=b;d.shadowElem.removeClass("flashblocker-assumed");
-d.wasSwfReady?a(d._elem).mediaLoad():(b=parseFloat(b.version,10),(5.6>b||6<=b)&&e.warn("mediaelement-swf is only testet with jwplayer 5.6+"),a.prop(d._elem,"volume",d.volume),a.prop(d._elem,"muted",d.muted),I(d));d.wasSwfReady=!0;var b=d.actionQueue.length,c=0,f;if(b&&"flash"==d.isActive)for(;d.actionQueue.length&&b>c;)c++,f=d.actionQueue.shift(),d.jwapi[f.fn].apply(d.jwapi,f.args);if(d.actionQueue.length)d.actionQueue=[];n(d)}};var D=a.noop;if(k){var K={play:1,playing:1},F="play,pause,playing,canplay,progress,waiting,ended,loadedmetadata,durationchange,emptied".split(","),
-G=F.map(function(a){return a+".webshimspolyfill"}).join(" "),L=function(b){var d=e.data(b.target,"mediaelement");d&&(b.originalEvent&&b.originalEvent.type===b.type)==("flash"==d.activating)&&(b.stopImmediatePropagation(),K[b.type]&&d.isActive!=d.activating&&a(b.target).pause())},D=function(b){a(b).unbind(G).bind(G,L);F.forEach(function(a){e.moveToFirstEvent(b,a)})};D(i)}b.setActive=function(b,d,c){c||(c=e.data(b,"mediaelement"));if(c&&c.isActive!=d){"html5"!=d&&"flash"!=d&&e.warn("wrong type for mediaelement activating: "+
-d);var f=e.data(b,"shadowData");c.activating=d;a(b).pause();c.isActive=d;"flash"==d?(f.shadowElement=f.shadowFocusElement=c.shadowElem[0],a(b).hide().getShadowElement().show()):(a(b).show().getShadowElement().hide(),f.shadowElement=f.shadowFocusElement=!1)}};var M=function(){var a="_bufferedEnd,_bufferedStart,_metadata,_ppFlag,currentSrc,currentTime,duration,ended,networkState,paused,videoHeight,videoWidth,_callMeta,_durationCalcs".split(","),b=a.length;return function(e){if(e){var f=b,h=e.networkState;
-for(s(0,e);--f;)delete e[a[f]];e.actionQueue=[];e.buffered.length=0;h&&c(e._elem,"emptied")}}}(),H=function(b,d){var c=b._elem,e=b.shadowElem;a(c)[d?"addClass":"removeClass"]("webshims-controls");"audio"==b._elemNodeName&&!d?e.css({width:0,height:0}):e.css({width:c.style.width||a(c).width(),height:c.style.height||a(c).height()})};b.createSWF=function(c,d,g){if(z){1>h?h=1:h++;var i=a.extend({},f.jwVars,{image:a.prop(c,"poster")||"",file:d.srcProp}),j=a(c).data("jwvars")||{};if(g&&g.swfCreated)b.setActive(c,
-"flash",g),M(g),g.currentSrc=d.srcProp,a.extend(i,j),f.changeJW(i,c,d,g,"load"),w(c,"sendEvent",["LOAD",i]);else{var B=a.prop(c,"controls"),r="jwplayer-"+e.getID(c),m=a.extend({},f.jwParams,a(c).data("jwparams")),n=c.nodeName.toLowerCase(),p=a.extend({},f.jwAttrs,{name:r,id:r},a(c).data("jwattrs")),o=a('<div class="polyfill-'+n+' polyfill-mediaelement" id="wrapper-'+r+'"><div id="'+r+'"></div>').css({position:"relative",overflow:"hidden"}),g=e.data(c,"mediaelement",e.objectCreate(q,{actionQueue:{value:[]},
-shadowElem:{value:o},_elemNodeName:{value:n},_elem:{value:c},currentSrc:{value:d.srcProp},swfCreated:{value:!0},buffered:{value:{start:function(a){if(a>=g.buffered.length)e.error("buffered index size error");else return 0},end:function(a){if(a>=g.buffered.length)e.error("buffered index size error");else return(g.duration-g._bufferedStart)*g._bufferedEnd/100+g._bufferedStart},length:0}}}));H(g,B);o.insertBefore(c);k&&a.extend(g,{volume:a.prop(c,"volume"),muted:a.prop(c,"muted")});a.extend(i,{id:r,
-controlbar:B?f.jwVars.controlbar||("video"==n?"over":"bottom"):"video"==n?"none":"bottom",icons:""+(B&&"video"==n)},j,{playerready:"jQuery.webshims.mediaelement.jwPlayerReady"});i.plugins=i.plugins?i.plugins+(","+u):u;e.addShadowDom(c,o);D(c);b.setActive(c,"flash",g);f.changeJW(i,c,d,g,"embed");J(g);y.embedSWF(C,r,"100%","100%","9.0.0",!1,i,m,p,function(b){if(b.success)g.jwapi=b.ref,B||a(b.ref).attr("tabindex","-1").css("outline","none"),setTimeout(function(){if(!b.ref.parentNode&&o[0].parentNode||
-"none"==b.ref.style.display)o.addClass("flashblocker-assumed"),a(c).trigger("flashblocker"),e.warn("flashblocker assumed");a(b.ref).css({minHeight:"2px",minWidth:"2px",display:"block"})},9),A||(clearTimeout(A),A=setTimeout(function(){var d=a(b.ref);1<d[0].offsetWidth&&1<d[0].offsetHeight&&0===location.protocol.indexOf("file:")?e.error("Add your local development-directory to the local-trusted security sandbox:  http://www.macromedia.com/support/documentation/en/flashplayer/help/settings_manager04.html"):
-(2>d[0].offsetWidth||2>d[0].offsetHeight)&&e.info("JS-SWF connection can't be established on hidden or unconnected flash objects")},8E3))})}}else setTimeout(function(){a(c).mediaLoad()},1)};var w=function(a,b,c,e){return(e=e||m(a))?(e.jwapi&&e.jwapi[b]?e.jwapi[b].apply(e.jwapi,c||[]):(e.actionQueue.push({fn:b,args:c}),10<e.actionQueue.length&&setTimeout(function(){5<e.actionQueue.length&&e.actionQueue.shift()},99)),e):!1};["audio","video"].forEach(function(b){var d={},f,g=function(a){"audio"==b&&
-("videoHeight"==a||"videoWidth"==a)||(d[a]={get:function(){var b=m(this);return b?b[a]:k&&f[a].prop._supget?f[a].prop._supget.apply(this):q[a]},writeable:!1})},h=function(a,b){g(a);delete d[a].writeable;d[a].set=b};h("volume",function(a){var b=m(this);if(b){if(a*=100,!isNaN(a)){var d=b.muted;(0>a||100<a)&&e.error("volume greater or less than allowed "+a/100);w(this,"sendEvent",["VOLUME",a],b);if(d)try{b.jwapi.sendEvent("mute","true")}catch(g){}a/=100;if(!(b.volume==a||"flash"!=b.isActive))b.volume=
-a,c(b._elem,"volumechange")}}else if(f.volume.prop._supset)return f.volume.prop._supset.apply(this,arguments)});h("muted",function(a){var b=m(this);if(b){if(a=!!a,w(this,"sendEvent",["mute",""+a],b),!(b.muted==a||"flash"!=b.isActive))b.muted=a,c(b._elem,"volumechange")}else if(f.muted.prop._supset)return f.muted.prop._supset.apply(this,arguments)});h("currentTime",function(a){var b=m(this);if(b){if(a*=1,!isNaN(a)){if(b.paused)clearTimeout(b.stopPlayPause),b.stopPlayPause=setTimeout(function(){b.paused=
-!0;b.stopPlayPause=!1},50);w(this,"sendEvent",["SEEK",""+a],b);if(b.paused){if(0<b.readyState)b.currentTime=a,c(b._elem,"timeupdate");try{b.jwapi.sendEvent("play","false")}catch(d){}}}}else if(f.currentTime.prop._supset)return f.currentTime.prop._supset.apply(this,arguments)});["play","pause"].forEach(function(a){d[a]={value:function(){var b=m(this);if(b)b.stopPlayPause&&clearTimeout(b.stopPlayPause),w(this,"sendEvent",["play","play"==a],b),setTimeout(function(){if("flash"==b.isActive&&(b._ppFlag=
-!0,b.paused!=("play"!=a)))b.paused="play"!=a,c(b._elem,a)},1);else if(f[a].prop._supvalue)return f[a].prop._supvalue.apply(this,arguments)}}});v.forEach(g);e.onNodeNamesPropertyModify(b,"controls",function(d,c){var f=m(this);a(this)[c?"addClass":"removeClass"]("webshims-controls");if(f){try{w(this,c?"showControls":"hideControls",[b],f)}catch(g){e.warn("you need to generate a crossdomain.xml")}"audio"==b&&H(f,c);a(f.jwapi).attr("tabindex",c?"0":"-1")}});f=e.defineNodeNameProperties(b,d,"prop")});if(z){var N=
-a.cleanData,O=a.browser.msie&&9>e.browserVersion,P={object:1,OBJECT:1};a.cleanData=function(a){var b,c,e;if(a&&(c=a.length)&&h)for(b=0;b<c;b++)if(P[a[b].nodeName]){if("sendEvent"in a[b]){h--;try{a[b].sendEvent("play",!1)}catch(f){}}if(O)try{for(e in a[b])"function"==typeof a[b][e]&&(a[b][e]=null)}catch(g){}}return N.apply(this,arguments)}}if(!k){var E=i.createElement("a");["poster","src"].forEach(function(b){e.defineNodeNamesProperty("src"==b?["audio","video","source"]:["video"],b,{prop:{get:function(){var c=
-this.getAttribute(b);if(null==c)return"";E.setAttribute("href",c+"");return!a.support.hrefNormalized?E.getAttribute("href",4):E.href},set:function(c){a.attr(this,b,c)}}})});["autoplay","controls"].forEach(function(a){e.defineNodeNamesBooleanProperty(["audio","video"],a)});e.defineNodeNamesProperties(["audio","video"],{HAVE_CURRENT_DATA:{value:2},HAVE_ENOUGH_DATA:{value:4},HAVE_FUTURE_DATA:{value:3},HAVE_METADATA:{value:1},HAVE_NOTHING:{value:0},NETWORK_EMPTY:{value:0},NETWORK_IDLE:{value:1},NETWORK_LOADING:{value:2},
-NETWORK_NO_SOURCE:{value:3}},"prop")}});
+// vim: ts=4 sts=4 sw=4 expandtab
+// -- kriskowal Kris Kowal Copyright (C) 2009-2011 MIT License
+// -- tlrobinson Tom Robinson Copyright (C) 2009-2010 MIT License (Narwhal Project)
+// -- dantman Daniel Friesen Copyright (C) 2010 XXX TODO License or CLA
+// -- fschaefer Florian Schäfer Copyright (C) 2010 MIT License
+// -- Gozala Irakli Gozalishvili Copyright (C) 2010 MIT License
+// -- kitcambridge Kit Cambridge Copyright (C) 2011 MIT License
+// -- kossnocorp Sasha Koss XXX TODO License or CLA
+// -- bryanforbes Bryan Forbes XXX TODO License or CLA
+// -- killdream Quildreen Motta Copyright (C) 2011 MIT Licence
+// -- michaelficarra Michael Ficarra Copyright (C) 2011 3-clause BSD License
+// -- sharkbrainguy Gerard Paapu Copyright (C) 2011 MIT License
+// -- bbqsrc Brendan Molloy XXX TODO License or CLA
+// -- iwyg XXX TODO License or CLA
+// -- DomenicDenicola Domenic Denicola XXX TODO License or CLA
+// -- xavierm02 Montillet Xavier XXX TODO License or CLA
+// -- Raynos Raynos XXX TODO License or CLA
+// -- samsonjs Sami Samhuri XXX TODO License or CLA
+// -- rwldrn Rick Waldron Copyright (C) 2011 MIT License
+// -- lexer Alexey Zakharov XXX TODO License or CLA
+
+/*!
+    Copyright (c) 2009, 280 North Inc. http://280north.com/
+    MIT License. http://github.com/280north/narwhal/blob/master/README.md
+*/
+
+(function (undefined) {
+
+/**
+ * Brings an environment as close to ECMAScript 5 compliance
+ * as is possible with the facilities of erstwhile engines.
+ *
+ * ES5 Draft
+ * http://www.ecma-international.org/publications/files/drafts/tc39-2009-050.pdf
+ *
+ * NOTE: this is a draft, and as such, the URL is subject to change.  If the
+ * link is broken, check in the parent directory for the latest TC39 PDF.
+ * http://www.ecma-international.org/publications/files/drafts/
+ *
+ * Previous ES5 Draft
+ * http://www.ecma-international.org/publications/files/drafts/tc39-2009-025.pdf
+ * This is a broken link to the previous draft of ES5 on which most of the
+ * numbered specification references and quotes herein were taken.  Updating
+ * these references and quotes to reflect the new document would be a welcome
+ * volunteer project.
+ *
+ * @module
+ */
+
+/*whatsupdoc*/
+
+// Shortcut to an often accessed properties, in order to avoid multiple
+// dereference that costs universally.
+// _Please note: Shortcuts are defined after `Function.prototype.bind` as we
+// us it in defining shortcuts.
+var call = Function.prototype.call;
+var prototypeOfArray = Array.prototype;
+var prototypeOfObject = Object.prototype;
+var slice = prototypeOfArray.slice;
+var owns;
+var toString;
+
+// ES-5 15.3.4.5
+// http://www.ecma-international.org/publications/files/drafts/tc39-2009-025.pdf
+
+if (!Function.prototype.bind) {
+    Function.prototype.bind = function bind(that) { // .length is 1
+        // 1. Let Target be the this value.
+        var target = this;
+        // 2. If IsCallable(Target) is false, throw a TypeError exception.
+        if (typeof target != "function")
+            throw new TypeError(); // TODO message
+        // 3. Let A be a new (possibly empty) internal list of all of the
+        //   argument values provided after thisArg (arg1, arg2 etc), in order.
+        // XXX slicedArgs will stand in for "A" if used
+        var args = slice.call(arguments, 1); // for normal call
+        // 4. Let F be a new native ECMAScript object.
+        // 9. Set the [[Prototype]] internal property of F to the standard
+        //   built-in Function prototype object as specified in 15.3.3.1.
+        // 10. Set the [[Call]] internal property of F as described in
+        //   15.3.4.5.1.
+        // 11. Set the [[Construct]] internal property of F as described in
+        //   15.3.4.5.2.
+        // 12. Set the [[HasInstance]] internal property of F as described in
+        //   15.3.4.5.3.
+        // 13. The [[Scope]] internal property of F is unused and need not
+        //   exist.
+        var bound = function () {
+
+            if (this instanceof bound) {
+                // 15.3.4.5.2 [[Construct]]
+                // When the [[Construct]] internal method of a function object,
+                // F that was created using the bind function is called with a
+                // list of arguments ExtraArgs the following steps are taken:
+                // 1. Let target be the value of F's [[TargetFunction]]
+                //   internal property.
+                // 2. If target has no [[Construct]] internal method, a
+                //   TypeError exception is thrown.
+                // 3. Let boundArgs be the value of F's [[BoundArgs]] internal
+                //   property.
+                // 4. Let args be a new list containing the same values as the
+                //   list boundArgs in the same order followed by the same
+                //   values as the list ExtraArgs in the same order.
+
+                var F = function(){};
+                F.prototype = target.prototype;
+                var self = new F;
+
+                var result = target.apply(
+                    self,
+                    args.concat(slice.call(arguments))
+                );
+                if (result !== null && Object(result) === result)
+                    return result;
+                return self;
+
+            } else {
+                // 15.3.4.5.1 [[Call]]
+                // When the [[Call]] internal method of a function object, F,
+                // which was created using the bind function is called with a
+                // this value and a list of arguments ExtraArgs the following
+                // steps are taken:
+                // 1. Let boundArgs be the value of F's [[BoundArgs]] internal
+                //   property.
+                // 2. Let boundThis be the value of F's [[BoundThis]] internal
+                //   property.
+                // 3. Let target be the value of F's [[TargetFunction]] internal
+                //   property.
+                // 4. Let args be a new list containing the same values as the list
+                //   boundArgs in the same order followed by the same values as
+                //   the list ExtraArgs in the same order. 5.  Return the
+                //   result of calling the [[Call]] internal method of target
+                //   providing boundThis as the this value and providing args
+                //   as the arguments.
+
+                // equiv: target.call(this, ...boundArgs, ...args)
+                return target.apply(
+                    that,
+                    args.concat(slice.call(arguments))
+                );
+
+            }
+
+        };
+        // XXX bound.length is never writable, so don't even try
+        //
+        // 16. The length own property of F is given attributes as specified in
+        //   15.3.5.1.
+        // TODO
+        // 17. Set the [[Extensible]] internal property of F to true.
+        // TODO
+        // 18. Call the [[DefineOwnProperty]] internal method of F with
+        //   arguments "caller", PropertyDescriptor {[[Value]]: null,
+        //   [[Writable]]: false, [[Enumerable]]: false, [[Configurable]]:
+        //   false}, and false.
+        // TODO
+        // 19. Call the [[DefineOwnProperty]] internal method of F with
+        //   arguments "arguments", PropertyDescriptor {[[Value]]: null,
+        //   [[Writable]]: false, [[Enumerable]]: false, [[Configurable]]:
+        //   false}, and false.
+        // TODO
+        // NOTE Function objects created using Function.prototype.bind do not
+        // have a prototype property.
+        // XXX can't delete it in pure-js.
+        return bound;
+    };
+}
+
+toString = call.bind(prototypeOfObject.toString);
+owns = call.bind(prototypeOfObject.hasOwnProperty);
+
+
+//
+// Array
+// =====
+//
+
+// ES5 15.4.3.2
+if (!Array.isArray) {
+    Array.isArray = function isArray(obj) {
+        return toString(obj) == "[object Array]";
+    };
+}
+
+// The IsCallable() check in the Array functions
+// has been replaced with a strict check on the
+// internal class of the object to trap cases where
+// the provided function was actually a regular
+// expression literal, which in V8 and
+// JavaScriptCore is a typeof "function".  Only in
+// V8 are regular expression literals permitted as
+// reduce parameters, so it is desirable in the
+// general case for the shim to match the more
+// strict and common behavior of rejecting regular
+// expressions.
+
+// ES5 15.4.4.18
+// https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/array/foreach
+if (!Array.prototype.forEach) {
+    Array.prototype.forEach = function forEach(fun /*, thisp*/) {
+        var self = toObject(this),
+            thisp = arguments[1],
+            i = 0,
+            length = self.length >>> 0;
+
+        // If no callback function or if callback is not a callable function
+        if (toString(fun) != "[object Function]") {
+            throw new TypeError(); // TODO message
+        }
+
+        while (i < length) {
+            if (i in self) {
+                // Invoke the callback function with call, passing arguments:
+                // context, property value, property key, thisArg object context
+                fun.call(thisp, self[i], i, self);
+            }
+            i++;
+        }
+    };
+}
+
+// ES5 15.4.4.19
+// https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/map
+if (!Array.prototype.map) {
+    Array.prototype.map = function map(fun /*, thisp*/) {
+        var self = toObject(this),
+            length = self.length >>> 0,
+            result = Array(length),
+            thisp = arguments[1];
+
+        // If no callback function or if callback is not a callable function
+        if (toString(fun) != "[object Function]") {
+            throw new TypeError(); // TODO message
+        }
+
+        for (var i = 0; i < length; i++) {
+            if (i in self)
+                result[i] = fun.call(thisp, self[i], i, self);
+        }
+        return result;
+    };
+}
+
+// ES5 15.4.4.20
+if (!Array.prototype.filter) {
+    Array.prototype.filter = function filter(fun /*, thisp */) {
+        var self = toObject(this),
+            length = self.length >>> 0,
+            result = [],
+            thisp = arguments[1];
+
+        // If no callback function or if callback is not a callable function
+        if (toString(fun) != "[object Function]") {
+            throw new TypeError(); // TODO message
+        }
+
+        for (var i = 0; i < length; i++) {
+            if (i in self && fun.call(thisp, self[i], i, self))
+                result.push(self[i]);
+        }
+        return result;
+    };
+}
+
+// ES5 15.4.4.16
+if (!Array.prototype.every) {
+    Array.prototype.every = function every(fun /*, thisp */) {
+        var self = toObject(this),
+            length = self.length >>> 0,
+            thisp = arguments[1];
+
+        // If no callback function or if callback is not a callable function
+        if (toString(fun) != "[object Function]") {
+            throw new TypeError(); // TODO message
+        }
+
+        for (var i = 0; i < length; i++) {
+            if (i in self && !fun.call(thisp, self[i], i, self))
+                return false;
+        }
+        return true;
+    };
+}
+
+// ES5 15.4.4.17
+// https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/some
+if (!Array.prototype.some) {
+    Array.prototype.some = function some(fun /*, thisp */) {
+        var self = toObject(this),
+            length = self.length >>> 0,
+            thisp = arguments[1];
+
+        // If no callback function or if callback is not a callable function
+        if (toString(fun) != "[object Function]") {
+            throw new TypeError(); // TODO message
+        }
+
+        for (var i = 0; i < length; i++) {
+            if (i in self && fun.call(thisp, self[i], i, self))
+                return true;
+        }
+        return false;
+    };
+}
+
+// ES5 15.4.4.21
+// https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/reduce
+if (!Array.prototype.reduce) {
+    Array.prototype.reduce = function reduce(fun /*, initial*/) {
+        var self = toObject(this),
+            length = self.length >>> 0;
+
+        // If no callback function or if callback is not a callable function
+        if (toString(fun) != "[object Function]") {
+            throw new TypeError(); // TODO message
+        }
+
+        // no value to return if no initial value and an empty array
+        if (!length && arguments.length == 1)
+            throw new TypeError(); // TODO message
+
+        var i = 0;
+        var result;
+        if (arguments.length >= 2) {
+            result = arguments[1];
+        } else {
+            do {
+                if (i in self) {
+                    result = self[i++];
+                    break;
+                }
+
+                // if array contains no values, no initial value to return
+                if (++i >= length)
+                    throw new TypeError(); // TODO message
+            } while (true);
+        }
+
+        for (; i < length; i++) {
+            if (i in self)
+                result = fun.call(void 0, result, self[i], i, self);
+        }
+
+        return result;
+    };
+}
+
+// ES5 15.4.4.22
+// https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/reduceRight
+if (!Array.prototype.reduceRight) {
+    Array.prototype.reduceRight = function reduceRight(fun /*, initial*/) {
+        var self = toObject(this),
+            length = self.length >>> 0;
+
+        // If no callback function or if callback is not a callable function
+        if (toString(fun) != "[object Function]") {
+            throw new TypeError(); // TODO message
+        }
+
+        // no value to return if no initial value, empty array
+        if (!length && arguments.length == 1)
+            throw new TypeError(); // TODO message
+
+        var result, i = length - 1;
+        if (arguments.length >= 2) {
+            result = arguments[1];
+        } else {
+            do {
+                if (i in self) {
+                    result = self[i--];
+                    break;
+                }
+
+                // if array contains no values, no initial value to return
+                if (--i < 0)
+                    throw new TypeError(); // TODO message
+            } while (true);
+        }
+
+        do {
+            if (i in this)
+                result = fun.call(void 0, result, self[i], i, self);
+        } while (i--);
+
+        return result;
+    };
+}
+
+// ES5 15.4.4.14
+// https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/indexOf
+if (!Array.prototype.indexOf) {
+    Array.prototype.indexOf = function indexOf(sought /*, fromIndex */ ) {
+        var self = toObject(this),
+            length = self.length >>> 0;
+
+        if (!length)
+            return -1;
+
+        var i = 0;
+        if (arguments.length > 1)
+            i = toInteger(arguments[1]);
+
+        // handle negative indices
+        i = i >= 0 ? i : length - Math.abs(i);
+        for (; i < length; i++) {
+            if (i in self && self[i] === sought) {
+                return i;
+            }
+        }
+        return -1;
+    };
+}
+
+// ES5 15.4.4.15
+if (!Array.prototype.lastIndexOf) {
+    Array.prototype.lastIndexOf = function lastIndexOf(sought /*, fromIndex */) {
+        var self = toObject(this),
+            length = self.length >>> 0;
+
+        if (!length)
+            return -1;
+        var i = length - 1;
+        if (arguments.length > 1)
+            i = toInteger(arguments[1]);
+        // handle negative indices
+        i = i >= 0 ? i : length - Math.abs(i);
+        for (; i >= 0; i--) {
+            if (i in self && sought === self[i])
+                return i;
+        }
+        return -1;
+    };
+}
+
+//
+// Object
+// ======
+//
+
+
+// ES5 15.2.3.14
+// http://whattheheadsaid.com/2010/10/a-safer-object-keys-compatibility-implementation
+if (!Object.keys) {
+
+    var hasDontEnumBug = true,
+        dontEnums = [
+            "toString",
+            "toLocaleString",
+            "valueOf",
+            "hasOwnProperty",
+            "isPrototypeOf",
+            "propertyIsEnumerable",
+            "constructor"
+        ],
+        dontEnumsLength = dontEnums.length;
+
+    for (var key in {"toString": null})
+        hasDontEnumBug = false;
+
+    Object.keys = function keys(object) {
+
+        if ((typeof object != "object" && typeof object != "function") || object === null)
+            throw new TypeError("Object.keys called on a non-object");
+
+        var keys = [];
+        for (var name in object) {
+            if (owns(object, name)) {
+                keys.push(name);
+            }
+        }
+
+        if (hasDontEnumBug) {
+            for (var i = 0, ii = dontEnumsLength; i < ii; i++) {
+                var dontEnum = dontEnums[i];
+                if (owns(object, dontEnum)) {
+                    keys.push(dontEnum);
+                }
+            }
+        }
+
+        return keys;
+    };
+
+}
+
+//
+// Date
+// ====
+//
+
+// ES5 15.9.5.43
+// Format a Date object as a string according to a simplified subset of the ISO 8601
+// standard as defined in 15.9.1.15.
+if (!Date.prototype.toISOString) {
+    Date.prototype.toISOString = function toISOString() {
+        var result, length, value;
+        if (!isFinite(this))
+            throw new RangeError;
+
+        // the date time string format is specified in 15.9.1.15.
+        result = [this.getUTCFullYear(), this.getUTCMonth() + 1, this.getUTCDate(),
+            this.getUTCHours(), this.getUTCMinutes(), this.getUTCSeconds()];
+
+        length = result.length;
+        while (length--) {
+            value = result[length];
+            // pad months, days, hours, minutes, and seconds to have two digits.
+            if (value < 10)
+                result[length] = "0" + value;
+        }
+        // pad milliseconds to have three digits.
+        return result.slice(0, 3).join("-") + "T" + result.slice(3).join(":") + "." +
+            ("000" + this.getUTCMilliseconds()).slice(-3) + "Z";
+    }
+}
+
+// ES5 15.9.4.4
+if (!Date.now) {
+    Date.now = function now() {
+        return new Date().getTime();
+    };
+}
+
+// ES5 15.9.5.44
+if (!Date.prototype.toJSON) {
+    Date.prototype.toJSON = function toJSON(key) {
+        // This function provides a String representation of a Date object for
+        // use by JSON.stringify (15.12.3). When the toJSON method is called
+        // with argument key, the following steps are taken:
+
+        // 1.  Let O be the result of calling ToObject, giving it the this
+        // value as its argument.
+        // 2. Let tv be ToPrimitive(O, hint Number).
+        // 3. If tv is a Number and is not finite, return null.
+        // XXX
+        // 4. Let toISO be the result of calling the [[Get]] internal method of
+        // O with argument "toISOString".
+        // 5. If IsCallable(toISO) is false, throw a TypeError exception.
+        if (typeof this.toISOString != "function")
+            throw new TypeError(); // TODO message
+        // 6. Return the result of calling the [[Call]] internal method of
+        // toISO with O as the this value and an empty argument list.
+        return this.toISOString();
+
+        // NOTE 1 The argument is ignored.
+
+        // NOTE 2 The toJSON function is intentionally generic; it does not
+        // require that its this value be a Date object. Therefore, it can be
+        // transferred to other kinds of objects for use as a method. However,
+        // it does require that any such object have a toISOString method. An
+        // object is free to use the argument key to filter its
+        // stringification.
+    };
+}
+
+
+//
+// String
+// ======
+//
+
+// ES5 15.5.4.20
+var ws = "\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003" +
+    "\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028" +
+    "\u2029\uFEFF";
+if (!String.prototype.trim || ws.trim()) {
+    // http://blog.stevenlevithan.com/archives/faster-trim-javascript
+    // http://perfectionkills.com/whitespace-deviations/
+    ws = "[" + ws + "]";
+    var trimBeginRegexp = new RegExp("^" + ws + ws + "*"),
+        trimEndRegexp = new RegExp(ws + ws + "*$");
+    String.prototype.trim = function trim() {
+        return String(this).replace(trimBeginRegexp, "").replace(trimEndRegexp, "");
+    };
+}
+
+//
+// Util
+// ======
+//
+
+// http://jsperf.com/to-integer
+var toInteger = function (n) {
+    n = +n;
+    if (n !== n) // isNaN
+        n = -1;
+    else if (n !== 0 && n !== (1/0) && n !== -(1/0))
+        n = (n > 0 || -1) * Math.floor(Math.abs(n));
+    return n;
+};
+
+var prepareString = "a"[0] != "a",
+    // ES5 9.9
+    toObject = function (o) {
+        if (o == null) { // this matches both null and undefined
+            throw new TypeError(); // TODO message
+        }
+        // If the implementation doesn't support by-index access of
+        // string characters (ex. IE < 7), split the string
+        if (prepareString && typeof o == "string" && o) {
+            return o.split("");
+        }
+        return Object(o);
+    };
+
+})();
+
+
+
+(function($, shims){
+	var defineProperty = 'defineProperty';
+	var advancedObjectProperties = !!(Object.create && Object.defineProperties && Object.getOwnPropertyDescriptor);
+	//safari5 has defineProperty-interface, but it can't be used on dom-object
+	//only do this test in non-IE browsers, because this hurts dhtml-behavior in some IE8 versions
+	if (advancedObjectProperties && !$.browser.msie && Object[defineProperty] && Object.prototype.__defineGetter__) {
+		(function(){
+			try {
+				var foo = document.createElement('foo');
+				Object[defineProperty](foo, 'bar', {
+					get: function(){
+						return true;
+					}
+				});
+				advancedObjectProperties = !!foo.bar;
+			} 
+			catch (e) {
+				advancedObjectProperties = false;
+			}
+			foo = null;
+		})();
+	}
+	
+	Modernizr.objectAccessor = !!((advancedObjectProperties || (Object.prototype.__defineGetter__ && Object.prototype.__lookupSetter__)) && (!$.browser.opera || shims.browserVersion >= 11));
+	Modernizr.advancedObjectProperties = advancedObjectProperties;
+	
+if((!advancedObjectProperties || !Object.create || !Object.defineProperties || !Object.getOwnPropertyDescriptor  || !Object.defineProperty)){
+	var call = Function.prototype.call;
+	var prototypeOfObject = Object.prototype;
+	var owns = call.bind(prototypeOfObject.hasOwnProperty);
+	
+	shims.objectCreate = function(proto, props, opts, no__proto__){
+		var o;
+		var f = function(){};
+		
+		f.prototype = proto;
+		o = new f();
+		
+		if(!no__proto__ && !('__proto__' in o) && !Modernizr.objectAccessor){
+			o.__proto__ = proto;
+		}
+		
+		if(props){
+			shims.defineProperties(o, props);
+		}
+		
+		if(opts){
+			o.options = jQuery.extend(true, {}, o.options || {}, opts);
+			opts = o.options;
+		}
+		
+		if(o._create && jQuery.isFunction(o._create)){
+			o._create(opts);
+		}
+		return o;
+	};
+	
+	shims.defineProperties = function(object, props){
+		for (var name in props) {
+			if (owns(props, name)) {
+				shims.defineProperty(object, name, props[name]);
+			}
+		}
+		return object;
+	};
+	
+	var descProps = ['configurable', 'enumerable', 'writable'];
+	shims.defineProperty = function(proto, property, descriptor){
+		if(typeof descriptor != "object" || descriptor === null){return proto;}
+		
+		if(owns(descriptor, "value")){
+			proto[property] = descriptor.value;
+			return proto;
+		}
+		
+		if(proto.__defineGetter__){
+            if (typeof descriptor.get == "function") {
+				proto.__defineGetter__(property, descriptor.get);
+			}
+            if (typeof descriptor.set == "function"){
+                proto.__defineSetter__(property, descriptor.set);
+			}
+        }
+		return proto;
+	};
+	
+	shims.getPrototypeOf = function (object) {
+        return Object.getPrototypeOf && Object.getPrototypeOf(object) || object.__proto__ || object.constructor && object.constructor.prototype;
+    };
+	
+	//based on http://www.refactory.org/s/object_getownpropertydescriptor/view/latest 
+	shims.getOwnPropertyDescriptor = function(obj, prop){
+		if (typeof obj !== "object" && typeof obj !== "function" || obj === null){
+            throw new TypeError("Object.getOwnPropertyDescriptor called on a non-object");
+		}
+		var descriptor;
+		if(Object.defineProperty && Object.getOwnPropertyDescriptor){
+			try{
+				descriptor = Object.getOwnPropertyDescriptor(obj, prop);
+				return descriptor;
+			} catch(e){}
+		}
+        descriptor = {
+            configurable: true,
+            enumerable: true,
+            writable: true,
+            value: undefined
+        };
+		var getter = obj.__lookupGetter__ && obj.__lookupGetter__(prop), 
+			setter = obj.__lookupSetter__ && obj.__lookupSetter__(prop)
+		;
+        
+        if (!getter && !setter) { // not an accessor so return prop
+        	if(!owns(obj, prop)){
+				return;
+			}
+            descriptor.value = obj[prop];
+            return descriptor;
+        }
+        
+        // there is an accessor, remove descriptor.writable; populate descriptor.get and descriptor.set
+        delete descriptor.writable;
+        delete descriptor.value;
+        descriptor.get = descriptor.set = undefined;
+        
+        if(getter){
+			descriptor.get = getter;
+		}
+        
+        if(setter){
+            descriptor.set = setter;
+		}
+        
+        return descriptor;
+    };
+
+}
+})(jQuery, jQuery.webshims);
+
+
+(function($, Modernizr, webshims){
+	"use strict";
+	var hasNative = Modernizr.audio && Modernizr.video;
+	var supportsLoop = false;
+	
+	if(hasNative){
+		var videoElem = document.createElement('video');
+		Modernizr.videoBuffered = ('buffered' in videoElem);
+		supportsLoop = ('loop' in videoElem);
+		
+		webshims.capturingEvents(['play', 'playing', 'waiting', 'paused', 'ended', 'durationchange', 'loadedmetadata', 'canplay', 'volumechange']);
+		
+		if(!Modernizr.videoBuffered){
+			webshims.addPolyfill('mediaelement-native-fix', {
+				f: 'mediaelement',
+				test: Modernizr.videoBuffered,
+				d: ['dom-support']
+			});
+			
+			webshims.reTest('mediaelement-native-fix');
+		}
+	}
+
+jQuery.webshims.register('mediaelement-core', function($, webshims, window, document, undefined){
+	var mediaelement = webshims.mediaelement;
+	var options = webshims.cfg.mediaelement;
+	var getSrcObj = function(elem, nodeName){
+		elem = $(elem);
+		var src = {src: elem.attr('src') || '', elem: elem, srcProp: elem.prop('src')};
+		if(!src.src){return src;}
+		var tmp = elem.attr('type');
+		if(tmp){
+			src.type = tmp;
+			src.container = $.trim(tmp.split(';')[0]);
+		} else {
+			if(!nodeName){
+				nodeName = elem[0].nodeName.toLowerCase();
+				if(nodeName == 'source'){
+					nodeName = (elem.closest('video, audio')[0] || {nodeName: 'video'}).nodeName.toLowerCase();
+				}
+			}
+			tmp = mediaelement.getTypeForSrc(src.src, nodeName );
+			
+			if(tmp){
+				src.type = tmp;
+				src.container = tmp;
+				webshims.warn('you should always provide a proper mime-type using the source element. '+ src.src +' detected as: '+ tmp);
+				if($.nodeName(elem[0], 'source')){
+					elem.attr('type', tmp);
+				}
+			}
+		}
+		tmp = elem.attr('media');
+		if(tmp){
+			src.media = tmp;
+		}
+		return src;
+	};
+	
+	
+	var hasSwf = swfobject.hasFlashPlayerVersion('9.0.115');
+	var loadSwf = function(){
+		webshims.ready('mediaelement-swf', function(){
+			if(!mediaelement.createSWF){
+				webshims.modules["mediaelement-swf"].test = $.noop;
+				webshims.reTest(["mediaelement-swf"], hasNative);
+			}
+		});
+	};
+	
+	mediaelement.mimeTypes = {
+		audio: {
+				//ogm shouldn´t be used!
+				'audio/ogg': ['ogg','oga', 'ogm'],
+				'audio/mpeg': ['mp2','mp3','mpga','mpega'],
+				'audio/mp4': ['mp4','mpg4', 'm4r', 'm4a', 'm4p', 'm4b', 'aac'],
+				'audio/wav': ['wav'],
+				'audio/3gpp': ['3gp','3gpp'],
+				'audio/webm': ['webm'],
+				'audio/fla': ['flv', 'f4a', 'fla'],
+				'application/x-mpegURL': ['m3u8', 'm3u']
+			},
+			video: {
+				//ogm shouldn´t be used!
+				'video/ogg': ['ogg','ogv', 'ogm'],
+				'video/mpeg': ['mpg','mpeg','mpe'],
+				'video/mp4': ['mp4','mpg4', 'm4v'],
+				'video/quicktime': ['mov','qt'],
+				'video/x-msvideo': ['avi'],
+				'video/x-ms-asf': ['asf', 'asx'],
+				'video/flv': ['flv', 'f4v'],
+				'video/3gpp': ['3gp','3gpp'],
+				'video/webm': ['webm'],
+				'application/x-mpegURL': ['m3u8', 'm3u'],
+				'video/MP2T': ['ts']
+			}
+		}
+	;
+	
+	mediaelement.mimeTypes.source =  $.extend({}, mediaelement.mimeTypes.audio, mediaelement.mimeTypes.video);
+	
+	mediaelement.getTypeForSrc = function(src, nodeName){
+		if(src.indexOf('youtube.com/watch?') != -1 || src.indexOf('youtube.com/v/') != -1){
+			return 'video/youtube';
+		}
+		src = src.split('?')[0].split('.');
+		src = src[src.length - 1];
+		var mt;
+		
+		$.each(mediaelement.mimeTypes[nodeName], function(mimeType, exts){
+			if(exts.indexOf(src) !== -1){
+				mt = mimeType;
+				return false;
+			}
+		});
+		return mt;
+	};
+	
+	
+	mediaelement.srces = function(mediaElem, srces){
+		mediaElem = $(mediaElem);
+		if(!srces){
+			srces = [];
+			var nodeName = mediaElem[0].nodeName.toLowerCase();
+			var src = getSrcObj(mediaElem, nodeName);
+			
+			if(!src.src){
+				
+				$('source', mediaElem).each(function(){
+					src = getSrcObj(this, nodeName);
+					if(src.src){srces.push(src);}
+				});
+			} else {
+				srces.push(src);
+			}
+			return srces;
+		} else {
+			mediaElem.removeAttr('src').removeAttr('type').find('source').remove();
+			if(!$.isArray(srces)){
+				srces = [srces]; 
+			}
+			srces.forEach(function(src){
+				var source = document.createElement('source');
+				if(typeof src == 'string'){
+					src = {src: src};
+				} 
+				source.setAttribute('src', src.src);
+				if(src.type){
+					source.setAttribute('type', src.type);
+				}
+				if(src.media){
+					source.setAttribute('media', src.media);
+				}
+				mediaElem.append(source);
+			});
+			
+		}
+	};
+	
+	
+	$.fn.loadMediaSrc = function(srces, poster){
+		return this.each(function(){
+			if(poster !== undefined){
+				$(this).removeAttr('poster');
+				if(poster){
+					$.attr(this, 'poster', poster);
+				}
+			}
+			mediaelement.srces(this, srces);
+			$(this).mediaLoad();
+		});
+	};
+	
+	mediaelement.swfMimeTypes = ['video/3gpp', 'video/x-msvideo', 'video/quicktime', 'video/x-m4v', 'video/mp4', 'video/m4p', 'video/x-flv', 'video/flv', 'audio/mpeg', 'audio/aac', 'audio/mp4', 'audio/x-m4a', 'audio/m4a', 'audio/mp3', 'audio/x-fla', 'audio/fla', 'youtube/flv', 'jwplayer/jwplayer', 'video/youtube'];
+	mediaelement.canSwfPlaySrces = function(mediaElem, srces){
+		var ret = '';
+		if(hasSwf){
+			mediaElem = $(mediaElem);
+			srces = srces || mediaelement.srces(mediaElem);
+			$.each(srces, function(i, src){
+				if(src.container && src.src && mediaelement.swfMimeTypes.indexOf(src.container) != -1){
+					ret = src;
+					return false;
+				}
+			});
+			
+		}
+		
+		return ret;
+	};
+	
+	var nativeCanPlayType = {};
+	mediaelement.canNativePlaySrces = function(mediaElem, srces){
+		var ret = '';
+		if(hasNative){
+			mediaElem = $(mediaElem);
+			var nodeName = (mediaElem[0].nodeName || '').toLowerCase();
+			if(!nativeCanPlayType[nodeName]){return ret;}
+			srces = srces || mediaelement.srces(mediaElem);
+			
+			$.each(srces, function(i, src){
+				if(src.type && nativeCanPlayType[nodeName].prop._supvalue.call(mediaElem[0], src.type) ){
+					ret = src;
+					return false;
+				}
+			});
+		}
+		return ret;
+	};
+	
+	mediaelement.setError = function(elem, message){
+		if(!message){
+			message = "can't play sources";
+		}
+		
+		$(elem).pause().data('mediaerror', message);
+		webshims.warn('mediaelementError: '+ message);
+		setTimeout(function(){
+			if($(elem).data('mediaerror')){
+				$(elem).trigger('mediaerror');
+			}
+		}, 1);
+	};
+	
+	var handleSWF = (function(){
+		var requested;
+		return function( mediaElem, ret, data ){
+			webshims.ready('mediaelement-swf', function(){
+				if(mediaelement.createSWF){
+					mediaelement.createSWF( mediaElem, ret, data );
+				} else if(!requested) {
+					requested = true;
+					loadSwf();
+					//readd to ready
+					handleSWF( mediaElem, ret, data );
+				}
+			});
+		};
+	})();
+	
+	var stepSources = function(elem, data, useSwf, _srces, _noLoop){
+		var ret;
+		if(useSwf || (useSwf !== false && data && data.isActive == 'flash')){
+			ret = mediaelement.canSwfPlaySrces(elem, _srces);
+			if(!ret){
+				if(_noLoop){
+					mediaelement.setError(elem, false);
+				} else {
+					stepSources(elem, data, false, _srces, true);
+				}
+			} else {
+				handleSWF(elem, ret, data);
+			}
+		} else {
+			ret = mediaelement.canNativePlaySrces(elem, _srces);
+			if(!ret){
+				if(_noLoop){
+					mediaelement.setError(elem, false);
+					if(data && data.isActive == 'flash') {
+						mediaelement.setActive(elem, 'html5', data);
+					}
+				} else {
+					stepSources(elem, data, true, _srces, true);
+				}
+			} else if(data && data.isActive == 'flash') {
+				mediaelement.setActive(elem, 'html5', data);
+			}
+		}
+	};
+	var stopParent = /^(?:embed|object|datalist)$/i;
+	var selectSource = function(elem, data){
+		var baseData = webshims.data(elem, 'mediaelementBase') || webshims.data(elem, 'mediaelementBase', {});
+		var _srces = mediaelement.srces(elem);
+		var parent = elem.parentNode;
+		
+		clearTimeout(baseData.loadTimer);
+		$.data(elem, 'mediaerror', false);
+		
+		if(!_srces.length || !parent || parent.nodeType != 1 || stopParent.test(parent.nodeName || '')){return;}
+		data = data || webshims.data(elem, 'mediaelement');
+		stepSources(elem, data, options.preferFlash || undefined, _srces);
+	};
+	
+	
+	$(document).bind('ended', function(e){
+		var data = webshims.data(e.target, 'mediaelement');
+		if( supportsLoop && (!data || data.isActive == 'html5') && !$.prop(e.target, 'loop')){return;}
+		setTimeout(function(){
+			if( $.prop(e.target, 'paused') || !$.prop(e.target, 'loop') ){return;}
+			$(e.target).prop('currentTime', 0).play();
+		}, 1);
+		
+	});
+	if(!supportsLoop){
+		webshims.defineNodeNamesBooleanProperty(['audio', 'video'], 'loop');
+	}
+	
+	['audio', 'video'].forEach(function(nodeName){
+		var supLoad = webshims.defineNodeNameProperty(nodeName, 'load',  {
+			prop: {
+				value: function(){
+					var data = webshims.data(this, 'mediaelement');
+					selectSource(this, data);
+					if(hasNative && (!data || data.isActive == 'html5') && supLoad.prop._supvalue){
+						supLoad.prop._supvalue.apply(this, arguments);
+					}
+				}
+			}
+		});
+		nativeCanPlayType[nodeName] = webshims.defineNodeNameProperty(nodeName, 'canPlayType',  {
+			prop: {
+				value: function(type){
+					var ret = '';
+					if(hasNative && nativeCanPlayType[nodeName].prop._supvalue){
+						ret = nativeCanPlayType[nodeName].prop._supvalue.call(this, type);
+						if(ret == 'no'){
+							ret = '';
+						}
+					}
+					if(!ret && hasSwf){
+						type = $.trim((type || '').split(';')[0]);
+						if(mediaelement.swfMimeTypes.indexOf(type) != -1){
+							ret = 'maybe';
+						}
+					}
+					return ret;
+				}
+			}
+		});
+	});
+	webshims.onNodeNamesPropertyModify(['audio', 'video'], ['src', 'poster'], {
+		set: function(){
+			var elem = this;
+			var baseData = webshims.data(elem, 'mediaelementBase') || webshims.data(elem, 'mediaelementBase', {});
+			clearTimeout(baseData.loadTimer);
+			baseData.loadTimer = setTimeout(function(){
+				selectSource(elem);
+				elem = null;
+			}, 9);
+		}
+	});
+	
+	var initMediaElements = function(){
+		webshims.addReady(function(context, insertedElement){
+			$('video, audio', context)
+				.add(insertedElement.filter('video, audio'))
+				.each(function(){
+					if($.browser.msie && webshims.browserVersion > 8 && $.prop(this, 'paused') && !$.prop(this, 'readyState') && $(this).is('audio[preload="none"][controls]:not([autoplay])')){
+						$(this).prop('preload', 'metadata').mediaLoad();
+					} else {
+						selectSource(this);
+					}
+					
+					
+					
+					if(hasNative){
+						var bufferTimer;
+						var lastBuffered;
+						var elem = this;
+						var getBufferedString = function(){
+							var buffered = $.prop(elem, 'buffered');
+							if(!buffered){return;}
+							var bufferString = "";
+							for(var i = 0, len = buffered.length; i < len;i++){
+								bufferString += buffered.end(i);
+							}
+							return bufferString;
+						};
+						var testBuffer = function(){
+							var buffered = getBufferedString();
+							if(buffered != lastBuffered){
+								lastBuffered = buffered;
+								$(elem).triggerHandler('progress');
+							}
+						};
+						
+						$(this)
+							.bind('play loadstart progress', function(e){
+								if(e.type == 'progress'){
+									lastBuffered = getBufferedString();
+								}
+								clearTimeout(bufferTimer);
+								bufferTimer = setTimeout(testBuffer, 999);
+							})
+							.bind('emptied stalled mediaerror abort suspend', function(e){
+								if(e.type == 'emptied'){
+									lastBuffered = false;
+								}
+								clearTimeout(bufferTimer);
+							})
+						;
+					}
+				})
+			;
+		});
+	};
+	
+	
+	//set native implementation ready, before swf api is retested
+	if(hasNative){
+		webshims.isReady('mediaelement-core', true);
+		initMediaElements();
+		if(hasSwf){
+			webshims.ready('WINDOWLOAD mediaelement', loadSwf);
+		}
+	} else {
+		webshims.ready('mediaelement-swf', initMediaElements);
+	}
+	
+	
+});
+})(jQuery, Modernizr, jQuery.webshims);/*
+ * todos: 
+ * - decouple muted/volume (needs improvement)
+ * - implement video <-> flashcanvas pro API
+ * - improve buffered-property with youtube/rtmp
+ * - use jwplayer5 api instead of old flash4 api
+ */
+
+jQuery.webshims.register('mediaelement-swf', function($, webshims, window, document, undefined, options){
+	"use strict";
+	var SENDEVENT = 'sendEvent';
+	var mediaelement = webshims.mediaelement;
+	var swfobject = window.swfobject;
+	var hasNative = Modernizr.audio && Modernizr.video;
+	var hasFlash = swfobject.hasFlashPlayerVersion('9.0.115');
+	var loadedSwf = 0;
+	var getProps = {
+		paused: true,
+		ended: false,
+		currentSrc: '',
+		duration: window.NaN,
+		
+		readyState: 0,
+		networkState: 0,
+		videoHeight: 0,
+		videoWidth: 0,
+		error: null,
+		buffered: {
+			start: function(index){
+				if(index){
+					webshims.error('buffered index size error');
+					return;
+				}
+				return 0;
+			},
+			end: function(index){
+				if(index){
+					webshims.error('buffered index size error');
+					return;
+				}
+				return 0;
+			},
+			length: 0
+		}
+	};
+	var getPropKeys = Object.keys(getProps);
+	
+	var getSetProps = {
+		currentTime: 0,
+		volume: 1,
+		muted: false
+	};
+	var getSetPropKeys = Object.keys(getSetProps);
+	
+	var playerStateObj = $.extend({
+		isActive: 'html5',
+		activating: 'html5',	
+		wasSwfReady: false,
+		_bufferedEnd: 0,
+		_bufferedStart: 0,
+		_metadata: false,
+		_durationCalcs: -1,
+		_callMeta: false,
+		currentTime: 0,
+		_ppFlag: undefined
+	}, getProps, getSetProps);
+	
+	var idRep = /^jwplayer-/;
+	var getSwfDataFromID = function(id){
+		
+		var elem = document.getElementById(id.replace(idRep, ''));
+		if(!elem){return;}
+		var data = webshims.data(elem, 'mediaelement');
+		return data.isActive == 'flash' ? data : null;
+	};
+	
+	
+	var getSwfDataFromElem = function(elem){
+		try {
+			(elem.nodeName);
+		} catch(er){
+			return null;
+		}
+		var data = webshims.data(elem, 'mediaelement');
+		return (data && data.isActive== 'flash') ? data : null;
+	};
+	
+	var trigger = function(elem, evt){
+		evt = $.Event(evt);
+		evt.preventDefault();
+		$.event.trigger(evt, undefined, elem);
+	};
+	
+	var playerSwfPath = options.playerPath || webshims.cfg.basePath + "jwplayer/" + (options.playerName || "player.swf");
+	var jwplugin = options.pluginPath || webshims.cfg.basePath +'swf/jwwebshims.swf';
+	
+	webshims.extendUNDEFProp(options.jwParams, {
+		allowscriptaccess: 'always',
+		allowfullscreen: 'true',
+		wmode: 'transparent'
+	});
+	webshims.extendUNDEFProp(options.jwVars, {
+		screencolor: 'ffffffff'
+	});
+	webshims.extendUNDEFProp(options.jwAttrs, {
+		bgcolor: '#000000'
+	});
+	
+	var getDuration = function(data, obj){
+		var curDuration = data.duration;
+		if(curDuration && data._durationCalcs > 0){return;}
+		try {
+			data.duration = data.jwapi.getPlaylist()[0].duration;
+			if(!data.duration || data.duration <= 0 || data.duration === data._lastDuration){
+				data.duration = curDuration;
+			}
+		} catch(er){}
+		if(data.duration && data.duration != data._lastDuration){
+			trigger(data._elem, 'durationchange');
+			if(data._elemNodeName == 'audio' || data._callMeta){
+				mediaelement.jwEvents.Model.META($.extend({duration: data.duration}, obj), data);
+			}
+			data._durationCalcs--;
+		} else {
+			data._durationCalcs++;
+		}
+	};
+	var setReadyState = function(readyState, data){
+		if(readyState < 3){
+			clearTimeout(data._canplaythroughTimer);
+		}
+		if(readyState >= 3 && data.readyState < 3){
+			data.readyState = readyState;
+			trigger(data._elem, 'canplay');
+			clearTimeout(data._canplaythroughTimer);
+			data._canplaythroughTimer = setTimeout(function(){
+				setReadyState(4, data);
+			}, 4000);
+		}
+		if(readyState >= 4 && data.readyState < 4){
+			data.readyState = readyState;
+			trigger(data._elem, 'canplaythrough');
+		}
+		data.readyState = readyState;
+	};
+	
+	mediaelement.jwEvents = {
+		View: {
+			
+			PLAY: function(obj){
+				var data = getSwfDataFromID(obj.id);
+				if(!data || data.stopPlayPause){return;}
+				data._ppFlag = true;
+				if(data.paused == obj.state){
+					data.paused = !obj.state;
+					if(data.ended){
+						data.ended = false;
+					}
+					trigger(data._elem, obj.state ? 'play' : 'pause');
+				}
+			}
+		},
+		Model: {
+			
+			BUFFER: function(obj){
+				var data = getSwfDataFromID(obj.id);
+				if(!data || !('percentage' in obj) || data._bufferedEnd == obj.percentage){return;}
+				data.networkState = (obj.percentage == 100) ? 1 : 2;
+				if(isNaN(data.duration) || (obj.percentage > 5 && obj.percentage < 25) || (obj.percentage === 100)){
+					getDuration(data, obj);
+				}
+				
+				if(data.ended){
+					data.ended = false;
+				}
+				if(!data.duration){
+					return;
+				}
+				if(obj.percentage > 2 && obj.percentage < 20){
+					setReadyState(3, data);
+				} else if(obj.percentage > 20){
+					setReadyState(4, data);
+				}
+				if(data._bufferedEnd && (data._bufferedEnd > obj.percentage)){
+					data._bufferedStart = data.currentTime || 0;
+				}
+				
+				data._bufferedEnd = obj.percentage;
+				data.buffered.length = 1;
+				if(obj.percentage == 100){
+					data.networkState = 1;
+					setReadyState(4, data);
+				}
+				$.event.trigger('progress', undefined, data._elem, true);
+			},
+			META: function(obj, data){
+				
+				data = data && data.networkState ? data : getSwfDataFromID(obj.id);
+
+				if(!data){return;}
+				if( !('duration' in obj) ){
+					data._callMeta = true;
+					return;
+				}
+				
+				if( data._metadata && (!obj.height || data.videoHeight == obj.height) && (obj.duration === data.duration) ){return;}
+				
+				data._metadata = true;
+								
+				var oldDur = data.duration;
+				if(obj.duration){
+					data.duration = obj.duration;
+				}
+				data._lastDuration = data.duration;
+				if(obj.height || obj.width){
+					data.videoHeight = obj.height || 0;
+					data.videoWidth = obj.width || 0;
+				}
+				if(!data.networkState){
+					data.networkState = 2;
+				}
+				if(data.readyState < 1){
+					setReadyState(1, data);
+				}
+				if(data.duration && oldDur !== data.duration){
+					trigger(data._elem, 'durationchange');
+				}
+				
+				trigger(data._elem, 'loadedmetadata');
+			},
+			TIME: function(obj){
+				var data = getSwfDataFromID(obj.id);
+				if(!data || data.currentTime === obj.position){return;}
+				data.currentTime = obj.position;
+				if(data.duration && data.duration < data.currentTime){
+					getDuration(data, obj);
+				}
+				if(data.readyState < 2){
+					setReadyState(2, data);
+				}
+				if(data.ended){
+					data.ended = false;
+				}
+				trigger(data._elem, 'timeupdate');
+				
+			},
+			STATE: function(obj){
+				var data = getSwfDataFromID(obj.id);
+				if(!data){return;}
+				switch(obj.newstate) {
+					case 'BUFFERING':
+						
+						if(data.ended){
+							data.ended = false;
+						}
+						setReadyState(1, data);
+						trigger(data._elem, 'waiting');
+						break;
+					case 'PLAYING':
+						data.paused = false;
+						data._ppFlag = true;
+						if(!data.duration){
+							getDuration(data, obj);
+						}
+						if(data.readyState < 3){
+							setReadyState(3, data);
+						}
+						if(data.ended){
+							data.ended = false;
+						}
+						trigger(data._elem, 'playing');
+						break;
+					case 'PAUSED':
+						if(!data.paused && !data.stopPlayPause){
+							data.paused = true;
+							data._ppFlag = true;
+							trigger(data._elem, 'pause');
+						}
+						break;
+					case 'COMPLETED':
+						if(data.readyState < 4){
+							setReadyState(4, data);
+						}
+						data.ended = true;
+						trigger(data._elem, 'ended');
+						break;
+				}
+			}
+		}
+		,Controller: {
+			
+			ERROR: function(obj){
+				var data = getSwfDataFromID(obj.id);
+				if(!data){return;}
+				mediaelement.setError(data._elem, obj.message);
+			},
+			SEEK: function(obj){
+				var data = getSwfDataFromID(obj.id);
+				if(!data){return;}
+				if(data.ended){
+					data.ended = false;
+				}
+				if(data.paused){
+					try {
+						data.jwapi[SENDEVENT]('play', 'false');
+					} catch(er){}
+				}
+				if(data.currentTime != obj.position){
+					data.currentTime = obj.position;
+					trigger(data._elem, 'timeupdate');
+				}
+				
+				
+			},
+			VOLUME: function(obj){
+				var data = getSwfDataFromID(obj.id);
+				if(!data){return;}
+				var newVolume = obj.percentage / 100;
+				if(data.volume == newVolume){return;}
+				data.volume = newVolume;
+				trigger(data._elem, 'volumechange');
+			},
+			MUTE: function(obj){
+				if(obj.state){return;}
+				var data = getSwfDataFromID(obj.id);
+				if(!data){return;}
+				if(data.muted == obj.state){return;}
+				data.muted = obj.state;
+				trigger(data._elem, 'volumechange');
+			}
+		}
+	};
+	
+	var initEvents = function(data){
+		$.each(mediaelement.jwEvents, function(mvcName, evts){
+			$.each(evts, function(evtName){
+				data.jwapi['add'+ mvcName +'Listener'](evtName, 'jQuery.webshims.mediaelement.jwEvents.'+ mvcName +'.'+ evtName);
+			});
+		});
+	};
+	
+	var workActionQueue = function(data){
+		var actionLen = data.actionQueue.length;
+		var i = 0;
+		var operation;
+		if(actionLen && data.isActive == 'flash'){
+			while(data.actionQueue.length && actionLen > i){
+				i++;
+				operation = data.actionQueue.shift();
+				data.jwapi[operation.fn].apply(data.jwapi, operation.args);
+			}
+		}
+		if(data.actionQueue.length){
+			data.actionQueue = [];
+		}
+	};
+	var startAutoPlay = function(data){
+		if(!data){return;}
+		if( (data._ppFlag === undefined && ($.prop(data._elem, 'autoplay')) || !data.paused)){
+			setTimeout(function(){
+				if(data.isActive == 'flash' && (data._ppFlag === undefined || !data.paused)){
+					try {
+						$(data._elem).play();
+					} catch(er){}
+				}
+			}, 1);
+		}
+	};
+	
+	var startIntrinsicDimension = function(data){
+		if(!data || data._elemNodeName != 'video'){return;}
+		var img;
+		var widthAuto;
+		var heightAuto;
+		var lastIntrinsicSize = {};
+		var shadowElem;
+		var errorTimer;
+		var blockResize;
+		var lastSize;
+		var setSize = function(width, height){
+			if(!height || !width || height < 1 || width < 1 || data.isActive != 'flash'){return;}
+			if(img){
+				img.remove();
+				img = false;
+			}
+			lastIntrinsicSize.width = width;
+			lastIntrinsicSize.height = height;
+			clearTimeout(errorTimer);
+			widthAuto = data._elem.style.width == 'auto';
+			heightAuto = data._elem.style.height == 'auto';
+			
+			if(!widthAuto && !heightAuto){return;}
+			var curSize;
+			shadowElem = shadowElem || $(data._elem).getShadowElement();
+			var cur;
+			if(widthAuto && !heightAuto){
+				cur = shadowElem.height();
+				width *=  cur / height;
+				height = cur;
+			} else if(!widthAuto && heightAuto){
+				cur = shadowElem.width();
+				height *=  cur / width;
+				width = cur;
+			}
+			blockResize = true;
+			setTimeout(function(){
+				blockResize = false;
+			}, 9);
+			
+			shadowElem.css({width: width, height: height});
+		};
+		var setPosterSrc = function(){
+			if(data.isActive != 'flash' || ($.prop(data._elem, 'readyState') && $.prop(this, 'videoWidth'))){return;}
+			var posterSrc = $.prop(data._elem, 'poster');
+			if(!posterSrc){return;}
+			widthAuto = data._elem.style.width == 'auto';
+			heightAuto = data._elem.style.height == 'auto';
+			if(!widthAuto && !heightAuto){return;}
+			if(img){
+				img.remove();
+				img = false;
+			}
+			img = $('<img style="position: absolute; height: auto; width: auto; top: 0px; left: 0px; visibility: hidden;" />');
+			img
+				.bind('load error alreadycomplete', function(e){
+					clearTimeout(errorTimer);
+					
+					var elem = this;
+					var width = elem.naturalWidth || elem.width || elem.offsetWidth;
+					var height = elem.naturalHeight || elem.height || elem.offsetHeight;
+					
+					if(height && width){
+						setSize(width, height);
+						elem = null;
+					} else {
+						setTimeout(function(){
+							width = elem.naturalWidth || elem.width || elem.offsetWidth;
+							height = elem.naturalHeight || elem.height || elem.offsetHeight;
+							setSize(width, height);
+							if(img){
+								img.remove();
+								img = false;
+							}
+							elem = null;
+						}, 9);
+					}
+					$(this).unbind();
+				})
+				.prop('src', posterSrc)
+				.appendTo('body')
+				.each(function(){
+					if(this.complete || this.error){
+						$(this).triggerHandler('alreadycomplete');
+					} else {
+						clearTimeout(errorTimer);
+						errorTimer = setTimeout(function(){
+							$(data._elem).triggerHandler('error');
+						}, 9999);
+					}
+				})
+			;
+		};
+		$(data._elem)
+			.bind('loadedmetadata', function(){
+				setSize($.prop(this, 'videoWidth'), $.prop(this, 'videoHeight'));
+			})
+			.bind('emptied', setPosterSrc)
+			.bind('swfstageresize', function(){
+				if(blockResize){return;}
+				setSize(lastIntrinsicSize.width, lastIntrinsicSize.height);
+			})
+			.bind('emptied', function(){
+				lastIntrinsicSize = {};
+			})
+			.triggerHandler('swfstageresize')
+		;
+		
+		setPosterSrc();
+		if($.prop(data._elem, 'readyState')){
+			setSize($.prop(data._elem, 'videoWidth'), $.prop(data._elem, 'videoHeight'));
+		}
+	};
+	
+	mediaelement.playerResize = function(id){
+		if(!id){return;}
+		var elem = document.getElementById(id.replace(idRep, ''));
+		
+		if(elem){
+			$(elem).triggerHandler('swfstageresize');
+		}
+		elem = null;
+	};
+	
+	
+	$(document).bind('emptied', function(e){
+		var data = getSwfDataFromElem(e.target);
+		startAutoPlay(data);
+	});
+	
+	var localConnectionTimer;
+	mediaelement.jwPlayerReady = function(jwData){
+		var data = getSwfDataFromID(jwData.id);
+		if(!data || !data.jwapi){return;}
+		clearTimeout(localConnectionTimer);
+		data.jwData = jwData;
+		data.shadowElem.removeClass('flashblocker-assumed');
+		$.prop(data._elem, 'volume', data.volume);
+		$.prop(data._elem, 'muted', data.muted);
+		initEvents(data);
+		if(!data.wasSwfReady){
+			var version = parseFloat( jwData.version, 10);
+			if(version < 5.6 || version >= 6){
+				webshims.warn('mediaelement-swf is only testet with jwplayer 5.6+');
+			}
+		} else {
+			$(data._elem).mediaLoad();
+		}
+		data.wasSwfReady = true;
+		workActionQueue(data);
+		startAutoPlay(data);
+	};
+	
+	var addMediaToStopEvents = $.noop;
+	if(hasNative){
+		var stopEvents = {
+			play: 1,
+			playing: 1
+		};
+		var hideEvtArray = ['play', 'pause', 'playing', 'canplay', 'progress', 'waiting', 'ended', 'loadedmetadata', 'durationchange', 'emptied'];
+		var hidevents = hideEvtArray.map(function(evt){
+			return evt +'.webshimspolyfill';
+		}).join(' ');
+		
+		var hidePlayerEvents = function(event){
+			var data = webshims.data(event.target, 'mediaelement');
+			if(!data){return;}
+			var isNativeHTML5 = ( event.originalEvent && event.originalEvent.type === event.type );
+			if( isNativeHTML5 == (data.activating == 'flash') ){
+				event.stopImmediatePropagation();
+				if(stopEvents[event.type] && data.isActive != data.activating){
+					$(event.target).pause();
+				}
+			}
+		};
+		
+		addMediaToStopEvents = function(elem){
+			$(elem)
+				.unbind(hidevents)
+				.bind(hidevents, hidePlayerEvents)
+			;
+			hideEvtArray.forEach(function(evt){
+				webshims.moveToFirstEvent(elem, evt);
+			});
+		};
+		addMediaToStopEvents(document);
+	}
+	
+	
+	mediaelement.setActive = function(elem, type, data){
+		if(!data){
+			data = webshims.data(elem, 'mediaelement');
+		}
+		if(!data || data.isActive == type){return;}
+		if(type != 'html5' && type != 'flash'){
+			webshims.warn('wrong type for mediaelement activating: '+ type);
+		}
+		var shadowData = webshims.data(elem, 'shadowData');
+		data.activating = type;
+		$(elem).pause();
+		data.isActive = type;
+		if(type == 'flash'){
+			shadowData.shadowElement = shadowData.shadowFocusElement = data.shadowElem[0];
+			$(elem).hide().getShadowElement().show();
+		} else {
+			$(elem).show().getShadowElement().hide();
+			shadowData.shadowElement = shadowData.shadowFocusElement = false;
+		}
+		
+	};
+	
+	
+	
+	var resetSwfProps = (function(){
+		var resetProtoProps = ['_bufferedEnd', '_bufferedStart', '_metadata', '_ppFlag', 'currentSrc', 'currentTime', 'duration', 'ended', 'networkState', 'paused', 'videoHeight', 'videoWidth', '_callMeta', '_durationCalcs'];
+		var len = resetProtoProps.length;
+		return function(data){
+			
+			if(!data){return;}
+			var lenI = len;
+			var networkState = data.networkState;
+			setReadyState(0, data);
+			while(--lenI){
+				delete data[resetProtoProps[lenI]];
+			}
+			data.actionQueue = [];
+			data.buffered.length = 0;
+			if(networkState){
+				trigger(data._elem, 'emptied');
+			}
+		};
+	})();
+	
+	var setElementDimension = function(data, hasControls){
+		var elem = data._elem;
+		var box = data.shadowElem;
+		$(elem)[hasControls ? 'addClass' : 'removeClass']('webshims-controls');
+		if(data._elemNodeName == 'audio' && !hasControls){
+			box.css({width: 0, height: 0});
+		} else {
+			box.css({
+				width: elem.style.width || $(elem).width(),
+				height: elem.style.height || $(elem).height()
+			});
+		}
+	};
+	
+	mediaelement.createSWF = function( elem, canPlaySrc, data ){
+		if(!hasFlash){
+			setTimeout(function(){
+				$(elem).mediaLoad(); //<- this should produce a mediaerror
+			}, 1);
+			return;
+		}
+		
+		if(loadedSwf < 1){
+			loadedSwf = 1;
+		} else {
+			loadedSwf++;
+		}
+		var vars = $.extend({}, options.jwVars, {
+				image: $.prop(elem, 'poster') || '',
+				file: canPlaySrc.srcProp
+		});
+		var elemVars = $(elem).data('jwvars') || {};
+		
+		if(data && data.swfCreated){
+			mediaelement.setActive(elem, 'flash', data);
+			resetSwfProps(data);
+			data.currentSrc = canPlaySrc.srcProp;
+			$.extend(vars, elemVars);
+			options.changeJW(vars, elem, canPlaySrc, data, 'load');
+			queueSwfMethod(elem, SENDEVENT, ['LOAD', vars]);
+			
+			return;
+		}
+		
+		
+		var hasControls = $.prop(elem, 'controls');
+		var elemId = 'jwplayer-'+ webshims.getID(elem);
+		var params = $.extend(
+			{},
+			options.jwParams,
+			$(elem).data('jwparams')
+		);
+		var elemNodeName = elem.nodeName.toLowerCase();
+		var attrs = $.extend(
+			{},
+			options.jwAttrs,
+			{
+				name: elemId,
+				id: elemId
+			},
+			$(elem).data('jwattrs')
+		);
+		var box = $('<div class="polyfill-'+ (elemNodeName) +' polyfill-mediaelement" id="wrapper-'+ elemId +'"><div id="'+ elemId +'"></div>')
+			.css({
+				position: 'relative',
+				overflow: 'hidden'
+			})
+		;
+		
+		data = webshims.data(elem, 'mediaelement', webshims.objectCreate(playerStateObj, {
+			actionQueue: {
+				value: []
+			},
+			shadowElem: {
+				value: box
+			},
+			_elemNodeName: {
+				value: elemNodeName
+			},
+			_elem: {
+				value: elem
+			},
+			currentSrc: {
+				value: canPlaySrc.srcProp
+			},
+			swfCreated: {
+				value: true
+			},
+			buffered: {
+				value: {
+				start: function(index){
+					if(index >= data.buffered.length){
+						webshims.error('buffered index size error');
+						return;
+					}
+					return 0;
+				},
+				end: function(index){
+					if(index >= data.buffered.length){
+						webshims.error('buffered index size error');
+						return;
+					}
+					return ( (data.duration - data._bufferedStart) * data._bufferedEnd / 100) + data._bufferedStart;
+				},
+				length: 0
+			}
+			}
+		}));
+		
+		setElementDimension(data, hasControls);
+		
+		box.insertBefore(elem);
+		
+		if(hasNative){
+			$.extend(data, {volume: $.prop(elem, 'volume'), muted: $.prop(elem, 'muted')});
+		}
+		
+		$.extend(vars, 
+			{
+				id: elemId,
+				controlbar: hasControls ? options.jwVars.controlbar || (elemNodeName == 'video' ? 'over' : 'bottom') : (elemNodeName == 'video') ? 'none' : 'bottom',
+				icons: ''+ (hasControls && elemNodeName == 'video')
+			},
+			elemVars,
+			{playerready: 'jQuery.webshims.mediaelement.jwPlayerReady'}
+		);
+		if(vars.plugins){
+			vars.plugins += ','+jwplugin;
+		} else {
+			vars.plugins = jwplugin;
+		}
+		
+		
+		webshims.addShadowDom(elem, box);
+		addMediaToStopEvents(elem);
+		mediaelement.setActive(elem, 'flash', data);
+		options.changeJW(vars, elem, canPlaySrc, data, 'embed');
+		startIntrinsicDimension(data);
+		swfobject.embedSWF(playerSwfPath, elemId, "100%", "100%", "9.0.0", false, vars, params, attrs, function(swfData){
+			
+			if(swfData.success){
+				data.jwapi = swfData.ref;
+				
+				if(!hasControls){
+					$(swfData.ref).attr('tabindex', '-1').css('outline', 'none');
+				}
+				setTimeout(function(){
+					if((!swfData.ref.parentNode && box[0].parentNode) || swfData.ref.style.display == "none"){
+						box.addClass('flashblocker-assumed');
+						$(elem).trigger('flashblocker');
+						webshims.warn("flashblocker assumed");
+					}
+					$(swfData.ref).css({'minHeight': '2px', 'minWidth': '2px', display: 'block'});
+				}, 9);
+				if(!localConnectionTimer){
+					clearTimeout(localConnectionTimer);
+					localConnectionTimer = setTimeout(function(){
+						var flash = $(swfData.ref);
+						if(flash[0].offsetWidth > 1 && flash[0].offsetHeight > 1 && location.protocol.indexOf('file:') === 0){
+							webshims.error("Add your local development-directory to the local-trusted security sandbox:  http://www.macromedia.com/support/documentation/en/flashplayer/help/settings_manager04.html");
+						} else if(flash[0].offsetWidth < 2 || flash[0].offsetHeight < 2) {
+							webshims.info("JS-SWF connection can't be established on hidden or unconnected flash objects");
+						}
+						flash = null;
+					}, 8000);
+				}
+			}
+		});
+	};
+	
+	
+	var queueSwfMethod = function(elem, fn, args, data){
+		data = data || getSwfDataFromElem(elem);
+		if(data){
+			if(data.jwapi && data.jwapi[fn]){
+				data.jwapi[fn].apply(data.jwapi, args || []);
+			} else {
+				//todo add to queue
+				data.actionQueue.push({fn: fn, args: args});
+				if(data.actionQueue.length > 10){
+					setTimeout(function(){
+						if(data.actionQueue.length > 5){
+							data.actionQueue.shift();
+						}
+					}, 99);
+				}
+			}
+			return data;
+		}
+		return false;
+	};
+	
+	['audio', 'video'].forEach(function(nodeName){
+		var descs = {};
+		var mediaSup;
+		var createGetProp = function(key){
+			if(nodeName == 'audio' && (key == 'videoHeight' || key == 'videoWidth')){return;}
+			
+			descs[key] = {
+				get: function(){
+					var data = getSwfDataFromElem(this);
+					if(data){
+						return data[key];
+					} else if(hasNative && mediaSup[key].prop._supget) {
+						return mediaSup[key].prop._supget.apply(this);
+					} else {
+						return playerStateObj[key];
+					}
+				},
+				writeable: false
+			};
+		};
+		var createGetSetProp = function(key, setFn){
+			createGetProp(key);
+			delete descs[key].writeable;
+			descs[key].set = setFn;
+		};
+		
+		createGetSetProp('volume', function(v){
+			var data = getSwfDataFromElem(this);
+			if(data){
+				v *= 100;
+				if(!isNaN(v)){
+					var muted = data.muted;
+					if(v < 0 || v > 100){
+						webshims.error('volume greater or less than allowed '+ (v / 100));
+					}
+					
+					queueSwfMethod(this, SENDEVENT, ['VOLUME', v], data);
+					if(muted){
+						try {
+							data.jwapi.sendEvent('mute', 'true');
+						} catch(er){}
+					}
+					v /= 100;
+					if(data.volume == v || data.isActive != 'flash'){return;}
+					data.volume = v;
+					trigger(data._elem, 'volumechange');
+					data = null;
+				} 
+			} else if(mediaSup.volume.prop._supset) {
+				return mediaSup.volume.prop._supset.apply(this, arguments);
+			}
+		});
+		
+		createGetSetProp('muted', function(m){
+			var data = getSwfDataFromElem(this);
+			if(data){
+				m = !!m;
+				queueSwfMethod(this, SENDEVENT, ['mute', ''+m], data);
+				if(data.muted == m || data.isActive != 'flash'){return;}
+				data.muted = m;
+				trigger(data._elem, 'volumechange');
+				data = null;
+			} else if(mediaSup.muted.prop._supset) {
+				return mediaSup.muted.prop._supset.apply(this, arguments);
+			}
+		});
+		
+		
+		createGetSetProp('currentTime', function(t){
+			var data = getSwfDataFromElem(this);
+			if(data){
+				t *= 1;
+				if (!isNaN(t)) {
+					if(data.paused){
+						clearTimeout(data.stopPlayPause);
+						data.stopPlayPause = setTimeout(function(){
+							data.paused = true;
+							data.stopPlayPause = false;
+						}, 50);
+					}
+					queueSwfMethod(this, SENDEVENT, ['SEEK', '' + t], data);
+					
+					if(data.paused){
+						if(data.readyState > 0){
+							data.currentTime = t;
+							trigger(data._elem, 'timeupdate');
+						}
+						try {
+							data.jwapi[SENDEVENT]('play', 'false');
+						} catch(er){}
+						
+					}
+				}
+				 
+			} else if(mediaSup.currentTime.prop._supset) {
+				return mediaSup.currentTime.prop._supset.apply(this, arguments);
+			}
+		});
+		
+		['play', 'pause'].forEach(function(fn){
+			descs[fn] = {
+				value: function(){
+					var data = getSwfDataFromElem(this);
+					if(data){
+						if(data.stopPlayPause){
+							clearTimeout(data.stopPlayPause);
+						}
+						queueSwfMethod(this, SENDEVENT, ['play', fn == 'play'], data);
+						setTimeout(function(){
+							if(data.isActive == 'flash'){
+								data._ppFlag = true;
+								if(data.paused != (fn != 'play')){
+									data.paused = fn != 'play';
+									trigger(data._elem, fn);
+								}
+							}
+						}, 1);
+					} else if(mediaSup[fn].prop._supvalue) {
+						return mediaSup[fn].prop._supvalue.apply(this, arguments);
+					}
+				}
+			};
+		});
+		
+		getPropKeys.forEach(createGetProp);
+		
+		webshims.onNodeNamesPropertyModify(nodeName, 'controls', function(val, boolProp){
+			var data = getSwfDataFromElem(this);
+			$(this)[boolProp ? 'addClass' : 'removeClass']('webshims-controls');
+			
+			if(data){
+				try {
+					queueSwfMethod(this, boolProp ? 'showControls' : 'hideControls', [nodeName], data);
+				} catch(er){
+					webshims.warn("you need to generate a crossdomain.xml");
+				}
+				if(nodeName == 'audio'){
+					setElementDimension(data, boolProp);
+				}
+				$(data.jwapi).attr('tabindex', boolProp ? '0' : '-1');
+			}
+		});
+		
+		mediaSup = webshims.defineNodeNameProperties(nodeName, descs, 'prop');
+	});
+	
+	if(hasFlash){
+		var oldClean = $.cleanData;
+		var gcBrowser = $.browser.msie && webshims.browserVersion < 9;
+		var flashNames = {
+			object: 1,
+			OBJECT: 1
+		};
+		$.cleanData = function(elems){
+			var i, len, prop;
+			if(elems && (len = elems.length) && loadedSwf){
+				
+				for(i = 0; i < len; i++){
+					if(flashNames[elems[i].nodeName]){
+						if(SENDEVENT in elems[i]){
+							loadedSwf--;
+							try {
+								elems[i][SENDEVENT]('play', false);
+							} catch(er){}
+						}
+						if(gcBrowser){
+							try {
+								for (prop in elems[i]) {
+									if (typeof elems[i][prop] == "function") {
+										elems[i][prop] = null;
+									}
+								}
+							} catch(er){}
+						}
+					}
+				}
+				
+			}
+			return oldClean.apply(this, arguments);
+		};
+	}
+
+	if(!hasNative){
+		var anchor = document.createElement('a');
+		anchor.style.display = "none";
+		['poster', 'src'].forEach(function(prop){
+			webshims.defineNodeNamesProperty(prop == 'src' ? ['audio', 'video', 'source'] : ['video'], prop, {
+				prop: {
+					get: function(){
+						var href = this.getAttribute(prop);
+						var ret;
+						if(href == null){return '';}
+						anchor.setAttribute('href', href+'' );
+						if(!$.support.hrefNormalized){
+							try {
+								$(anchor).appendTo(this);
+								ret = anchor.getAttribute('href', 4);
+							} catch(er){
+								ret = anchor.getAttribute('href', 4);
+							}
+							$(anchor).detach();
+						}
+						return ret || anchor.href;
+					},
+					set: function(src){
+						$.attr(this, prop, src);
+					}
+				}
+			});
+		});
+		
+		
+		['autoplay', 'controls'].forEach(function(name){
+			webshims.defineNodeNamesBooleanProperty(['audio', 'video'], name);
+		});
+			
+		webshims.defineNodeNamesProperties(['audio', 'video'], {
+			HAVE_CURRENT_DATA: {
+				value: 2
+			},
+			HAVE_ENOUGH_DATA: {
+				value: 4
+			},
+			HAVE_FUTURE_DATA: {
+				value: 3
+			},
+			HAVE_METADATA: {
+				value: 1
+			},
+			HAVE_NOTHING: {
+				value: 0
+			},
+			NETWORK_EMPTY: {
+				value: 0
+			},
+			NETWORK_IDLE: {
+				value: 1
+			},
+			NETWORK_LOADING: {
+				value: 2
+			},
+			NETWORK_NO_SOURCE: {
+				value: 3
+			}
+					
+		}, 'prop');
+	}
+	
+});

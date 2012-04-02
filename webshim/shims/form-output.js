@@ -1,5 +1,147 @@
-jQuery.webshims.ready("dom-support",function(d,e,m,f){(function(){if(!("value"in f.createElement("output"))){e.defineNodeNameProperty("output","value",{prop:{set:function(a){var b=d.data(this,"outputShim");b||(b=j(this));b(a)},get:function(){return e.contentAttr(this,"value")||d(this).text()||""}}});e.onNodeNamesPropertyModify("input","value",function(a,b,c){"removeAttr"!=c&&(b=d.data(this,"outputShim"))&&b(a)});var j=function(a){if(!a.getAttribute("aria-live")){var a=d(a),b=(a.text()||"").trim(),
-c=a.attr("id"),k=a.attr("for"),i=d('<input class="output-shim" type="text" disabled name="'+(a.attr("name")||"")+'" value="'+b+'" style="display: none !important;" />').insertAfter(a),g=i[0].form||f,h=function(c){i[0].value=c;c=i[0].value;a.text(c);e.contentAttr(a[0],"value",c)};a[0].defaultValue=b;e.contentAttr(a[0],"value",b);a.attr({"aria-live":"polite"});c&&(i.attr("id",c),a.attr("aria-labeldby",e.getID(d('label[for="'+c+'"]',g))));k&&(c=e.getID(a),k.split(" ").forEach(function(a){(a=f.getElementById(a))&&
-a.setAttribute("aria-controls",c)}));a.data("outputShim",h);i.data("outputShim",h);return h}};e.addReady(function(a,b){d("output",a).add(b.filter("output")).each(function(){j(this)})})}})();(function(){var j={updateInput:1,input:1},a={radio:1,checkbox:1,submit:1,button:1,image:1,reset:1,file:1,color:1},b=function(a){var b,d=a.prop("value"),g=function(b){if(a){var f=a.prop("value");f!==d&&(d=f,(!b||!j[b.type])&&e.triggerInlineForm&&e.triggerInlineForm(a[0],"input"))}},h,f=function(){clearTimeout(h);
-h=setTimeout(g,9)},l=function(){a.unbind("focusout",l).unbind("keyup keypress keydown paste cut",f).unbind("input change updateInput",g);clearInterval(b);setTimeout(function(){g();a=null},1)};clearInterval(b);b=setInterval(g,99);f();a.bind("keyup keypress keydown paste cut",f).bind("focusout",l).bind("input updateInput change",g)};if(d.event.customEvent)d.event.customEvent.updateInput=!0;d(f).bind("focusin",function(c){c.target&&c.target.type&&!c.target.readOnly&&!c.target.disabled&&"input"==(c.target.nodeName||
-"").toLowerCase()&&!a[c.target.type]&&b(d(c.target))})})();e.isReady("form-output",!0)});
+jQuery.webshims.ready('dom-support', function($, webshims, window, document, undefined){
+	var doc = document;	
+	
+	
+	
+	(function(){
+		if( 'value' in document.createElement('output') ){return;}
+		
+		webshims.defineNodeNameProperty('output', 'value', {
+			prop: {
+				set: function(value){
+					var setVal = $.data(this, 'outputShim');
+					if(!setVal){
+						setVal = outputCreate(this);
+					}
+					setVal(value);
+				},
+				get: function(){
+					return webshims.contentAttr(this, 'value') || $(this).text() || '';
+				}
+			}
+		});
+		
+		
+		webshims.onNodeNamesPropertyModify('input', 'value', function(value, boolVal, type){
+			if(type == 'removeAttr'){return;}
+			var setVal = $.data(this, 'outputShim');
+			if(setVal){
+				setVal(value);
+			}
+		});
+		
+		var outputCreate = function(elem){
+			if(elem.getAttribute('aria-live')){return;}
+			elem = $(elem);
+			var value = (elem.text() || '').trim();
+			var	id 	= elem.attr('id');
+			var	htmlFor = elem.attr('for');
+			var shim = $('<input class="output-shim" type="text" disabled name="'+ (elem.attr('name') || '')+'" value="'+value+'" style="display: none !important;" />').insertAfter(elem);
+			var form = shim[0].form || doc;
+			var setValue = function(val){
+				shim[0].value = val;
+				val = shim[0].value;
+				elem.text(val);
+				webshims.contentAttr(elem[0], 'value', val);
+			};
+			
+			elem[0].defaultValue = value;
+			webshims.contentAttr(elem[0], 'value', value);
+			
+			elem.attr({'aria-live': 'polite'});
+			if(id){
+				shim.attr('id', id);
+				elem.attr('aria-labeldby', webshims.getID($('label[for="'+id+'"]', form)));
+			}
+			if(htmlFor){
+				id = webshims.getID(elem);
+				htmlFor.split(' ').forEach(function(control){
+					control = document.getElementById(control);
+					if(control){
+						control.setAttribute('aria-controls', id);
+					}
+				});
+			}
+			elem.data('outputShim', setValue );
+			shim.data('outputShim', setValue );
+			return setValue;
+		};
+						
+		webshims.addReady(function(context, contextElem){
+			$('output', context).add(contextElem.filter('output')).each(function(){
+				outputCreate(this);
+			});
+		});
+	})();
+	
+	
+	
+	/*
+	 * Implements input event in all browsers
+	 */
+	(function(){
+		var noInputTriggerEvts = {updateInput: 1, input: 1},
+			noInputTypes = {
+				radio: 1,
+				checkbox: 1,
+				submit: 1,
+				button: 1,
+				image: 1,
+				reset: 1,
+				file: 1
+				
+				//pro forma
+				,color: 1
+				//,range: 1
+			},
+			observe = function(input){
+				var timer,
+					lastVal = input.prop('value'),
+					trigger = function(e){
+						//input === null
+						if(!input){return;}
+						var newVal = input.prop('value');
+						
+						if(newVal !== lastVal){
+							lastVal = newVal;
+							if(!e || !noInputTriggerEvts[e.type]){
+								webshims.triggerInlineForm && webshims.triggerInlineForm(input[0], 'input');
+							}
+						}
+					},
+					extraTimer,
+					extraTest = function(){
+						clearTimeout(extraTimer);
+						extraTimer = setTimeout(trigger, 9);
+					},
+					unbind = function(){
+						input.unbind('focusout', unbind).unbind('keyup keypress keydown paste cut', extraTest).unbind('input change updateInput', trigger);
+						clearInterval(timer);
+						setTimeout(function(){
+							trigger();
+							input = null;
+						}, 1);
+						
+					}
+				;
+				
+				clearInterval(timer);
+				timer = setInterval(trigger, 99);
+				extraTest();
+				input.bind('keyup keypress keydown paste cut', extraTest).bind('focusout', unbind).bind('input updateInput change', trigger);
+			}
+		;
+		if($.event.customEvent){
+			$.event.customEvent.updateInput = true;
+		} 
+		
+		$(doc)
+			.bind('focusin', function(e){
+				if( e.target && e.target.type && !e.target.readOnly && !e.target.disabled && (e.target.nodeName || '').toLowerCase() == 'input' && !noInputTypes[e.target.type] ){
+					observe($(e.target));
+				}
+			})
+		;
+	})();
+	webshims.isReady('form-output', true);
+});

@@ -1,38 +1,1139 @@
-jQuery.webshims.register("form-number-date-api",function(b,c){if(!c.getStep)c.getStep=function(a,g){var e=b.attr(a,"step");if("any"===e)return e;g=g||k(a);if(!f[g]||!f[g].step)return e;e=j.number.asNumber(e);return(!isNaN(e)&&0<e?e:f[g].step)*f[g].stepScaleFactor};if(!c.addMinMaxNumberToCache)c.addMinMaxNumberToCache=function(a,b,e){a+"AsNumber"in e||(e[a+"AsNumber"]=f[e.type].asNumber(b.attr(a)),isNaN(e[a+"AsNumber"])&&a+"Default"in f[e.type]&&(e[a+"AsNumber"]=f[e.type][a+"Default"]))};var l=parseInt("NaN",
-10),f=c.inputTypes,q=function(a){return"number"==typeof a||a&&a==1*a},i=function(a){return b('<input type="'+a+'" />').prop("type")===a},k=function(a){return(a.getAttribute("type")||"").toLowerCase()},t=c.addMinMaxNumberToCache,p=function(a,b){for(var a=""+a,b=b-a.length,e=0;e<b;e++)a="0"+a;return a};c.addValidityRule("stepMismatch",function(a,b,e,n){if(""===b)return!1;if(!("type"in e))e.type=k(a[0]);if("date"==e.type)return!1;n=(n||{}).stepMismatch;if(f[e.type]&&f[e.type].step){if(!("step"in e))e.step=
-c.getStep(a[0],e.type);if("any"==e.step)return!1;if(!("valueAsNumber"in e))e.valueAsNumber=f[e.type].asNumber(b);if(isNaN(e.valueAsNumber))return!1;t("min",a,e);a=e.minAsNumber;isNaN(a)&&(a=f[e.type].stepBase||0);n=Math.abs((e.valueAsNumber-a)%e.step);n=!(1.0E-7>=n||1.0E-7>=Math.abs(n-e.step))}return n});[{name:"rangeOverflow",attr:"max",factor:1},{name:"rangeUnderflow",attr:"min",factor:-1}].forEach(function(a){c.addValidityRule(a.name,function(b,e,c,i){i=(i||{})[a.name]||!1;if(""===e)return i;if(!("type"in
-c))c.type=k(b[0]);if(f[c.type]&&f[c.type].asNumber){if(!("valueAsNumber"in c))c.valueAsNumber=f[c.type].asNumber(e);if(isNaN(c.valueAsNumber))return!1;t(a.attr,b,c);if(isNaN(c[a.attr+"AsNumber"]))return i;i=c[a.attr+"AsNumber"]*a.factor<c.valueAsNumber*a.factor-1.0E-7}return i})});c.reflectProperties(["input"],["max","min","step"]);var r=c.defineNodeNameProperty("input","valueAsNumber",{prop:{get:function(){var a=k(this),a=f[a]&&f[a].asNumber?f[a].asNumber(b.prop(this,"value")):r.prop._supget&&r.prop._supget.apply(this,
-arguments);null==a&&(a=l);return a},set:function(a){var g=k(this);f[g]&&f[g].numberToString?isNaN(a)?b.prop(this,"value",""):(g=f[g].numberToString(a),!1!==g?b.prop(this,"value",g):c.warn("INVALID_STATE_ERR: DOM Exception 11")):r.prop._supset&&r.prop._supset.apply(this,arguments)}}}),s=c.defineNodeNameProperty("input","valueAsDate",{prop:{get:function(){var a=k(this);return f[a]&&f[a].asDate&&!f[a].noAsDate?f[a].asDate(b.prop(this,"value")):s.prop._supget&&s.prop._supget.call(this)||null},set:function(a){var g=
-k(this);if(f[g]&&f[g].dateToString&&!f[g].noAsDate){if(null===a)return b.prop(this,"value",""),"";g=f[g].dateToString(a);if(!1!==g)return b.prop(this,"value",g),g;c.warn("INVALID_STATE_ERR: DOM Exception 11")}else return s.prop._supset&&s.prop._supset.apply(this,arguments)||null}}}),j={number:{mismatch:function(a){return!q(a)},step:1,stepScaleFactor:1,asNumber:function(a){return q(a)?1*a:l},numberToString:function(a){return q(a)?a:!1}},range:{minDefault:0,maxDefault:100},date:{mismatch:function(a){if(!a||
-!a.split||!/\d$/.test(a))return!0;var c=a.split(/\u002D/);if(3!==c.length)return!0;var e=!1;b.each(c,function(a,b){if(!(q(b)||b&&b=="0"+1*b))return e=!0,!1});if(e)return e;if(4!==c[0].length||2!=c[1].length||12<c[1]||2!=c[2].length||33<c[2])e=!0;return a!==this.dateToString(this.asDate(a,!0))},step:1,stepScaleFactor:864E5,asDate:function(a,b){return!b&&this.mismatch(a)?null:new Date(this.asNumber(a,!0))},asNumber:function(a,b){var c=l;if(b||!this.mismatch(a))a=a.split(/\u002D/),c=Date.UTC(a[0],a[1]-
-1,a[2]);return c},numberToString:function(a){return q(a)?this.dateToString(new Date(1*a)):!1},dateToString:function(a){return a&&a.getFullYear?a.getUTCFullYear()+"-"+p(a.getUTCMonth()+1,2)+"-"+p(a.getUTCDate(),2):!1}},time:{mismatch:function(a,c){if(!a||!a.split||!/\d$/.test(a))return!0;a=a.split(/\u003A/);if(2>a.length||3<a.length)return!0;var e=!1,f;a[2]&&(a[2]=a[2].split(/\u002E/),f=parseInt(a[2][1],10),a[2]=a[2][0]);b.each(a,function(a,b){if(!(q(b)||b&&b=="0"+1*b)||2!==b.length)return e=!0,!1});
-if(e||23<a[0]||0>a[0]||59<a[1]||0>a[1]||a[2]&&(59<a[2]||0>a[2])||f&&isNaN(f))return!0;f&&(100>f?f*=100:10>f&&(f*=10));return!0===c?[a,f]:!1},step:60,stepBase:0,stepScaleFactor:1E3,asDate:function(a){a=new Date(this.asNumber(a));return isNaN(a)?null:a},asNumber:function(a){var b=l,a=this.mismatch(a,!0);!0!==a&&(b=Date.UTC("1970",0,1,a[0][0],a[0][1],a[0][2]||0),a[1]&&(b+=a[1]));return b},dateToString:function(a){if(a&&a.getUTCHours){var b=p(a.getUTCHours(),2)+":"+p(a.getUTCMinutes(),2),c=a.getSeconds();
-"0"!=c&&(b+=":"+p(c,2));c=a.getUTCMilliseconds();"0"!=c&&(b+="."+p(c,3));return b}return!1}},"datetime-local":{mismatch:function(a,b){if(!a||!a.split||2!==(a+"special").split(/\u0054/).length)return!0;a=a.split(/\u0054/);return f.date.mismatch(a[0])||f.time.mismatch(a[1],b)},noAsDate:!0,asDate:function(a){a=new Date(this.asNumber(a));return isNaN(a)?null:a},asNumber:function(a){var b=l,c=this.mismatch(a,!0);!0!==c&&(a=a.split(/\u0054/)[0].split(/\u002D/),b=Date.UTC(a[0],a[1]-1,a[2],c[0][0],c[0][1],
-c[0][2]||0),c[1]&&(b+=c[1]));return b},dateToString:function(a,b){return f.date.dateToString(a)+"T"+f.time.dateToString(a,b)}}};(c.bugs.valueAsNumberSet||!i("number"))&&c.addInputType("number",j.number);(c.bugs.valueAsNumberSet||!i("range"))&&c.addInputType("range",b.extend({},j.number,j.range));(c.bugs.valueAsNumberSet||!i("date"))&&c.addInputType("date",j.date);(c.bugs.valueAsNumberSet||!i("time"))&&c.addInputType("time",b.extend({},j.date,j.time));(c.bugs.valueAsNumberSet||!i("datetime-local"))&&
-c.addInputType("datetime-local",b.extend({},j.date,j.time,j["datetime-local"]))});
-jQuery.webshims.register("form-number-date-ui",function(b,c,l,f,q,i){var k=c.triggerInlineForm,t=Modernizr.inputtypes,p=function(){var a={"padding-box":"innerWidth","border-box":"outerWidth","content-box":"width"},b=Modernizr.prefixed&&Modernizr.prefixed("boxSizing");return function(d,c){var f,e,i;e="width";b&&(e=a[d.css(b)]||e);f=d[e]();e="width"==e;if(f){var m=parseInt(c.css("marginLeft"),10)||0,u=c.outerWidth();(i=parseInt(d.css("marginRight"),10)||0)&&d.css("marginRight",0);m<=-1*u?(c.css("marginRight",
-Math.floor(Math.abs(u+m)+i)),d.css("paddingRight",(parseInt(d.css("paddingRight"),10)||0)+Math.abs(m)),e&&d.css("width",Math.floor(f+m))):(c.css("marginRight",i),d.css("width",Math.floor(f-m-u)))}}}(),r={dateFormat:"yy-mm-dd"},s=b([]),j,a=function(A,h){b("input",A).add(h.filter("input")).each(function(){var d=b.prop(this,"type");if(a[d]&&!c.data(this,"shadowData"))a[d](b(this))})},g=function(a,h){if(i.lazyDate){var d=b.data(a[0],"setDateLazyTimer");d&&clearTimeout(d);b.data(a[0],"setDateLazyTimer",
-setTimeout(function(){a.datepicker("setDate",h);b.removeData(a[0],"setDateLazyTimer");a=null},0))}else a.datepicker("setDate",h)};if(i.lazyDate===q)try{i.lazyDate=b.browser.msie&&9>c.browserVersion||500>b(l).width()&&500>b(l).height()}catch(e){}var n={tabindex:1,tabIndex:1,title:1,"aria-required":1,"aria-invalid":1};if(!i.copyAttrs)i.copyAttrs={};c.extendUNDEFProp(i.copyAttrs,n);a.common=function(a,h,d){Modernizr.formvalidation&&a.bind("firstinvalid",function(b){(c.fromSubmit||!j)&&a.unbind("invalid.replacedwidgetbubble").bind("invalid.replacedwidgetbubble",
-function(d){!b.isInvalidUIPrevented()&&!d.isDefaultPrevented()&&(c.validityAlert.showFor(b.target),b.preventDefault(),d.preventDefault());a.unbind("invalid.replacedwidgetbubble")})});var o,e,f=b("input, span.ui-slider-handle",h),g=a[0].attributes;for(o in i.copyAttrs)if((e=g[o])&&e.specified)n[o]&&f[0]?f.attr(o,e.nodeValue):h[0].setAttribute(o,e.nodeValue);o=a.attr("id");o={css:{marginRight:a.css("marginRight"),marginLeft:a.css("marginLeft")},outerWidth:a.outerWidth(),label:o?b('label[for="'+o+'"]',
-a[0].form):s};e=c.getID(o.label);h.addClass(a[0].className);c.addShadowDom(a,h,{data:d||{},shadowFocusElement:b("input.input-datetime-local-date, span.ui-slider-handle",h)[0],shadowChilds:f});a.after(h).hide();a[0].form&&b(a[0].form).bind("reset",function(b){b.originalEvent&&!b.isDefaultPrevented()&&setTimeout(function(){a.prop("value",a.prop("value"))},0)});1==h.length&&!b("*",h)[0]&&(h.attr("aria-labeledby",e),o.label.bind("click",function(){h.focus();return!1}));return o};Modernizr.formvalidation&&
-["input","form"].forEach(function(a){var b=c.defineNodeNameProperty(a,"checkValidity",{prop:{value:function(){j=!0;var a=b.prop._supvalue.apply(this,arguments);j=!1;return a}}})});if(!t["datetime-local"]||i.replaceUI){var y=[0.595,0.395],z=[0.565,0.425],w=!b.browser.msie||6<c.browserVersion?0:0.45,x=function(a,h,d,e){var g,k,j=function(){m.dpDiv.unbind("mousedown.webshimsmousedownhandler");k=g=!1},m=h.bind("focusin",function(){j();m.dpDiv.unbind("mousedown.webshimsmousedownhandler").bind("mousedown.webshimsmousedownhandler",
-function(){g=!0})}).bind("focusout blur",function(a){g&&(k=!0,a.stopImmediatePropagation())}).datepicker(b.extend({onClose:function(){k&&f.activeElement!==h[0]?(j(),h.trigger("focusout"),h.triggerHandler("blur")):j()}},r,i.datepicker,a.data("datepicker"))).bind("change",d).data("datepicker");m.dpDiv.addClass("input-date-datepicker-control");e&&c.triggerDomUpdate(e[0]);["disabled","min","max","value","step"].forEach(function(b){var d=a.prop(b);""!==d&&("disabled"!=b||!d)&&a.prop(b,d)});return m};a["datetime-local"]=
-function(c){if(b.fn.datepicker){var h=b('<span role="group" class="input-datetime-local"><input type="text" class="input-datetime-local-date" /><input type="time" class="input-datetime-local-time" /></span>'),d=this.common(c,h,a["datetime-local"].attrs),e=b("input.input-datetime-local-date",h),f=x(c,e,function(d){var f=e.prop("value")||"",g="";if(i.lazyDate){var v=b.data(e[0],"setDateLazyTimer");v&&(clearTimeout(v),b.removeData(e[0],"setDateLazyTimer"))}if(f){g=b("input.input-datetime-local-time",
-h).prop("value")||"00:00";try{f=(f=b.datepicker.parseDate(e.datepicker("option","dateFormat"),f))?b.datepicker.formatDate("yy-mm-dd",f):e.prop("value")}catch(j){f=e.prop("value")}}a["datetime-local"].blockAttr=!0;c.prop("value",!f&&!g?"":f+"T"+g);a["datetime-local"].blockAttr=!1;d.stopImmediatePropagation();k(c[0],"input");k(c[0],"change")},h);b("input.input-datetime-local-time",h).bind("change",function(d){var h=b.prop(this,"value"),f=["",""];if(h){f=c.prop("value").split("T");if(2>f.length||!f[0])f[0]=
-b.datepicker.formatDate("yy-mm-dd",new Date);if(f[1]=h)try{e.prop("value",b.datepicker.formatDate(e.datepicker("option","dateFormat"),b.datepicker.parseDate("yy-mm-dd",f[0])))}catch(v){}}f=!f[0]&&!f[1]?"":f.join("T");a["datetime-local"].blockAttr=!0;c.prop("value",f);a["datetime-local"].blockAttr=!1;d.stopImmediatePropagation();k(c[0],"input");k(c[0],"change")});h.attr("aria-labeledby",d.label.attr("id"));d.label.bind("click",function(){e.focus();return!1});if(d.css&&(h.css(d.css),d.outerWidth)){h.outerWidth(d.outerWidth);
-var d=h.width(),g=f.trigger[0]?y:z;e.outerWidth(Math.floor(d*g[0]-w),!0);b("input.input-datetime-local-time",h).outerWidth(Math.floor(d*g[1]-w),!0);f.trigger[0]&&p(e,f.trigger)}}};a["datetime-local"].attrs={disabled:function(a,c,d){b("input.input-datetime-local-date",c).prop("disabled",!!d);b("input.input-datetime-local-time",c).prop("disabled",!!d)},step:function(a,c,d){b("input.input-datetime-local-time",c).attr("step",d)},min:function(a,c,d){if(d){d=d.split?d.split("T"):[];try{d=b.datepicker.parseDate("yy-mm-dd",
-d[0])}catch(f){d=!1}}d||(d=null);b("input.input-datetime-local-date",c).datepicker("option","minDate",d)},max:function(a,c,d){if(d){d=d.split?d.split("T"):[];try{d=b.datepicker.parseDate("yy-mm-dd",d[0])}catch(f){d=!1}}d||(d=null);b("input.input-datetime-local-date",c).datepicker("option","maxDate",d)},value:function(c,h,d){var f;if(d){d=d.split?d.split("T"):[];try{f=b.datepicker.parseDate("yy-mm-dd",d[0])}catch(e){f=!1}}f?(a["datetime-local"].blockAttr||g(b("input.input-datetime-local-date",h),f),
-b("input.input-datetime-local-time",h).prop("value",d[1]||"00:00")):(b("input.input-datetime-local-date",h).prop("value",d[0]||""),b("input.input-datetime-local-time",h).prop("value",d[1]||""))}};a.date=function(c){if(b.fn.datepicker){var f=b('<input class="input-date" type="text" />'),d=this.common(c,f,a.date.attrs),e=x(c,f,function(d){a.date.blockAttr=!0;var e;if(i.lazyDate){var g=b.data(f[0],"setDateLazyTimer");g&&(clearTimeout(g),b.removeData(f[0],"setDateLazyTimer"))}try{e=(e=b.datepicker.parseDate(f.datepicker("option",
-"dateFormat"),f.prop("value")))?b.datepicker.formatDate("yy-mm-dd",e):f.prop("value")}catch(m){e=f.prop("value")}c.prop("value",e);a.date.blockAttr=!1;d.stopImmediatePropagation();k(c[0],"input");k(c[0],"change")});d.css&&(f.css(d.css),d.outerWidth&&f.outerWidth(d.outerWidth),e.trigger[0]&&p(f,e.trigger))}};a.date.attrs={disabled:function(a,c,d){b.prop(c,"disabled",!!d)},min:function(a,c,d){try{d=b.datepicker.parseDate("yy-mm-dd",d)}catch(f){d=!1}d&&b(c).datepicker("option","minDate",d)},max:function(a,
-c,d){try{d=b.datepicker.parseDate("yy-mm-dd",d)}catch(f){d=!1}d&&b(c).datepicker("option","maxDate",d)},value:function(c,f,d){if(!a.date.blockAttr){try{var e=b.datepicker.parseDate("yy-mm-dd",d)}catch(i){e=!1}e?g(b(f),e):b.prop(f,"value",d)}}}}if(!t.range||i.replaceUI)a.range=function(c){if(b.fn.slider){var f=b('<span class="input-range"><span class="ui-slider-handle" role="slider" tabindex="0" /></span>'),d=this.common(c,f,a.range.attrs);b("span",f).attr("aria-labeledby",d.label.attr("id"));d.label.bind("click",
-function(){b("span",f).focus();return!1});d.css&&(f.css(d.css),d.outerWidth&&f.outerWidth(d.outerWidth));f.slider(b.extend({},i.slider,c.data("slider"),{slide:function(b,d){if(b.originalEvent)a.range.blockAttr=!0,c.prop("value",d.value),a.range.blockAttr=!1,k(c[0],"input"),k(c[0],"change")}}));["disabled","min","max","step","value"].forEach(function(a){var d=c.attr(a),f;"value"==a&&!d&&(f=c.getShadowElement())&&(d=(b(f).slider("option","max")-b(f).slider("option","min"))/2);null!=d&&c.attr(a,d)})}},
-a.range.attrs={disabled:function(a,c,d){d=!!d;b(c).slider("option","disabled",d);b("span",c).attr({"aria-disabled":d+"",tabindex:d?"-1":"0"})},min:function(a,c,d){d=d?1*d||0:0;b(c).slider("option","min",d);b("span",c).attr({"aria-valuemin":d})},max:function(a,c,d){d=d||0===d?1*d||100:100;b(c).slider("option","max",d);b("span",c).attr({"aria-valuemax":d})},value:function(c,f,d){d=b(c).prop("valueAsNumber");isNaN(d)||(a.range.blockAttr||b(f).slider("option","value",d),b("span",f).attr({"aria-valuenow":d,
-"aria-valuetext":d}))},step:function(a,c,d){d=d&&b.trim(d)?1*d||1:1;b(c).slider("option","step",d)}};if(!c.bugs.valueAsNumberSet&&(i.replaceUI||!Modernizr.inputtypes.date||!Modernizr.inputtypes["datetime-local"]||!Modernizr.inputtypes.range))l=function(){c.data(this,"hasShadow")&&b.prop(this,"value",b.prop(this,"value"))},c.onNodeNamesPropertyModify("input","valueAsNumber",l),c.onNodeNamesPropertyModify("input","valueAsDate",l);b.each(["disabled","min","max","value","step"],function(a,b){c.onNodeNamesPropertyModify("input",
-b,function(a){var f=c.data(this,"shadowData");if(f&&f.data&&f.data[b]&&f.nativeElement===this)f.data[b](this,f.shadowElement,a)})});if(!i.availabeLangs)i.availabeLangs="af ar ar-DZ az bg bs ca cs da de el en-AU en-GB en-NZ eo es et eu fa fi fo fr fr-CH gl he hr hu hy id is it ja ko kz lt lv ml ms nl no pl pt-BR rm ro ru sk sl sq sr sr-SR sv ta th tr uk vi zh-CN zh-HK zh-TW".split(" ");l=function(){b.datepicker&&(c.activeLang({langObj:b.datepicker.regional,module:"form-number-date-ui",callback:function(a){b("input.hasDatepicker").filter(".input-date, .input-datetime-local-date").datepicker("option",
-b.extend(r,a,i.datepicker))}}),b(f).unbind("jquery-uiReady.langchange input-widgetsReady.langchange"))};b(f).bind("jquery-uiReady.langchange input-widgetsReady.langchange",l);l();(function(){var a=function(){var a={};return function(c){return c in a?a[c]:a[c]=b('<input type="'+c+'" />')[0].type===c}}();if(!a("number")||!a("time")){var e=c.cfg["forms-ext"],d=c.inputTypes,g=function(a,f,e){e=e||{};if(!("type"in e))e.type=b.prop(a,"type");if(!("step"in e))e.step=c.getStep(a,e.type);if(!("valueAsNumber"in
-e))e.valueAsNumber=d[e.type].asNumber(b.prop(a,"value"));var g="any"==e.step?d[e.type].step*d[e.type].stepScaleFactor:e.step;c.addMinMaxNumberToCache("min",b(a),e);c.addMinMaxNumberToCache("max",b(a),e);if(isNaN(e.valueAsNumber))e.valueAsNumber=d[e.type].stepBase||0;if("any"!==e.step&&(a=Math.round(1E7*((e.valueAsNumber-(e.minAsnumber||0))%e.step))/1E7)&&Math.abs(a)!=e.step)e.valueAsNumber-=a;a=e.valueAsNumber+g*f;return a=!isNaN(e.minAsNumber)&&a<e.minAsNumber?e.valueAsNumber*f<e.minAsNumber?e.minAsNumber:
-isNaN(e.maxAsNumber)?e.valueAsNumber:e.maxAsNumber:!isNaN(e.maxAsNumber)&&a>e.maxAsNumber?e.valueAsNumber*f>e.maxAsNumber?e.maxAsNumber:isNaN(e.minAsNumber)?e.valueAsNumber:e.minAsNumber:Math.round(1E7*a)/1E7};c.modules["form-number-date-ui"].getNextStep=g;var i=function(a,c,e){if(!a.disabled&&!a.readOnly&&!b(e).hasClass("step-controls")&&(b.prop(a,"value",d[c].numberToString(g(a,b(e).hasClass("step-up")?1:-1,{type:c}))),b(a).unbind("blur.stepeventshim"),k(a,"input"),f.activeElement)){if(f.activeElement!==
-a)try{a.focus()}catch(h){}setTimeout(function(){if(f.activeElement!==a)try{a.focus()}catch(c){}b(a).one("blur.stepeventshim",function(){k(a,"change")})},0)}};if(e.stepArrows){var j={set:function(){var a=c.data(this,"step-controls");if(a)a[this.disabled||this.readonly?"addClass":"removeClass"]("disabled-step-control")}};c.onNodeNamesPropertyModify("input","disabled",j);c.onNodeNamesPropertyModify("input","readonly",b.extend({},j))}var l={38:1,40:-1};c.addReady(function(f,j){e.stepArrows&&b("input",
-f).add(j.filter("input")).each(function(){var f=b.prop(this,"type");if(d[f]&&d[f].asNumber&&e.stepArrows&&!(!0!==e.stepArrows&&!e.stepArrows[f]||a(f)||b(this).hasClass("has-step-controls"))){var j=this,m=b('<span class="step-controls" unselectable="on"><span class="step-up" /><span class="step-down" /></span>').insertAfter(this).bind("selectstart dragstart",function(){return!1}).bind("mousedown mousepress",function(a){i(j,f,a.target);return!1}).bind("mousepressstart mousepressend",function(a){b(a.target)["mousepressstart"==
-a.type?"addClass":"removeClass"]("mousepress-ui")}),n=b(this).addClass("has-step-controls").attr({readonly:this.readOnly,disabled:this.disabled,autocomplete:"off",role:"spinbutton"}).bind(b.browser.msie?"keydown":"keypress",function(a){if(!this.disabled&&!this.readOnly&&l[a.keyCode])return b.prop(this,"value",d[f].numberToString(g(this,l[a.keyCode],{type:f}))),k(this,"input"),!1});c.data(this,"step-controls",m);e.calculateWidth&&(p(n,m),m.css("marginTop",(n.outerHeight()-m.outerHeight())/2))}})})}})();
-c.addReady(function(e,g){b(f).bind("jquery-uiReady.initinputui input-widgetsReady.initinputui",function(){(b.datepicker||b.fn.slider)&&a(e,g);b.datepicker&&b.fn.slider?b(f).unbind(".initinputui"):c.modules["input-widgets"].src||c.warn('jQuery UI Widget factory is already included, but not datepicker or slider. configure src of $.webshims.modules["input-widgets"].src')})})});
+jQuery.webshims.register('form-number-date-api', function($, webshims, window, document, undefined){
+	"use strict";
+	
+	//ToDo
+	if(!webshims.getStep){
+		webshims.getStep = function(elem, type){
+			var step = $.attr(elem, 'step');
+			if(step === 'any'){
+				return step;
+			}
+			type = type || getType(elem);
+			if(!typeModels[type] || !typeModels[type].step){
+				return step;
+			}
+			step = typeProtos.number.asNumber(step);
+			return ((!isNaN(step) && step > 0) ? step : typeModels[type].step) * typeModels[type].stepScaleFactor;
+		};
+	}
+	if(!webshims.addMinMaxNumberToCache){
+		webshims.addMinMaxNumberToCache = function(attr, elem, cache){
+			if (!(attr+'AsNumber' in cache)) {
+				cache[attr+'AsNumber'] = typeModels[cache.type].asNumber(elem.attr(attr));
+				if(isNaN(cache[attr+'AsNumber']) && (attr+'Default' in typeModels[cache.type])){
+					cache[attr+'AsNumber'] = typeModels[cache.type][attr+'Default'];
+				}
+			}
+		};
+	}
+	
+	var nan = parseInt('NaN', 10),
+		doc = document,
+		typeModels = webshims.inputTypes,
+		isNumber = function(string){
+			return (typeof string == 'number' || (string && string == string * 1));
+		},
+		supportsType = function(type){
+			return ($('<input type="'+type+'" />').prop('type') === type);
+		},
+		getType = function(elem){
+			return (elem.getAttribute('type') || '').toLowerCase();
+		},
+		isDateTimePart = function(string){
+			return (isNumber(string) || (string && string == '0' + (string * 1)));
+		},
+		addMinMaxNumberToCache = webshims.addMinMaxNumberToCache,
+		addleadingZero = function(val, len){
+			val = ''+val;
+			len = len - val.length;
+			for(var i = 0; i < len; i++){
+				val = '0'+val;
+			}
+			return val;
+		},
+		EPS = 1e-7
+	;
+	
+	webshims.addValidityRule('stepMismatch', function(input, val, cache, validityState){
+		if(val === ''){return false;}
+		if(!('type' in cache)){
+			cache.type = getType(input[0]);
+		}
+		//stepmismatch with date is computable, but it would be a typeMismatch (performance)
+		if(cache.type == 'date'){
+			return false;
+		}
+		var ret = (validityState || {}).stepMismatch, base;
+		if(typeModels[cache.type] && typeModels[cache.type].step){
+			if( !('step' in cache) ){
+				cache.step = webshims.getStep(input[0], cache.type);
+			}
+			
+			if(cache.step == 'any'){return false;}
+			
+			if(!('valueAsNumber' in cache)){
+				cache.valueAsNumber = typeModels[cache.type].asNumber( val );
+			}
+			if(isNaN(cache.valueAsNumber)){return false;}
+			
+			addMinMaxNumberToCache('min', input, cache);
+			base = cache.minAsNumber;
+			if(isNaN(base)){
+				base = typeModels[cache.type].stepBase || 0;
+			}
+			
+			ret =  Math.abs((cache.valueAsNumber - base) % cache.step);
+							
+			ret = !(  ret <= EPS || Math.abs(ret - cache.step) <= EPS  );
+		}
+		return ret;
+	});
+	
+	
+	
+	[{name: 'rangeOverflow', attr: 'max', factor: 1}, {name: 'rangeUnderflow', attr: 'min', factor: -1}].forEach(function(data, i){
+		webshims.addValidityRule(data.name, function(input, val, cache, validityState) {
+			var ret = (validityState || {})[data.name] || false;
+			if(val === ''){return ret;}
+			if (!('type' in cache)) {
+				cache.type = getType(input[0]);
+			}
+			if (typeModels[cache.type] && typeModels[cache.type].asNumber) {
+				if(!('valueAsNumber' in cache)){
+					cache.valueAsNumber = typeModels[cache.type].asNumber( val );
+				}
+				if(isNaN(cache.valueAsNumber)){
+					return false;
+				}
+				
+				addMinMaxNumberToCache(data.attr, input, cache);
+				
+				if(isNaN(cache[data.attr+'AsNumber'])){
+					return ret;
+				}
+				ret = ( cache[data.attr+'AsNumber'] * data.factor <  cache.valueAsNumber * data.factor - EPS );
+			}
+			return ret;
+		});
+	});
+	
+	webshims.reflectProperties(['input'], ['max', 'min', 'step']);
+	
+	
+	//IDLs and methods, that aren't part of constrain validation, but strongly tight to it
+	var valueAsNumberDescriptor = webshims.defineNodeNameProperty('input', 'valueAsNumber', {
+		prop: {
+			get: function(){
+				var elem = this;
+				var type = getType(elem);
+				var ret = (typeModels[type] && typeModels[type].asNumber) ? 
+					typeModels[type].asNumber($.prop(elem, 'value')) :
+					(valueAsNumberDescriptor.prop._supget && valueAsNumberDescriptor.prop._supget.apply(elem, arguments));
+				if(ret == null){
+					ret = nan;
+				}
+				return ret;
+			},
+			set: function(val){
+				var elem = this;
+				var type = getType(elem);
+				if(typeModels[type] && typeModels[type].numberToString){
+					//is NaN a number?
+					if(isNaN(val)){
+						$.prop(elem, 'value', '');
+						return;
+					}
+					var set = typeModels[type].numberToString(val);
+					if(set !==  false){
+						$.prop(elem, 'value', set);
+					} else {
+						webshims.warn('INVALID_STATE_ERR: DOM Exception 11');
+					}
+				} else {
+					valueAsNumberDescriptor.prop._supset && valueAsNumberDescriptor.prop._supset.apply(elem, arguments);
+				}
+			}
+		}
+	});
+	
+	var valueAsDateDescriptor = webshims.defineNodeNameProperty('input', 'valueAsDate', {
+		prop: {
+			get: function(){
+				var elem = this;
+				var type = getType(elem);
+				return (typeModels[type] && typeModels[type].asDate && !typeModels[type].noAsDate) ? 
+					typeModels[type].asDate($.prop(elem, 'value')) :
+					valueAsDateDescriptor.prop._supget && valueAsDateDescriptor.prop._supget.call(elem) || null;
+			},
+			set: function(value){
+				var elem = this;
+				var type = getType(elem);
+				if(typeModels[type] && typeModels[type].dateToString && !typeModels[type].noAsDate){
+					
+					if(value === null){
+						$.prop(elem, 'value', '');
+						return '';
+					}
+					var set = typeModels[type].dateToString(value);
+					if(set !== false){
+						$.prop(elem, 'value', set);
+						return set;
+					} else {
+						webshims.warn('INVALID_STATE_ERR: DOM Exception 11');
+					}
+				} else {
+					return valueAsDateDescriptor.prop._supset && valueAsDateDescriptor.prop._supset.apply(elem, arguments) || null;
+				}
+			}
+		}
+	});
+	
+	var typeProtos = {
+		
+		number: {
+			mismatch: function(val){
+				return !(isNumber(val));
+			},
+			step: 1,
+			//stepBase: 0, 0 = default
+			stepScaleFactor: 1,
+			asNumber: function(str){
+				return (isNumber(str)) ? str * 1 : nan;
+			},
+			numberToString: function(num){
+				return (isNumber(num)) ? num : false;
+			}
+		},
+		
+		range: {
+			minDefault: 0,
+			maxDefault: 100
+		},
+		
+		date: {
+			mismatch: function(val){
+				if(!val || !val.split || !(/\d$/.test(val))){return true;}
+				var valA = val.split(/\u002D/);
+				if(valA.length !== 3){return true;}
+				var ret = false;
+				$.each(valA, function(i, part){
+					if(!isDateTimePart(part)){
+						ret = true;
+						return false;
+					}
+				});
+				if(ret){return ret;}
+				if(valA[0].length !== 4 || valA[1].length != 2 || valA[1] > 12 || valA[2].length != 2 || valA[2] > 33){
+					ret = true;
+				}
+				return (val !== this.dateToString( this.asDate(val, true) ) );
+			},
+			step: 1,
+			//stepBase: 0, 0 = default
+			stepScaleFactor:  86400000,
+			asDate: function(val, _noMismatch){
+				if(!_noMismatch && this.mismatch(val)){
+					return null;
+				}
+				return new Date(this.asNumber(val, true));
+			},
+			asNumber: function(str, _noMismatch){
+				var ret = nan;
+				if(_noMismatch || !this.mismatch(str)){
+					str = str.split(/\u002D/);
+					ret = Date.UTC(str[0], str[1] - 1, str[2]);
+				}
+				return ret;
+			},
+			numberToString: function(num){
+				return (isNumber(num)) ? this.dateToString(new Date( num * 1)) : false;
+			},
+			dateToString: function(date){
+				return (date && date.getFullYear) ? date.getUTCFullYear() +'-'+ addleadingZero(date.getUTCMonth()+1, 2) +'-'+ addleadingZero(date.getUTCDate(), 2) : false;
+			}
+		},
+		
+		time: {
+			mismatch: function(val, _getParsed){
+				if(!val || !val.split || !(/\d$/.test(val))){return true;}
+				val = val.split(/\u003A/);
+				if(val.length < 2 || val.length > 3){return true;}
+				var ret = false,
+					sFraction;
+				if(val[2]){
+					val[2] = val[2].split(/\u002E/);
+					sFraction = parseInt(val[2][1], 10);
+					val[2] = val[2][0];
+				}
+				$.each(val, function(i, part){
+					if(!isDateTimePart(part) || part.length !== 2){
+						ret = true;
+						return false;
+					}
+				});
+				if(ret){return true;}
+				if(val[0] > 23 || val[0] < 0 || val[1] > 59 || val[1] < 0){
+					return true;
+				}
+				if(val[2] && (val[2] > 59 || val[2] < 0 )){
+					return true;
+				}
+				if(sFraction && isNaN(sFraction)){
+					return true;
+				}
+				if(sFraction){
+					if(sFraction < 100){
+						sFraction *= 100;
+					} else if(sFraction < 10){
+						sFraction *= 10;
+					}
+				}
+				return (_getParsed === true) ? [val, sFraction] : false;
+			},
+			step: 60,
+			stepBase: 0,
+			stepScaleFactor:  1000,
+			asDate: function(val){
+				val = new Date(this.asNumber(val));
+				return (isNaN(val)) ? null : val;
+			},
+			asNumber: function(val){
+				var ret = nan;
+				val = this.mismatch(val, true);
+				if(val !== true){
+					ret = Date.UTC('1970', 0, 1, val[0][0], val[0][1], val[0][2] || 0);
+					if(val[1]){
+						ret += val[1];
+					}
+				}
+				return ret;
+			},
+			dateToString: function(date){
+				if(date && date.getUTCHours){
+					var str = addleadingZero(date.getUTCHours(), 2) +':'+ addleadingZero(date.getUTCMinutes(), 2),
+						tmp = date.getSeconds()
+					;
+					if(tmp != "0"){
+						str += ':'+ addleadingZero(tmp, 2);
+					}
+					tmp = date.getUTCMilliseconds();
+					if(tmp != "0"){
+						str += '.'+ addleadingZero(tmp, 3);
+					}
+					return str;
+				} else {
+					return false;
+				}
+			}
+		},
+		
+		'datetime-local': {
+			mismatch: function(val, _getParsed){
+				if(!val || !val.split || (val+'special').split(/\u0054/).length !== 2){return true;}
+				val = val.split(/\u0054/);
+				return ( typeModels.date.mismatch(val[0]) || typeModels.time.mismatch(val[1], _getParsed) );
+			},
+			noAsDate: true,
+			asDate: function(val){
+				val = new Date(this.asNumber(val));
+				
+				return (isNaN(val)) ? null : val;
+			},
+			asNumber: function(val){
+				var ret = nan;
+				var time = this.mismatch(val, true);
+				if(time !== true){
+					val = val.split(/\u0054/)[0].split(/\u002D/);
+					
+					ret = Date.UTC(val[0], val[1] - 1, val[2], time[0][0], time[0][1], time[0][2] || 0);
+					if(time[1]){
+						ret += time[1];
+					}
+				}
+				return ret;
+			},
+			dateToString: function(date, _getParsed){
+				return typeModels.date.dateToString(date) +'T'+ typeModels.time.dateToString(date, _getParsed);
+			}
+		}
+	};
+	
+	if(webshims.bugs.valueAsNumberSet || !supportsType('number')){
+		webshims.addInputType('number', typeProtos.number);
+	}
+	
+	if(webshims.bugs.valueAsNumberSet || !supportsType('range')){
+		webshims.addInputType('range', $.extend({}, typeProtos.number, typeProtos.range));
+	}
+	if(webshims.bugs.valueAsNumberSet || !supportsType('date')){
+		webshims.addInputType('date', typeProtos.date);
+	}
+	if(webshims.bugs.valueAsNumberSet || !supportsType('time')){
+		webshims.addInputType('time', $.extend({}, typeProtos.date, typeProtos.time));
+	}
+	
+	if(webshims.bugs.valueAsNumberSet || !supportsType('datetime-local')){
+		webshims.addInputType('datetime-local', $.extend({}, typeProtos.date, typeProtos.time, typeProtos['datetime-local']));
+	}
+		
+});/* number-date-ui */
+/* https://github.com/aFarkas/webshim/issues#issue/23 */
+jQuery.webshims.register('form-number-date-ui', function($, webshims, window, document, undefined, options){
+	"use strict";
+	
+	var triggerInlineForm = webshims.triggerInlineForm;
+	var modernizrInputTypes = Modernizr.inputtypes;
+	var adjustInputWithBtn = (function(){
+		var fns = {"padding-box": "innerWidth", "border-box": "outerWidth", "content-box": "width"};
+		var boxSizing = Modernizr.prefixed && Modernizr.prefixed("boxSizing");
+		var getWidth = function(input){
+			var widthFn = "width";
+			if(boxSizing){
+				widthFn = fns[input.css(boxSizing)] || widthFn;
+			}
+			
+			return {
+				w: input[widthFn](),
+				add: widthFn == "width"
+			};
+			
+		};
+		
+		
+		return function(input, button){
+			var inputDim = getWidth(input);
+			if(!inputDim.w){return;}
+			var controlDim = {
+				mL: (parseInt(button.css('marginLeft'), 10) || 0),
+				w: button.outerWidth()
+			};
+			inputDim.mR = (parseInt(input.css('marginRight'), 10) || 0);
+			if(inputDim.mR){
+				input.css('marginRight', 0);
+			}
+			//is inside
+			if( controlDim.mL <= (controlDim.w * -1) ){
+				button.css('marginRight',  Math.floor(Math.abs(controlDim.w + controlDim.mL) + inputDim.mR));
+				input.css('paddingRight', (parseInt(input.css('paddingRight'), 10) || 0) + Math.abs(controlDim.mL));
+				if(inputDim.add){
+					input.css('width', Math.floor(inputDim.w + controlDim.mL));
+				}
+			} else {
+				button.css('marginRight', inputDim.mR);
+				input.css('width',  Math.floor(inputDim.w - controlDim.mL - controlDim.w));
+			}
+		};
+	})();
+	
+	
+	var defaultDatepicker = {dateFormat: 'yy-mm-dd'};
+	var labelID = 0;
+	var emptyJ = $([]);
+	var isCheckValidity;
+	var replaceInputUI = function(context, elem){
+		$('input', context).add(elem.filter('input')).each(function(){
+			var type = $.prop(this, 'type');
+			if(replaceInputUI[type]  && !webshims.data(this, 'shadowData')){
+				replaceInputUI[type]($(this));
+			}
+		});
+	};
+	//set date is extremly slow in IE so we do it lazy
+	var lazySetDate = function(elem, date){
+		if(!options.lazyDate){
+			elem.datepicker('setDate', date);
+			return;
+		}
+		var timer = $.data(elem[0], 'setDateLazyTimer');
+		if(timer){
+			clearTimeout(timer);
+		}
+		$.data(elem[0], 'setDateLazyTimer', setTimeout(function(){
+			elem.datepicker('setDate', date);
+			$.removeData(elem[0], 'setDateLazyTimer');
+			elem = null;
+		}, 0));
+	};
+	
+	if(options.lazyDate === undefined){
+		try {
+			options.lazyDate = ($.browser.msie && webshims.browserVersion < 9) || ($(window).width() < 500 && $(window).height() < 500);
+		} catch(er){}
+	}
+	
+	var copyAttrs = {
+		tabindex: 1,
+		tabIndex: 1,
+		title: 1,
+		"aria-required": 1,
+		"aria-invalid": 1
+	};
+	if(!options.copyAttrs){
+		options.copyAttrs = {};
+	}
+	
+	webshims.extendUNDEFProp(options.copyAttrs, copyAttrs);
+	
+	
+	var focusAttrs = copyAttrs;
+	
+	replaceInputUI.common = function(orig, shim, methods){
+		if(Modernizr.formvalidation){
+			orig.bind('firstinvalid', function(e){
+				if(!webshims.fromSubmit && isCheckValidity){return;}
+				orig.unbind('invalid.replacedwidgetbubble').bind('invalid.replacedwidgetbubble', function(evt){
+					if(!e.isInvalidUIPrevented() && !evt.isDefaultPrevented()){
+						webshims.validityAlert.showFor( e.target );
+						e.preventDefault();
+						evt.preventDefault();
+					}
+					orig.unbind('invalid.replacedwidgetbubble');
+				});
+			});
+		}
+		var i, prop;
+		var focusElement = $('input, span.ui-slider-handle', shim);
+		var attrs = orig[0].attributes;
+		for(i in options.copyAttrs){
+			if ((prop = attrs[i]) && prop.specified) {
+				if(focusAttrs[i] && focusElement[0]){
+					focusElement.attr(i, prop.nodeValue);
+				} else {
+					shim[0].setAttribute(i, prop.nodeValue);
+				}
+			}
+		}
+		
+		var id = orig.attr('id'),
+			attr = (options.calculateWidth) ? 
+				{
+					css: {
+						marginRight: orig.css('marginRight'),
+						marginLeft: orig.css('marginLeft')
+					},
+					outerWidth: orig.outerWidth()
+					
+				} :
+				{},
+			curLabelID
+		;
+		attr.label =  (id) ? $('label[for="'+ id +'"]', orig[0].form) : emptyJ
+		curLabelID =  webshims.getID(attr.label);
+		
+		shim.addClass(orig[0].className);
+		webshims.addShadowDom(orig, shim, {
+			data: methods || {},
+			shadowFocusElement: $('input.input-datetime-local-date, span.ui-slider-handle', shim)[0],
+			shadowChilds: focusElement
+		});
+		
+		orig
+			.after(shim)
+			.hide()
+		;
+		
+		if(orig[0].form){
+			$(orig[0].form).bind('reset', function(e){
+				if(e.originalEvent && !e.isDefaultPrevented()){
+					setTimeout(function(){orig.prop( 'value', orig.prop('value') );}, 0);
+				}
+			});
+		}
+		if(shim.length == 1 && !$('*', shim)[0]){
+			shim.attr('aria-labeledby', curLabelID);
+			attr.label.bind('click', function(){
+				shim.focus();
+				return false;
+			});
+		}
+		return attr;
+	};
+	
+	if(Modernizr.formvalidation){
+		['input', 'form'].forEach(function(name){
+			var desc = webshims.defineNodeNameProperty(name, 'checkValidity', {
+				prop: {
+					value: function(){
+						isCheckValidity = true;
+						var ret = desc.prop._supvalue.apply(this, arguments);
+						isCheckValidity = false;
+						return ret;
+					}
+				}
+			});
+		});
+	}
+	//date and datetime-local implement if we have to replace
+	if(!modernizrInputTypes['datetime-local'] || options.replaceUI){
+		
+		
+		var datetimeFactor = {
+			trigger: [0.595,0.395],
+			normal: [0.565,0.425]
+		};
+		var subPixelCorrect = (!$.browser.msie || webshims.browserVersion > 6) ? 0 : 0.45;
+		
+		var configureDatePicker = function(elem, datePicker, change, _wrapper){
+			var stopFocusout;
+			var focusedOut;
+			var resetFocusHandler = function(){
+				data.dpDiv.unbind('mousedown.webshimsmousedownhandler');
+				stopFocusout = false;
+				focusedOut = false;
+			};
+			var data = datePicker
+				.bind('focusin', function(){
+					resetFocusHandler();
+					data.dpDiv.unbind('mousedown.webshimsmousedownhandler').bind('mousedown.webshimsmousedownhandler', function(){
+						stopFocusout = true;
+					});
+				})
+				.bind('focusout blur', function(e){
+					if(stopFocusout){
+						focusedOut = true;
+						e.stopImmediatePropagation();
+					}
+				})
+				.datepicker($.extend({
+					onClose: function(){
+						if(focusedOut && document.activeElement !== datePicker[0]){
+							resetFocusHandler();
+							datePicker.trigger('focusout');
+							datePicker.triggerHandler('blur');
+						} else {
+							resetFocusHandler();
+						}
+					}
+				}, defaultDatepicker, options.datepicker, elem.data('datepicker')))
+				.bind('change', change)
+				.data('datepicker')
+			;
+			data.dpDiv.addClass('input-date-datepicker-control');
+			
+			if(_wrapper){
+				webshims.triggerDomUpdate(_wrapper[0]);	
+			}
+			['disabled', 'min', 'max', 'value', 'step'].forEach(function(name){
+				var val = elem.prop(name);
+				if(val !== "" && (name != 'disabled' || !val)){
+					elem.prop(name, val);
+				}
+			});
+			return data;
+		};
+		
+		replaceInputUI['datetime-local'] = function(elem){
+			if(!$.fn.datepicker){return;}
+			
+			var date = $('<span role="group" class="input-datetime-local"><input type="text" class="input-datetime-local-date" /><input type="time" class="input-datetime-local-time" /></span>'),
+				attr  = this.common(elem, date, replaceInputUI['datetime-local'].attrs),
+				datePicker = $('input.input-datetime-local-date', date),
+				datePickerChange = function(e){
+						
+						var value = datePicker.prop('value') || '', 
+							timeVal = ''
+						;
+						if(options.lazyDate){
+							var timer = $.data(datePicker[0], 'setDateLazyTimer');
+							if(timer){
+								clearTimeout(timer);
+								$.removeData(datePicker[0], 'setDateLazyTimer');
+							}
+						}
+						
+						if(value){
+							timeVal = $('input.input-datetime-local-time', date).prop('value') || '00:00';
+							try {
+								value = $.datepicker.parseDate(datePicker.datepicker('option', 'dateFormat'), value);
+								value = (value) ? $.datepicker.formatDate('yy-mm-dd', value) : datePicker.prop('value');
+							} catch (e) {value = datePicker.prop('value');}
+						} 
+						value = (!value && !timeVal) ? '' : value + 'T' + timeVal;
+						replaceInputUI['datetime-local'].blockAttr = true;
+						elem.prop('value', value);
+						replaceInputUI['datetime-local'].blockAttr = false;
+						e.stopImmediatePropagation();
+						triggerInlineForm(elem[0], 'input');
+						triggerInlineForm(elem[0], 'change');
+					},
+				data = configureDatePicker(elem, datePicker, datePickerChange, date)
+			;
+			
+			
+			$('input.input-datetime-local-time', date).bind('change', function(e){
+				var timeVal = $.prop(this, 'value');
+				var val = ['', ''];
+				if(timeVal){
+					val = elem.prop('value').split('T');
+					if((val.length < 2 || !val[0])){
+						val[0] = $.datepicker.formatDate('yy-mm-dd', new Date());
+					}
+					val[1] = timeVal;
+					
+					if (timeVal) {
+						try {
+							datePicker.prop('value', $.datepicker.formatDate(datePicker.datepicker('option', 'dateFormat'), $.datepicker.parseDate('yy-mm-dd', val[0])));
+						} catch (e) {}
+					}
+				}
+				val = (!val[0] && !val[1]) ? '' : val.join('T');
+				replaceInputUI['datetime-local'].blockAttr = true;
+				elem.prop('value', val);
+				replaceInputUI['datetime-local'].blockAttr = false;
+				e.stopImmediatePropagation();
+				triggerInlineForm(elem[0], 'input');
+				triggerInlineForm(elem[0], 'change');
+			});
+			
+			
+			
+			date.attr('aria-labeledby', attr.label.attr('id'));
+			attr.label.bind('click', function(){
+				datePicker.focus();
+				return false;
+			});
+			
+			if(attr.css){
+				date.css(attr.css);
+				if(attr.outerWidth){
+					date.outerWidth(attr.outerWidth);
+					var width = date.width();
+					var widthFac = (data.trigger[0]) ? datetimeFactor.trigger : datetimeFactor.normal;
+					datePicker.outerWidth(Math.floor((width * widthFac[0]) - subPixelCorrect), true);
+					$('input.input-datetime-local-time', date).outerWidth(Math.floor((width * widthFac[1]) - subPixelCorrect), true);
+					if(data.trigger[0]){
+						adjustInputWithBtn(datePicker, data.trigger);
+					}
+				}
+			}
+			
+			
+		};
+		
+		replaceInputUI['datetime-local'].attrs = {
+			disabled: function(orig, shim, value){
+				$('input.input-datetime-local-date', shim).prop('disabled', !!value);
+				$('input.input-datetime-local-time', shim).prop('disabled', !!value);
+			},
+			step: function(orig, shim, value){
+				$('input.input-datetime-local-time', shim).attr('step', value);
+			},
+			//ToDo: use min also on time
+			min: function(orig, shim, value){
+				if(value){
+					value = (value.split) ? value.split('T') : [];
+					try {
+						value = $.datepicker.parseDate('yy-mm-dd', value[0]);
+					} catch(e){value = false;}
+				}
+				if(!value){
+					value = null;
+				}
+				$('input.input-datetime-local-date', shim).datepicker('option', 'minDate', value);
+				
+			},
+			//ToDo: use max also on time
+			max: function(orig, shim, value){
+				if(value){
+					value = (value.split) ? value.split('T') : [];
+					try {
+						value = $.datepicker.parseDate('yy-mm-dd', value[0]);
+					} catch(e){value = false;}
+				}
+				if(!value){
+					value = null;
+				}
+				$('input.input-datetime-local-date', shim).datepicker('option', 'maxDate', value);
+			},
+			value: function(orig, shim, value){
+				var dateValue;
+				if(value){
+					value = (value.split) ? value.split('T') : [];
+					try {
+						dateValue = $.datepicker.parseDate('yy-mm-dd', value[0]);
+					} catch(e){dateValue = false;}
+				}
+				if(dateValue){
+					if(!replaceInputUI['datetime-local'].blockAttr){
+						lazySetDate($('input.input-datetime-local-date', shim), dateValue);
+					}
+					$('input.input-datetime-local-time', shim).prop('value', value[1] || '00:00');
+				} else {
+					$('input.input-datetime-local-date', shim).prop('value', value[0] || '');
+					$('input.input-datetime-local-time', shim).prop('value', value[1] || '');
+				}
+					
+				
+			}
+		};
+			
+		
+		replaceInputUI.date = function(elem){
+			
+			if(!$.fn.datepicker){return;}
+			var date = $('<input class="input-date" type="text" />'),
+				attr  = this.common(elem, date, replaceInputUI.date.attrs),
+				change = function(e){
+					
+					replaceInputUI.date.blockAttr = true;
+					var value;
+					if(options.lazyDate){
+						var timer = $.data(date[0], 'setDateLazyTimer');
+						if(timer){
+							clearTimeout(timer);
+							$.removeData(date[0], 'setDateLazyTimer');
+						}
+					}
+					try {
+						value = $.datepicker.parseDate(date.datepicker('option', 'dateFormat'), date.prop('value') );
+						value = (value) ? $.datepicker.formatDate( 'yy-mm-dd', value ) : date.prop('value');
+					} catch(e){
+						value = date.prop('value');
+					}
+					elem.prop('value', value);
+					replaceInputUI.date.blockAttr = false;
+					e.stopImmediatePropagation();
+					triggerInlineForm(elem[0], 'input');
+					triggerInlineForm(elem[0], 'change');
+				},
+				data = configureDatePicker(elem, date, change)
+				
+			;
+						
+			if(attr.css){
+				date.css(attr.css);
+				if(attr.outerWidth){
+					date.outerWidth(attr.outerWidth);
+				}
+				if(data.trigger[0]){
+					adjustInputWithBtn(date, data.trigger);
+				}
+			}
+			
+		};
+		
+		
+		replaceInputUI.date.attrs = {
+			disabled: function(orig, shim, value){
+				$.prop(shim, 'disabled', !!value);
+			},
+			min: function(orig, shim, value){
+				try {
+					value = $.datepicker.parseDate('yy-mm-dd', value);
+				} catch(e){value = false;}
+				if(value){
+					$(shim).datepicker('option', 'minDate', value);
+				}
+			},
+			max: function(orig, shim, value){
+				try {
+					value = $.datepicker.parseDate('yy-mm-dd', value);
+				} catch(e){value = false;}
+				if(value){
+					$(shim).datepicker('option', 'maxDate', value);
+				}
+			},
+			value: function(orig, shim, value){
+				if(!replaceInputUI.date.blockAttr){
+					try {
+						var dateValue = $.datepicker.parseDate('yy-mm-dd', value);
+					} catch(e){var dateValue = false;}
+					
+					if(dateValue){
+						lazySetDate($(shim), dateValue);
+					} else {
+						$.prop(shim, 'value', value);
+					}
+				}
+			}
+		};
+	}
+	if (!modernizrInputTypes.range || options.replaceUI) {
+		replaceInputUI.range = function(elem){
+			if(!$.fn.slider){return;}
+			var range = $('<span class="input-range"><span class="ui-slider-handle" role="slider" tabindex="0" /></span>'),
+				attr  = this.common(elem, range, replaceInputUI.range.attrs),
+				change = function(e, ui){
+					if(e.originalEvent){
+						replaceInputUI.range.blockAttr = true;
+						elem.prop('value', ui.value);
+						replaceInputUI.range.blockAttr = false;
+						triggerInlineForm(elem[0], 'input');
+						triggerInlineForm(elem[0], 'change');
+					}
+				}
+			;
+			
+			$('span', range)
+				.attr('aria-labeledby', attr.label.attr('id'))
+			;
+			attr.label.bind('click', function(){
+				$('span', range).focus();
+				return false;
+			});
+			
+			if(attr.css){
+				range.css(attr.css);
+				if(attr.outerWidth){
+					range.outerWidth(attr.outerWidth);
+				}
+			}
+			range.slider($.extend({}, options.slider, elem.data('slider'), {
+				slide: change
+			}));
+			
+			['disabled', 'min', 'max', 'step', 'value'].forEach(function(name){
+				var val = elem.attr(name);
+				var shadow;
+				if(name == 'value' && !val){
+					
+					shadow = elem.getShadowElement();
+					if(shadow){
+						val = ($(shadow).slider('option', 'max') - $(shadow).slider('option', 'min')) / 2;
+					}
+				}
+				if(val != null){
+					elem.attr(name, val);
+				}
+			});
+		};
+		
+		replaceInputUI.range.attrs = {
+			disabled: function(orig, shim, value){
+				value = !!value;
+				$(shim).slider( "option", "disabled", value );
+				$('span', shim)
+					.attr({
+						'aria-disabled': value+'',
+						'tabindex': (value) ? '-1' : '0'
+					})
+				;
+			},
+			min: function(orig, shim, value){
+				value = (value) ? value * 1 || 0 : 0;
+				$(shim).slider( "option", "min", value );
+				$('span', shim).attr({'aria-valuemin': value});
+			},
+			max: function(orig, shim, value){
+				value = (value || value === 0) ? value * 1 || 100 : 100;
+				$(shim).slider( "option", "max", value );
+				$('span', shim).attr({'aria-valuemax': value});
+			},
+			value: function(orig, shim, value){
+				value = $(orig).prop('valueAsNumber');
+				if(!isNaN(value)){
+					if(!replaceInputUI.range.blockAttr){
+						$(shim).slider( "option", "value", value );
+					}
+					$('span', shim).attr({'aria-valuenow': value, 'aria-valuetext': value});
+				}
+			},
+			step: function(orig, shim, value){
+				value = (value && $.trim(value)) ? value * 1 || 1 : 1;
+				$(shim).slider( "option", "step", value );
+			}
+		};
+	}
+	
+	if(!webshims.bugs.valueAsNumberSet && (options.replaceUI || !Modernizr.inputtypes.date || !Modernizr.inputtypes["datetime-local"] || !Modernizr.inputtypes.range)){
+		var reflectFn = function(val){
+			if(webshims.data(this, 'hasShadow')){
+				$.prop(this, 'value', $.prop(this, 'value'));
+			}
+		};
+		
+		webshims.onNodeNamesPropertyModify('input', 'valueAsNumber', reflectFn);
+		webshims.onNodeNamesPropertyModify('input', 'valueAsDate', reflectFn);
+	}
+	
+	$.each(['disabled', 'min', 'max', 'value', 'step'], function(i, attr){
+		webshims.onNodeNamesPropertyModify('input', attr, function(val){
+				var shadowData = webshims.data(this, 'shadowData');
+				if(shadowData && shadowData.data && shadowData.data[attr] && shadowData.nativeElement === this){
+					shadowData.data[attr](this, shadowData.shadowElement, val);
+				}
+			}
+		);
+	});
+	if(!options.availabeLangs){
+		options.availabeLangs = 'af ar ar-DZ az bg bs ca cs da de el en-AU en-GB en-NZ eo es et eu fa fi fo fr fr-CH gl he hr hu hy id is it ja ko kz lt lv ml ms nl no pl pt-BR rm ro ru sk sl sq sr sr-SR sv ta th tr uk vi zh-CN zh-HK zh-TW'.split(' ');
+	}
+	
+	var getDefaults = function(){
+		if(!$.datepicker){return;}
+		
+		webshims.activeLang({
+			langObj: $.datepicker.regional, 
+			module: 'form-number-date-ui', 
+			callback: function(langObj){
+				$('input.hasDatepicker').filter('.input-date, .input-datetime-local-date').datepicker('option', $.extend(defaultDatepicker, langObj, options.datepicker));
+			}
+		});
+		$(document).unbind('jquery-uiReady.langchange input-widgetsReady.langchange');
+	};
+	
+	$(document).bind('jquery-uiReady.langchange input-widgetsReady.langchange', getDefaults);
+	getDefaults();
+	
+	//implement set/arrow controls
+(function(){
+	var supportsType = (function(){
+		var types = {};
+		return function(type){
+			if(type in types){
+				return types[type];
+			}
+			return (types[type] = ($('<input type="'+type+'" />')[0].type === type));
+		};
+	})();
+	
+	if(supportsType('number') && supportsType('time')){return;}
+	var doc = document;
+	var options = webshims.cfg["forms-ext"];
+	var typeModels = webshims.inputTypes;
+	
+	var getNextStep = function(input, upDown, cache){
+		
+		cache = cache || {};
+		
+		if( !('type' in cache) ){
+			cache.type = $.prop(input, 'type');
+		}
+		if( !('step' in cache) ){
+			cache.step = webshims.getStep(input, cache.type);
+		}
+		if( !('valueAsNumber' in cache) ){
+			cache.valueAsNumber = typeModels[cache.type].asNumber($.prop(input, 'value'));
+		}
+		var delta = (cache.step == 'any') ? typeModels[cache.type].step * typeModels[cache.type].stepScaleFactor : cache.step,
+			ret
+		;
+		webshims.addMinMaxNumberToCache('min', $(input), cache);
+		webshims.addMinMaxNumberToCache('max', $(input), cache);
+		
+		if(isNaN(cache.valueAsNumber)){
+			cache.valueAsNumber = typeModels[cache.type].stepBase || 0;
+		}
+		//make a valid step
+		if(cache.step !== 'any'){
+			ret = Math.round( ((cache.valueAsNumber - (cache.minAsnumber || 0)) % cache.step) * 1e7 ) / 1e7;
+			if(ret &&  Math.abs(ret) != cache.step){
+				cache.valueAsNumber = cache.valueAsNumber - ret;
+			}
+		}
+		ret = cache.valueAsNumber + (delta * upDown);
+		//using NUMBER.MIN/MAX is really stupid | ToDo: either use disabled state or make this more usable
+		if(!isNaN(cache.minAsNumber) && ret < cache.minAsNumber){
+			ret = (cache.valueAsNumber * upDown  < cache.minAsNumber) ? cache.minAsNumber : isNaN(cache.maxAsNumber) ? cache.valueAsNumber : cache.maxAsNumber;
+		} else if(!isNaN(cache.maxAsNumber) && ret > cache.maxAsNumber){
+			ret = (cache.valueAsNumber * upDown > cache.maxAsNumber) ? cache.maxAsNumber : isNaN(cache.minAsNumber) ? cache.valueAsNumber : cache.minAsNumber;
+		} else {
+			ret = Math.round( ret * 1e7)  / 1e7;
+		}
+		return ret;
+	};
+	
+	webshims.modules["form-number-date-ui"].getNextStep = getNextStep;
+	
+	var doSteps = function(input, type, control){
+		if(input.disabled || input.readOnly || $(control).hasClass('step-controls')){return;}
+		$.prop(input, 'value',  typeModels[type].numberToString(getNextStep(input, ($(control).hasClass('step-up')) ? 1 : -1, {type: type})));
+		$(input).unbind('blur.stepeventshim');
+		triggerInlineForm(input, 'input');
+		
+		
+		if( doc.activeElement ){
+			if(doc.activeElement !== input){
+				try {input.focus();} catch(e){}
+			}
+			setTimeout(function(){
+				if(doc.activeElement !== input){
+					try {input.focus();} catch(e){}
+				}
+				$(input)
+					.one('blur.stepeventshim', function(){
+						triggerInlineForm(input, 'change');
+					})
+				;
+			}, 0);
+			
+		}
+	};
+	
+	
+	if(options.stepArrows){
+		var stepDisableEnable = {
+			// don't change getter
+			set: function(value){
+				var stepcontrols = webshims.data(this, 'step-controls');
+				if(stepcontrols){
+					stepcontrols[ (this.disabled || this.readonly) ? 'addClass' : 'removeClass' ]('disabled-step-control');
+				}
+			}
+		};
+		webshims.onNodeNamesPropertyModify('input', 'disabled', stepDisableEnable);
+		webshims.onNodeNamesPropertyModify('input', 'readonly', $.extend({}, stepDisableEnable));
+	}
+	var stepKeys = {
+		38: 1,
+		40: -1
+	};
+	webshims.addReady(function(context, contextElem){
+		//ui for numeric values
+		if(options.stepArrows){
+			$('input', context).add(contextElem.filter('input')).each(function(){
+				var type = $.prop(this, 'type');
+				if(!typeModels[type] || !typeModels[type].asNumber || !options.stepArrows || (options.stepArrows !== true && !options.stepArrows[type]) || supportsType(type) || $(this).hasClass('has-step-controls')){return;}
+				var elem = this;
+				var controls = $('<span class="step-controls" unselectable="on"><span class="step-up" /><span class="step-down" /></span>')	
+					.insertAfter(this)
+					.bind('selectstart dragstart', function(){return false;})
+					.bind('mousedown mousepress', function(e){
+						doSteps(elem, type, e.target);
+						return false;
+					})
+					.bind('mousepressstart mousepressend', function(e){
+						$(e.target)[e.type == 'mousepressstart' ? 'addClass' : 'removeClass']('mousepress-ui');
+					})
+				;
+				var jElm = $(this)
+					.addClass('has-step-controls')
+					.attr({
+						readonly: this.readOnly,
+						disabled: this.disabled,
+						autocomplete: 'off',
+						role: 'spinbutton'
+					})
+					.bind(($.browser.msie) ? 'keydown' : 'keypress', function(e){
+						if(this.disabled || this.readOnly || !stepKeys[e.keyCode]){return;}
+						$.prop(this, 'value',  typeModels[type].numberToString(getNextStep(this, stepKeys[e.keyCode], {type: type})));
+						triggerInlineForm(this, 'input');
+						return false;
+					})
+				;
+				webshims.data(this, 'step-controls', controls);
+				if(options.calculateWidth){
+					adjustInputWithBtn(jElm, controls);
+					controls.css('marginTop', (jElm.outerHeight() - controls.outerHeight())  / 2 );
+				}
+			});
+		}
+	});
+})();
+
+	
+	webshims.addReady(function(context, elem){
+		$(document).bind('jquery-uiReady.initinputui input-widgetsReady.initinputui', function(e){
+			if($.datepicker || $.fn.slider){
+				replaceInputUI(context, elem);
+			}
+			if($.datepicker && $.fn.slider){
+				$(document).unbind('.initinputui');
+			} else if(!webshims.modules["input-widgets"].src){
+				webshims.warn('jQuery UI Widget factory is already included, but not datepicker or slider. configure src of $.webshims.modules["input-widgets"].src');
+			}
+		});
+	});
+	
+});
+

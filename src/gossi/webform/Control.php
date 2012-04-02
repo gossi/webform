@@ -2,7 +2,7 @@
 namespace gossi\webform;
 
 use gossi\webform\validation\Validator;
-use gossi\webform\validation\Test;
+use gossi\webform\validation\AbstractTest;
 use gossi\webform\validation\IValidatable;
 
 abstract class Control extends Element implements IValidatable {
@@ -55,7 +55,7 @@ abstract class Control extends Element implements IValidatable {
 		$this->errors[] = $message;
 	}
 	
-	public function addTest(Test $test) {
+	public function addTest(AbstractTest $test) {
 		if (!in_array($test, $this->tests)) {
 			$test->addControl($this);
 			$this->tests[] = $test;
@@ -413,7 +413,7 @@ abstract class Control extends Element implements IValidatable {
 	 * (non-PHPdoc)
 	 * @see gossi\webform.IValidatable::removeValidation()
 	 */
-	public function removeTest(Test $test) {
+	public function removeTest(AbstractTest $test) {
 		if ($offset = array_search($test, $this->tests)) {
 			unset($this->tests[$offset]);
 		}

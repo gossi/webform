@@ -77,13 +77,14 @@ $wf->addTest(new MatchTest('passwords do not match', array($passwordA, $password
 	<title>webform user signup demo</title>
 	<link rel="stylesheet" href="../css/webform.css" type="text/css">
 	<!-- <link rel="stylesheet" href="../webshim/smoothness/jquery-ui-1.8.18.custom.css" type="text/css">-->
-	<script src="../webshim/jquery-1.7.1.min.js"></script>
-	<script src="../webshim/extras/modernizr-custom.js"></script>
+	<script src="../webshim/jquery-1.7.2.min.js"></script>
+	<script src="../webshim/modernizr-custom.js"></script>
 	<script src="../webshim/polyfiller.js"></script>
 	<script>
 	$.webshims.setOptions({
 		extendNative: false,
 		'forms-ext': {
+			calculateWidth: false,
 			datepicker: {
 				dateFormat: 'yy-mm-dd',
 				constrainInput: true,

@@ -16,7 +16,7 @@
 	<xsl:template name="Webform">
 		<xsl:param name="form"/>
 		
-		<form action="{$form/@target}" method="{$form/@method}" class="webform {$form/@classes}">
+		<form action="{$form/@target}" method="{$form/@method}" id="{$form/@id}" class="webform {$form/@classes}">
 			<xsl:if test="$form/@id">
 				<xsl:attribute name="id"><xsl:value-of select="$form/@id"/></xsl:attribute>
 			</xsl:if>
@@ -46,6 +46,42 @@
 					</xsl:when>
 				</xsl:choose>
 			</xsl:for-each>
+			
+			<xsl:if test="count($form/test[@type='MatchTest']) &gt; 0">
+				<script>
+					var webform = {
+						testMatches : function (message, controls) {
+							var ok = true;
+							if (controls.length) {
+								var val = $(controls[0]).val();
+								
+								controls.forEach(function (id) {
+									control = $(id);
+									if (val !== control.val()) {
+										ok = false;
+										control.setCustomValidity(message);
+									}
+								});
+							}
+							return ok;
+						}
+					};
+					var form = $("#<xsl:value-of select="$form/@id"/>");
+					<xsl:for-each select="$form/test[@type='MatchTest']">
+						<xsl:text>form.submit(function (e){return webform.testMatches("</xsl:text>
+						<xsl:value-of select="@message"></xsl:value-of>
+						<xsl:text>",[</xsl:text>
+						<xsl:for-each select="control">
+							<xsl:text>"#</xsl:text>
+							<xsl:value-of select="@id"/>
+							<xsl:text>"</xsl:text>
+							<xsl:if test="position() != last()"><xsl:text>,</xsl:text></xsl:if>
+						</xsl:for-each>
+						<xsl:text>]);});</xsl:text>
+					</xsl:for-each>
+					//form.submit(function (e) {return false;});
+				</script>
+			</xsl:if>
 		</form>
 	</xsl:template>
 	

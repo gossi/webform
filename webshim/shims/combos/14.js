@@ -1,19 +1,476 @@
-(function(){if(!("JSON"in window&&JSON.stringify&&JSON.parse)){if(!this.JSON)this.JSON={};(function(){function a(d){return 10>d?"0"+d:d}function n(d){e.lastIndex=0;return e.test(d)?'"'+d.replace(e,function(j){var g=c[j];return"string"===typeof g?g:"\\u"+("0000"+j.charCodeAt(0).toString(16)).slice(-4)})+'"':'"'+d+'"'}function h(d,j){var g,m,k,a,e=f,c,i=j[d];i&&"object"===typeof i&&"function"===typeof i.toJSON&&(i=i.toJSON(d));"function"===typeof b&&(i=b.call(j,d,i));switch(typeof i){case "string":return n(i);
-case "number":return isFinite(i)?""+i:"null";case "boolean":case "null":return""+i;case "object":if(!i)return"null";f+=o;c=[];if("[object Array]"===Object.prototype.toString.apply(i)){a=i.length;for(g=0;g<a;g+=1)c[g]=h(g,i)||"null";k=0===c.length?"[]":f?"[\n"+f+c.join(",\n"+f)+"\n"+e+"]":"["+c.join(",")+"]";f=e;return k}if(b&&"object"===typeof b){a=b.length;for(g=0;g<a;g+=1)m=b[g],"string"===typeof m&&(k=h(m,i))&&c.push(n(m)+(f?": ":":")+k)}else for(m in i)Object.hasOwnProperty.call(i,m)&&(k=h(m,
-i))&&c.push(n(m)+(f?": ":":")+k);k=0===c.length?"{}":f?"{\n"+f+c.join(",\n"+f)+"\n"+e+"}":"{"+c.join(",")+"}";f=e;return k}}if("function"!==typeof Date.prototype.toJSON)Date.prototype.toJSON=function(){return isFinite(this.valueOf())?this.getUTCFullYear()+"-"+a(this.getUTCMonth()+1)+"-"+a(this.getUTCDate())+"T"+a(this.getUTCHours())+":"+a(this.getUTCMinutes())+":"+a(this.getUTCSeconds())+"Z":null},String.prototype.toJSON=Number.prototype.toJSON=Boolean.prototype.toJSON=function(){return this.valueOf()};
-var l=/[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,e=/[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,f,o,c={"\u0008":"\\b","\t":"\\t","\n":"\\n","\u000c":"\\f","\r":"\\r",'"':'\\"',"\\":"\\\\"},b;if("function"!==typeof JSON.stringify)JSON.stringify=function(d,j,g){var a;o=f="";if("number"===typeof g)for(a=0;a<g;a+=1)o+=" ";else"string"===typeof g&&(o=g);if((b=j)&&
-"function"!==typeof j&&("object"!==typeof j||"number"!==typeof j.length))throw Error("JSON.stringify");return h("",{"":d})};if("function"!==typeof JSON.parse)JSON.parse=function(a,j){function g(a,b){var d,m,c=a[b];if(c&&"object"===typeof c)for(d in c)Object.hasOwnProperty.call(c,d)&&(m=g(c,d),void 0!==m?c[d]=m:delete c[d]);return j.call(a,b,c)}var b,a=""+a;l.lastIndex=0;l.test(a)&&(a=a.replace(l,function(a){return"\\u"+("0000"+a.charCodeAt(0).toString(16)).slice(-4)}));if(/^[\],:{}\s]*$/.test(a.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g,
-"@").replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,"]").replace(/(?:^|:|,)(?:\s*\[)+/g,"")))return b=eval("("+a+")"),"function"===typeof j?g({"":b},""):b;throw new SyntaxError("JSON.parse");}})()}})();
-(function(){var a=jQuery;if("localStorage"in window&&"sessionStorage"in window)a.webshims.isReady("json-storage",!0);else{var n=function(e){e&&e.indexOf&&-1!=e.indexOf(";")&&setTimeout(function(){a.webshims.warn("Bad key for localStorage: ; in localStorage. name was: "+e)},0)},h,l=!1;a.each(["opener","top","parent"],function(a,c){try{if((h=window[c])&&"name"in h)return!1;h=!1}catch(b){h=!1}});h||(h=window,l=!0);var e=function(a){if(!l)try{window.name=a}catch(c){}try{h.name=a}catch(b){h=window,l=!0}},
-f=function(a){function c(a,b,d){var c;d?(c=new Date,c.setTime(c.getTime()+864E5*d),d="; expires="+c.toGMTString()):d="";document.cookie=a+"="+b+d+"; path=/"}function b(b){b=JSON.stringify(b);"session"==a?e(b):c("localStorage",b,365)}var d=function(){var b;if("session"==a){if(!l)try{b=window.name}catch(d){}if(!b)try{b=h.name}catch(c){h=window,l=!0}}else a:{b=document.cookie.split(";");var e,f;for(e=0;e<b.length;e++){for(f=b[e];" "==f.charAt(0);)f=f.substring(1,f.length);if(0===f.indexOf("localStorage=")){b=
-f.substring(13,f.length);break a}}b=null}if(b)try{b=JSON.parse(b)}catch(n){b={}}return b||{}}();return{clear:function(){d={};"session"==a?e(""):c("localStorage","",365)},getItem:function(a){return a in d?d[a]:null},key:function(a){var b=0,c;for(c in d){if(b==a)return c;b++}return null},removeItem:function(a){delete d[a];b(d)},setItem:function(a,c){n(a);d[a]=c+"";b(d)}}};if(!("sessionStorage"in window))window.sessionStorage=new f("session");(function(){var e,c,b,d=function(c){clearTimeout(e);if(!window.localStorage||
-!("swf"!=c||b&&b.key)){if("swf"===c){b=document.getElementById("swflocalstorageshim");if(!b||"undefined"==typeof b.GetVariable)b=document.swflocalstorageshim;if(!b||"undefined"==typeof b.GetVariable)b=window.localstorageshim;if(b&&"undefined"!==typeof b.GetVariable)window.localStorage={},window.localStorage.clear=function(){b.clear&&b.clear()},window.localStorage.key=function(a){b.key&&b.key(a)},window.localStorage.removeItem=function(a){b.removeItem&&b.removeItem(a)},window.localStorage.setItem=
-function(a,c){n(a);(c+="")||(c="(empty string)+1287520303738");b.setItem&&b.setItem(a,c)},window.localStorage.getItem=function(a){if(!b.getItem)return null;var c=b.getItem(a,c);"(empty string)+1287520303738"==c&&(c="");return c},a.webshims.log("flash-localStorage was implemented")}if(!("localStorage"in window))window.localStorage=new f("local"),a.webshims.warn("implement cookie-localStorage")}a.webshims.isReady("json-storage",!0)},j=a.webshims.cfg["json-storage"];a.webshims.swfLocalStorage={show:function(){j.exceededMessage&&
-a("#swflocalstorageshim-wrapper").prepend('<div class="polyfill-exceeded-message">'+j.exceededMessage+"</div>");a("#swflocalstorageshim-wrapper").css({top:a(window).scrollTop()+20,left:a(window).width()/2-a("#swflocalstorageshim-wrapper").outerWidth()/2})},hide:function(b){a("#swflocalstorageshim-wrapper").css({top:"",left:""}).find("div.polyfill-exceeded-message").remove();if(!b)throw b=Error("DOMException: QUOTA_EXCEEDED_ERR"),b.code=22,b.name="DOMException",b;},isReady:d};a.webshims.ready("DOM swfobject",
-function(){c||"localStorage"in window&&document.getElementById("swflocalstorageshim")||(c=!0,window.swfobject&&swfobject.hasFlashPlayerVersion("8.0.0")?(a("body")[a.browser.mozilla?"after":"append"]('<div id="swflocalstorageshim-wrapper"><div id="swflocalstorageshim" /></div>'),swfobject.embedSWF(a.webshims.cfg.basePath+"swf/localStorage.swf"+(a.webshims.cfg.addCacheBuster||""),"swflocalstorageshim","295","198","8.0.0","",{allowscriptaccess:"always"},{name:"swflocalstorageshim"},function(a){!a.success&&
-!window.localStorage&&d()}),clearTimeout(e),e=setTimeout(function(){"localStorage"in window||a.webshims.warn("Add your development-directory to the local-trusted security sandbox: http://www.macromedia.com/support/documentation/en/flashplayer/help/settings_manager04.html");d()},0===location.protocol.indexOf("file")?500:9999)):d())})})()}})();
-(function(a){if(!navigator.geolocation){var n=function(){setTimeout(function(){throw"document.write is overwritten by geolocation shim. This method is incompatible with this plugin";},1)},h=0,l=a.webshims.cfg.geolocation.options||{};navigator.geolocation=function(){var e,f={getCurrentPosition:function(f,c,b){var d=2,j,g,h,k=function(){if(!h)if(e){if(h=!0,f(a.extend({timestamp:(new Date).getTime()},e)),p(),window.JSON&&window.sessionStorage)try{sessionStorage.setItem("storedGeolocationData654321",
-JSON.stringify(e))}catch(b){}}else c&&!d&&(h=!0,p(),c({code:2,message:"POSITION_UNAVAILABLE"}))},r=function(){d--;q();k()},p=function(){a(document).unbind("google-loader",p);clearTimeout(g);clearTimeout(j)},q=function(){if(e||!window.google||!google.loader||!google.loader.ClientLocation)return!1;var b=google.loader.ClientLocation;e={coords:{latitude:b.latitude,longitude:b.longitude,altitude:null,accuracy:43E3,altitudeAccuracy:null,heading:parseInt("NaN",10),velocity:null},address:a.extend({streetNumber:"",
-street:"",premises:"",county:"",postalCode:""},b.address)};return!0};if(!e&&(q(),!e&&window.JSON&&window.sessionStorage))try{e=(e=sessionStorage.getItem("storedGeolocationData654321"))?JSON.parse(e):!1,e.coords||(e=!1)}catch(i){e=!1}e?setTimeout(k,1):l.confirmText&&!confirm(l.confirmText.replace("{location}",location.hostname))?c&&c({code:1,message:"PERMISSION_DENIED"}):(a.ajax({url:"http://freegeoip.net/json/",dataType:"jsonp",cache:!0,jsonp:"callback",success:function(a){d--;a&&(e=e||{coords:{latitude:a.latitude,
-longitude:a.longitude,altitude:null,accuracy:43E3,altitudeAccuracy:null,heading:parseInt("NaN",10),velocity:null},address:{city:a.city,country:a.country_name,countryCode:a.country_code,county:"",postalCode:a.zipcode,premises:"",region:a.region_name,street:"",streetNumber:""}},k())},error:function(){d--;k()}}),clearTimeout(g),!window.google||!window.google.loader?g=setTimeout(function(){if(l.destroyWrite)document.write=n,document.writeln=n;a(document).one("google-loader",r);a.webshims.loader.loadScript("http://www.google.com/jsapi",
-!1,"google-loader")},800):d--,j=b&&b.timeout?setTimeout(function(){p();c&&c({code:3,message:"TIMEOUT"})},b.timeout):setTimeout(function(){d=0;k()},1E4))},clearWatch:a.noop};f.watchPosition=function(a,c,b){f.getCurrentPosition(a,c,b);h++;return h};return f}();a.webshims.isReady("geolocation",!0)}})(jQuery);
+
+//JSON
+(function(){
+if('JSON'in window && JSON.stringify && JSON.parse){return;}
+
+if(!this.JSON){this.JSON={};}(function(){function f(n){return n<10?'0'+n:n;}if(typeof Date.prototype.toJSON!=='function'){Date.prototype.toJSON=function(key){return isFinite(this.valueOf())?this.getUTCFullYear()+'-'+f(this.getUTCMonth()+1)+'-'+f(this.getUTCDate())+'T'+f(this.getUTCHours())+':'+f(this.getUTCMinutes())+':'+f(this.getUTCSeconds())+'Z':null;};String.prototype.toJSON=Number.prototype.toJSON=Boolean.prototype.toJSON=function(key){return this.valueOf();};}var cx=/[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,escapable=/[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,gap,indent,meta={'\b':'\\b','\t':'\\t','\n':'\\n','\f':'\\f','\r':'\\r','"':'\\"','\\':'\\\\'},rep;function quote(string){escapable.lastIndex=0;return escapable.test(string)?'"'+string.replace(escapable,function(a){var c=meta[a];return typeof c==='string'?c:'\\u'+('0000'+a.charCodeAt(0).toString(16)).slice(-4);})+'"':'"'+string+'"';}function str(key,holder){var i,k,v,length,mind=gap,partial,value=holder[key];if(value&&typeof value==='object'&&typeof value.toJSON==='function'){value=value.toJSON(key);}if(typeof rep==='function'){value=rep.call(holder,key,value);}switch(typeof value){case'string':return quote(value);case'number':return isFinite(value)?String(value):'null';case'boolean':case'null':return String(value);case'object':if(!value){return'null';}gap+=indent;partial=[];if(Object.prototype.toString.apply(value)==='[object Array]'){length=value.length;for(i=0;i<length;i+=1){partial[i]=str(i,value)||'null';}v=partial.length===0?'[]':gap?'[\n'+gap+partial.join(',\n'+gap)+'\n'+mind+']':'['+partial.join(',')+']';gap=mind;return v;}if(rep&&typeof rep==='object'){length=rep.length;for(i=0;i<length;i+=1){k=rep[i];if(typeof k==='string'){v=str(k,value);if(v){partial.push(quote(k)+(gap?': ':':')+v);}}}}else{for(k in value){if(Object.hasOwnProperty.call(value,k)){v=str(k,value);if(v){partial.push(quote(k)+(gap?': ':':')+v);}}}}v=partial.length===0?'{}':gap?'{\n'+gap+partial.join(',\n'+gap)+'\n'+mind+'}':'{'+partial.join(',')+'}';gap=mind;return v;}}if(typeof JSON.stringify!=='function'){JSON.stringify=function(value,replacer,space){var i;gap='';indent='';if(typeof space==='number'){for(i=0;i<space;i+=1){indent+=' ';}}else if(typeof space==='string'){indent=space;}rep=replacer;if(replacer&&typeof replacer!=='function'&&(typeof replacer!=='object'||typeof replacer.length!=='number')){throw new Error('JSON.stringify');}return str('',{'':value});};}if(typeof JSON.parse!=='function'){JSON.parse=function(text,reviver){var j;function walk(holder,key){var k,v,value=holder[key];if(value&&typeof value==='object'){for(k in value){if(Object.hasOwnProperty.call(value,k)){v=walk(value,k);if(v!==undefined){value[k]=v;}else{delete value[k];}}}}return reviver.call(holder,key,value);}text=String(text);cx.lastIndex=0;if(cx.test(text)){text=text.replace(cx,function(a){return'\\u'+('0000'+a.charCodeAt(0).toString(16)).slice(-4);});}if(/^[\],:{}\s]*$/.test(text.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g,'@').replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,']').replace(/(?:^|:|,)(?:\s*\[)+/g,''))){j=eval('('+text+')');return typeof reviver==='function'?walk({'':j},''):j;}throw new SyntaxError('JSON.parse');};}}());
+
+})();
+
+//modified version from http://gist.github.com/350433
+//using window.name for sessionStorage and cookies for localStorage
+
+(function () {
+var $ = jQuery;	
+if ('localStorage' in window && 'sessionStorage' in window) {
+	$.webshims.isReady('json-storage', true);
+	return;
+}
+
+
+var storageNameError = function(name){
+	if(name && name.indexOf && name.indexOf(';') != -1){
+		setTimeout(function(){
+			$.webshims.warn("Bad key for localStorage: ; in localStorage. name was: "+ name);
+		}, 0);
+	}
+};
+var winData;
+var selfWindow = false;
+$.each(['opener', 'top', 'parent'], function(i, name){
+	try {
+		winData = window[name];
+		if(winData && 'name' in winData){
+			var test = winData.name;
+			return false;
+		} else {
+			winData = false;
+		}
+	} catch(e){
+		winData = false;
+	}
+});
+if(!winData){
+	winData = window;
+	selfWindow = true;
+}
+var setWindowData = function(data){
+	if(!selfWindow){
+		try {
+			window.name = data;
+		} catch(e){}
+	}
+	try {
+		winData.name = data;
+	} catch(e){
+		winData = window;
+		selfWindow = true;
+	}
+};
+var getWindowData = function(){
+	var data;
+	if(!selfWindow){
+		try {
+			data = window.name;
+		} catch(e){}
+	}
+	if(!data){
+		try {
+			data = winData.name;
+		} catch(e){
+			winData = window;
+			selfWindow = true;
+		}
+	}
+	return data;
+};
+var Storage = function (type) {
+	function createCookie(name, value, days) {
+		var date, expires;
+		
+		if (days) {
+			date = new Date();
+			date.setTime(date.getTime()+(days*24*60*60*1000));
+			expires = "; expires="+date.toGMTString();
+		} else {
+			expires = "";
+		}
+		document.cookie = name+"="+value+expires+"; path=/";
+	}
+	
+	function readCookie(name) {
+		var nameEQ = name + "=",
+			ca = document.cookie.split(';'),
+			i, c;
+		
+		for (i=0; i < ca.length; i++) {
+			c = ca[i];
+			while (c.charAt(0)==' ') {
+				c = c.substring(1,c.length);
+			}
+			
+			if (c.indexOf(nameEQ) === 0) {
+				return c.substring(nameEQ.length,c.length);
+			}
+		}
+		return null;
+	}
+	
+	function setData(data) {
+		data = JSON.stringify(data);
+		if (type == 'session') {
+			setWindowData(data);
+		} else {
+			createCookie('localStorage', data, 365);
+		}
+	}
+	
+	function clearData() {
+		if (type == 'session') {
+			setWindowData('');
+		} else {
+			createCookie('localStorage', '', 365);
+		}
+	}
+	
+	function getData() {
+		var data;
+		if(type == 'session'){
+			data = getWindowData();
+		} else {
+			data = readCookie('localStorage');
+		}
+		if(data){
+			try {
+				data = JSON.parse(data);
+			} catch(e){
+				data = {};
+			}
+		}
+		return data || {};
+	}
+	
+	
+	// initialise if there's already data
+	var data = getData();
+	
+	return {
+		clear: function () {
+			data = {};
+			clearData();
+		},
+		getItem: function (key) {
+			return (key in data) ? data[key] : null;
+		},
+		key: function (i) {
+			// not perfect, but works
+			var ctr = 0;
+			for (var k in data) {
+				if (ctr == i) {
+					return k;
+				} else {
+					ctr++;
+				}
+			}
+			return null;
+		},
+		removeItem: function (key) {
+			delete data[key];
+			setData(data);
+		},
+		setItem: function (key, value) {
+			storageNameError(key);
+			data[key] = value+''; // forces the value to a string
+			setData(data);
+		}
+	};
+};
+
+
+
+if (!('sessionStorage' in window)) {window.sessionStorage = new Storage('session');}
+
+
+
+(function(){
+	var swfTimer;
+	var emptyString = '(empty string)+1287520303738';
+	var runStart;
+	var shim;
+	var localStorageSwfCallback = function(type){
+		clearTimeout(swfTimer);
+		
+		if(window.localStorage && (type != 'swf' || (shim && shim.key))){
+			$.webshims.isReady('json-storage', true);
+			return;
+		}
+
+		if(type === 'swf'){
+			shim = document.getElementById('swflocalstorageshim');
+			//brute force flash getter
+			if( !shim || typeof shim.GetVariable == 'undefined' ){
+				shim = document.swflocalstorageshim;
+			}
+			if( !shim || typeof shim.GetVariable == 'undefined'){
+				shim = window.localstorageshim;
+			}
+			
+			if(shim && typeof shim.GetVariable !== 'undefined'){
+				window.localStorage = {};
+				
+				window.localStorage.clear = function(){
+					if(shim.clear){shim.clear();}
+				};
+				window.localStorage.key = function(i){
+					if(shim.key){shim.key(i);}
+				};
+				window.localStorage.removeItem = function(name){
+					if(shim.removeItem){shim.removeItem(name);}
+				};
+				
+				window.localStorage.setItem = function(name, val){
+					storageNameError(name);
+					val += '';
+					if(!val){
+						val = emptyString;
+					}
+					if(shim.setItem){
+						shim.setItem(name, val);
+					}
+				};
+				window.localStorage.getItem = function(name){
+					if(!shim.getItem){
+						return null;
+					}
+					var val = shim.getItem(name, val);
+					if(val == emptyString){
+						val = '';
+					}
+					return val;
+				};
+				$.webshims.log('flash-localStorage was implemented');
+			}
+		}
+		if(!('localStorage' in window)){
+			window.localStorage = new Storage('local');
+			$.webshims.warn('implement cookie-localStorage');
+		}
+		
+		$.webshims.isReady('json-storage', true);
+	};
+	var storageCFG = $.webshims.cfg['json-storage'];
+	$.webshims.swfLocalStorage = {
+		show: function(){
+			if(storageCFG.exceededMessage){
+				$('#swflocalstorageshim-wrapper').prepend('<div class="polyfill-exceeded-message">'+ storageCFG.exceededMessage +'</div>');
+			}
+			$('#swflocalstorageshim-wrapper').css({
+				top: $(window).scrollTop() + 20,
+				left: ($(window).width() / 2) - ($('#swflocalstorageshim-wrapper').outerWidth() / 2)
+			});
+			
+		},
+		hide: function(success){
+			$('#swflocalstorageshim-wrapper')
+				.css({top: '', left: ''})
+				.find('div.polyfill-exceeded-message')
+				.remove()
+			;
+			if(!success){
+				var err = new Error('DOMException: QUOTA_EXCEEDED_ERR');
+				err.code = 22;
+				err.name = 'DOMException';
+				throw(err);
+			}
+		},
+		isReady: localStorageSwfCallback
+	};
+	
+//	$.webshims.swfLocalStorage.storageEvent = function(newVal, oldVal, url){
+//		
+//	};
+	
+	$.webshims.ready('DOM swfobject', function(){
+		if(runStart || (('localStorage' in window) && document.getElementById('swflocalstorageshim')) ){return;}
+		runStart = true;
+		if(window.swfobject && swfobject.hasFlashPlayerVersion('8.0.0')){
+			$('body')[$.browser.mozilla ? 'after' : 'append']('<div id="swflocalstorageshim-wrapper"><div id="swflocalstorageshim" /></div>');
+			swfobject.embedSWF($.webshims.cfg.basePath +'swf/localStorage.swf' +($.webshims.cfg.addCacheBuster || ''), 'swflocalstorageshim', '295', '198', '8.0.0', '', {allowscriptaccess: 'always'}, {name: 'swflocalstorageshim'}, function(e){
+				if(!e.success && !window.localStorage){
+					localStorageSwfCallback();
+				}
+			});
+			clearTimeout(swfTimer);
+			swfTimer = setTimeout(function(){
+				if(!('localStorage' in window)){
+					$.webshims.warn('Add your development-directory to the local-trusted security sandbox: http://www.macromedia.com/support/documentation/en/flashplayer/help/settings_manager04.html');
+				}
+				localStorageSwfCallback();
+			}, (location.protocol.indexOf('file') === 0) ? 500 : 9999);
+		} else {
+			localStorageSwfCallback();
+		}
+	});
+})();
+
+
+})();
+
+(function($){
+	if(navigator.geolocation){return;}
+	var domWrite = function(){
+			setTimeout(function(){
+				throw('document.write is overwritten by geolocation shim. This method is incompatible with this plugin');
+			}, 1);
+		},
+		id = 0
+	;
+	var geoOpts = $.webshims.cfg.geolocation.options || {};
+	navigator.geolocation = (function(){
+		var pos;
+		var api = {
+			getCurrentPosition: function(success, error, opts){
+				var locationAPIs = 2,
+					errorTimer,
+					googleTimer,
+					calledEnd,
+					endCallback = function(){
+						if(calledEnd){return;}
+						if(pos){
+							calledEnd = true;
+							success($.extend({timestamp: new Date().getTime()}, pos));
+							resetCallback();
+							if(window.JSON && window.sessionStorage){
+								try{
+									sessionStorage.setItem('storedGeolocationData654321', JSON.stringify(pos));
+								} catch(e){}
+							}
+						} else if(error && !locationAPIs) {
+							calledEnd = true;
+							resetCallback();
+							error({ code: 2, message: "POSITION_UNAVAILABLE"});
+						}
+					},
+					googleCallback = function(){
+						locationAPIs--;
+						getGoogleCoords();
+						endCallback();
+					},
+					resetCallback = function(){
+						$(document).unbind('google-loader', resetCallback);
+						clearTimeout(googleTimer);
+						clearTimeout(errorTimer);
+					},
+					getGoogleCoords = function(){
+						if(pos || !window.google || !google.loader || !google.loader.ClientLocation){return false;}
+						var cl = google.loader.ClientLocation;
+			            pos = {
+							coords: {
+								latitude: cl.latitude,
+				                longitude: cl.longitude,
+				                altitude: null,
+				                accuracy: 43000,
+				                altitudeAccuracy: null,
+				                heading: parseInt('NaN', 10),
+				                velocity: null
+							},
+			                //extension similiar to FF implementation
+							address: $.extend({streetNumber: '', street: '', premises: '', county: '', postalCode: ''}, cl.address)
+			            };
+						return true;
+					},
+					getInitCoords = function(){
+						if(pos){return;}
+						getGoogleCoords();
+						if(pos || !window.JSON || !window.sessionStorage){return;}
+						try{
+							pos = sessionStorage.getItem('storedGeolocationData654321');
+							pos = (pos) ? JSON.parse(pos) : false;
+							if(!pos.coords){pos = false;} 
+						} catch(e){
+							pos = false;
+						}
+					}
+				;
+				
+				getInitCoords();
+				
+				if(!pos){
+					if(geoOpts.confirmText && !confirm(geoOpts.confirmText.replace('{location}', location.hostname))){
+						if(error){
+							error({ code: 1, message: "PERMISSION_DENIED"});
+						}
+						return;
+					}
+					$.ajax({
+						url: 'http://freegeoip.net/json/',
+						dataType: 'jsonp',
+						cache: true,
+						jsonp: 'callback',
+						success: function(data){
+							locationAPIs--;
+							if(!data){return;}
+							pos = pos || {
+								coords: {
+									latitude: data.latitude,
+					                longitude: data.longitude,
+					                altitude: null,
+					                accuracy: 43000,
+					                altitudeAccuracy: null,
+					                heading: parseInt('NaN', 10),
+					                velocity: null
+								},
+				                //extension similiar to FF implementation
+								address: {
+									city: data.city,
+									country: data.country_name,
+									countryCode: data.country_code,
+									county: "",
+									postalCode: data.zipcode,
+									premises: "",
+									region: data.region_name,
+									street: "",
+									streetNumber: ""
+								}
+				            };
+							endCallback();
+						},
+						error: function(){
+							locationAPIs--;
+							endCallback();
+						}
+					});
+					clearTimeout(googleTimer);
+					if (!window.google || !window.google.loader) {
+						googleTimer = setTimeout(function(){
+							//destroys document.write!!!
+							if (geoOpts.destroyWrite) {
+								document.write = domWrite;
+								document.writeln = domWrite;
+							}
+							$(document).one('google-loader', googleCallback);
+							$.webshims.loader.loadScript('http://www.google.com/jsapi', false, 'google-loader');
+						}, 800);
+					} else {
+						locationAPIs--;
+					}
+				} else {
+					setTimeout(endCallback, 1);
+					return;
+				}
+				if(opts && opts.timeout){
+					errorTimer = setTimeout(function(){
+						resetCallback();
+						if(error) {
+							error({ code: 3, message: "TIMEOUT"});
+						}
+					}, opts.timeout);
+				} else {
+					errorTimer = setTimeout(function(){
+						locationAPIs = 0;
+						endCallback();
+					}, 10000);
+				}
+			},
+			clearWatch: $.noop
+		};
+		api.watchPosition = function(a, b, c){
+			api.getCurrentPosition(a, b, c);
+			id++;
+			return id;
+		};
+		return api;
+	})();
+	
+	$.webshims.isReady('geolocation', true);
+})(jQuery);

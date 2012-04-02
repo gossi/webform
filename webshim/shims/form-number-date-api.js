@@ -1,12 +1,379 @@
-jQuery.webshims.register("form-number-date-api",function(g,e){if(!e.getStep)e.getStep=function(a,b){var c=g.attr(a,"step");if("any"===c)return c;b=b||i(a);if(!d[b]||!d[b].step)return c;c=h.number.asNumber(c);return(!isNaN(c)&&0<c?c:d[b].step)*d[b].stepScaleFactor};if(!e.addMinMaxNumberToCache)e.addMinMaxNumberToCache=function(a,b,c){a+"AsNumber"in c||(c[a+"AsNumber"]=d[c.type].asNumber(b.attr(a)),isNaN(c[a+"AsNumber"])&&a+"Default"in d[c.type]&&(c[a+"AsNumber"]=d[c.type][a+"Default"]))};var l=parseInt("NaN",
-10),d=e.inputTypes,j=function(a){return"number"==typeof a||a&&a==1*a},m=function(a){return g('<input type="'+a+'" />').prop("type")===a},i=function(a){return(a.getAttribute("type")||"").toLowerCase()},p=e.addMinMaxNumberToCache,k=function(a,b){for(var a=""+a,b=b-a.length,c=0;c<b;c++)a="0"+a;return a};e.addValidityRule("stepMismatch",function(a,b,c,f){if(""===b)return!1;if(!("type"in c))c.type=i(a[0]);if("date"==c.type)return!1;f=(f||{}).stepMismatch;if(d[c.type]&&d[c.type].step){if(!("step"in c))c.step=
-e.getStep(a[0],c.type);if("any"==c.step)return!1;if(!("valueAsNumber"in c))c.valueAsNumber=d[c.type].asNumber(b);if(isNaN(c.valueAsNumber))return!1;p("min",a,c);a=c.minAsNumber;isNaN(a)&&(a=d[c.type].stepBase||0);f=Math.abs((c.valueAsNumber-a)%c.step);f=!(1.0E-7>=f||1.0E-7>=Math.abs(f-c.step))}return f});[{name:"rangeOverflow",attr:"max",factor:1},{name:"rangeUnderflow",attr:"min",factor:-1}].forEach(function(a){e.addValidityRule(a.name,function(b,c,f,e){e=(e||{})[a.name]||!1;if(""===c)return e;if(!("type"in
-f))f.type=i(b[0]);if(d[f.type]&&d[f.type].asNumber){if(!("valueAsNumber"in f))f.valueAsNumber=d[f.type].asNumber(c);if(isNaN(f.valueAsNumber))return!1;p(a.attr,b,f);if(isNaN(f[a.attr+"AsNumber"]))return e;e=f[a.attr+"AsNumber"]*a.factor<f.valueAsNumber*a.factor-1.0E-7}return e})});e.reflectProperties(["input"],["max","min","step"]);var n=e.defineNodeNameProperty("input","valueAsNumber",{prop:{get:function(){var a=i(this),a=d[a]&&d[a].asNumber?d[a].asNumber(g.prop(this,"value")):n.prop._supget&&n.prop._supget.apply(this,
-arguments);null==a&&(a=l);return a},set:function(a){var b=i(this);d[b]&&d[b].numberToString?isNaN(a)?g.prop(this,"value",""):(b=d[b].numberToString(a),!1!==b?g.prop(this,"value",b):e.warn("INVALID_STATE_ERR: DOM Exception 11")):n.prop._supset&&n.prop._supset.apply(this,arguments)}}}),o=e.defineNodeNameProperty("input","valueAsDate",{prop:{get:function(){var a=i(this);return d[a]&&d[a].asDate&&!d[a].noAsDate?d[a].asDate(g.prop(this,"value")):o.prop._supget&&o.prop._supget.call(this)||null},set:function(a){var b=
-i(this);if(d[b]&&d[b].dateToString&&!d[b].noAsDate){if(null===a)return g.prop(this,"value",""),"";b=d[b].dateToString(a);if(!1!==b)return g.prop(this,"value",b),b;e.warn("INVALID_STATE_ERR: DOM Exception 11")}else return o.prop._supset&&o.prop._supset.apply(this,arguments)||null}}}),h={number:{mismatch:function(a){return!j(a)},step:1,stepScaleFactor:1,asNumber:function(a){return j(a)?1*a:l},numberToString:function(a){return j(a)?a:!1}},range:{minDefault:0,maxDefault:100},date:{mismatch:function(a){if(!a||
-!a.split||!/\d$/.test(a))return!0;var b=a.split(/\u002D/);if(3!==b.length)return!0;var c=!1;g.each(b,function(a,b){if(!(j(b)||b&&b=="0"+1*b))return c=!0,!1});if(c)return c;if(4!==b[0].length||2!=b[1].length||12<b[1]||2!=b[2].length||33<b[2])c=!0;return a!==this.dateToString(this.asDate(a,!0))},step:1,stepScaleFactor:864E5,asDate:function(a,b){return!b&&this.mismatch(a)?null:new Date(this.asNumber(a,!0))},asNumber:function(a,b){var c=l;if(b||!this.mismatch(a))a=a.split(/\u002D/),c=Date.UTC(a[0],a[1]-
-1,a[2]);return c},numberToString:function(a){return j(a)?this.dateToString(new Date(1*a)):!1},dateToString:function(a){return a&&a.getFullYear?a.getUTCFullYear()+"-"+k(a.getUTCMonth()+1,2)+"-"+k(a.getUTCDate(),2):!1}},time:{mismatch:function(a,b){if(!a||!a.split||!/\d$/.test(a))return!0;a=a.split(/\u003A/);if(2>a.length||3<a.length)return!0;var c=!1,d;a[2]&&(a[2]=a[2].split(/\u002E/),d=parseInt(a[2][1],10),a[2]=a[2][0]);g.each(a,function(a,b){if(!(j(b)||b&&b=="0"+1*b)||2!==b.length)return c=!0,!1});
-if(c||23<a[0]||0>a[0]||59<a[1]||0>a[1]||a[2]&&(59<a[2]||0>a[2])||d&&isNaN(d))return!0;d&&(100>d?d*=100:10>d&&(d*=10));return!0===b?[a,d]:!1},step:60,stepBase:0,stepScaleFactor:1E3,asDate:function(a){a=new Date(this.asNumber(a));return isNaN(a)?null:a},asNumber:function(a){var b=l,a=this.mismatch(a,!0);!0!==a&&(b=Date.UTC("1970",0,1,a[0][0],a[0][1],a[0][2]||0),a[1]&&(b+=a[1]));return b},dateToString:function(a){if(a&&a.getUTCHours){var b=k(a.getUTCHours(),2)+":"+k(a.getUTCMinutes(),2),c=a.getSeconds();
-"0"!=c&&(b+=":"+k(c,2));c=a.getUTCMilliseconds();"0"!=c&&(b+="."+k(c,3));return b}return!1}},"datetime-local":{mismatch:function(a,b){if(!a||!a.split||2!==(a+"special").split(/\u0054/).length)return!0;a=a.split(/\u0054/);return d.date.mismatch(a[0])||d.time.mismatch(a[1],b)},noAsDate:!0,asDate:function(a){a=new Date(this.asNumber(a));return isNaN(a)?null:a},asNumber:function(a){var b=l,c=this.mismatch(a,!0);!0!==c&&(a=a.split(/\u0054/)[0].split(/\u002D/),b=Date.UTC(a[0],a[1]-1,a[2],c[0][0],c[0][1],
-c[0][2]||0),c[1]&&(b+=c[1]));return b},dateToString:function(a,b){return d.date.dateToString(a)+"T"+d.time.dateToString(a,b)}}};(e.bugs.valueAsNumberSet||!m("number"))&&e.addInputType("number",h.number);(e.bugs.valueAsNumberSet||!m("range"))&&e.addInputType("range",g.extend({},h.number,h.range));(e.bugs.valueAsNumberSet||!m("date"))&&e.addInputType("date",h.date);(e.bugs.valueAsNumberSet||!m("time"))&&e.addInputType("time",g.extend({},h.date,h.time));(e.bugs.valueAsNumberSet||!m("datetime-local"))&&
-e.addInputType("datetime-local",g.extend({},h.date,h.time,h["datetime-local"]))});
+jQuery.webshims.register('form-number-date-api', function($, webshims, window, document, undefined){
+	"use strict";
+	
+	//ToDo
+	if(!webshims.getStep){
+		webshims.getStep = function(elem, type){
+			var step = $.attr(elem, 'step');
+			if(step === 'any'){
+				return step;
+			}
+			type = type || getType(elem);
+			if(!typeModels[type] || !typeModels[type].step){
+				return step;
+			}
+			step = typeProtos.number.asNumber(step);
+			return ((!isNaN(step) && step > 0) ? step : typeModels[type].step) * typeModels[type].stepScaleFactor;
+		};
+	}
+	if(!webshims.addMinMaxNumberToCache){
+		webshims.addMinMaxNumberToCache = function(attr, elem, cache){
+			if (!(attr+'AsNumber' in cache)) {
+				cache[attr+'AsNumber'] = typeModels[cache.type].asNumber(elem.attr(attr));
+				if(isNaN(cache[attr+'AsNumber']) && (attr+'Default' in typeModels[cache.type])){
+					cache[attr+'AsNumber'] = typeModels[cache.type][attr+'Default'];
+				}
+			}
+		};
+	}
+	
+	var nan = parseInt('NaN', 10),
+		doc = document,
+		typeModels = webshims.inputTypes,
+		isNumber = function(string){
+			return (typeof string == 'number' || (string && string == string * 1));
+		},
+		supportsType = function(type){
+			return ($('<input type="'+type+'" />').prop('type') === type);
+		},
+		getType = function(elem){
+			return (elem.getAttribute('type') || '').toLowerCase();
+		},
+		isDateTimePart = function(string){
+			return (isNumber(string) || (string && string == '0' + (string * 1)));
+		},
+		addMinMaxNumberToCache = webshims.addMinMaxNumberToCache,
+		addleadingZero = function(val, len){
+			val = ''+val;
+			len = len - val.length;
+			for(var i = 0; i < len; i++){
+				val = '0'+val;
+			}
+			return val;
+		},
+		EPS = 1e-7
+	;
+	
+	webshims.addValidityRule('stepMismatch', function(input, val, cache, validityState){
+		if(val === ''){return false;}
+		if(!('type' in cache)){
+			cache.type = getType(input[0]);
+		}
+		//stepmismatch with date is computable, but it would be a typeMismatch (performance)
+		if(cache.type == 'date'){
+			return false;
+		}
+		var ret = (validityState || {}).stepMismatch, base;
+		if(typeModels[cache.type] && typeModels[cache.type].step){
+			if( !('step' in cache) ){
+				cache.step = webshims.getStep(input[0], cache.type);
+			}
+			
+			if(cache.step == 'any'){return false;}
+			
+			if(!('valueAsNumber' in cache)){
+				cache.valueAsNumber = typeModels[cache.type].asNumber( val );
+			}
+			if(isNaN(cache.valueAsNumber)){return false;}
+			
+			addMinMaxNumberToCache('min', input, cache);
+			base = cache.minAsNumber;
+			if(isNaN(base)){
+				base = typeModels[cache.type].stepBase || 0;
+			}
+			
+			ret =  Math.abs((cache.valueAsNumber - base) % cache.step);
+							
+			ret = !(  ret <= EPS || Math.abs(ret - cache.step) <= EPS  );
+		}
+		return ret;
+	});
+	
+	
+	
+	[{name: 'rangeOverflow', attr: 'max', factor: 1}, {name: 'rangeUnderflow', attr: 'min', factor: -1}].forEach(function(data, i){
+		webshims.addValidityRule(data.name, function(input, val, cache, validityState) {
+			var ret = (validityState || {})[data.name] || false;
+			if(val === ''){return ret;}
+			if (!('type' in cache)) {
+				cache.type = getType(input[0]);
+			}
+			if (typeModels[cache.type] && typeModels[cache.type].asNumber) {
+				if(!('valueAsNumber' in cache)){
+					cache.valueAsNumber = typeModels[cache.type].asNumber( val );
+				}
+				if(isNaN(cache.valueAsNumber)){
+					return false;
+				}
+				
+				addMinMaxNumberToCache(data.attr, input, cache);
+				
+				if(isNaN(cache[data.attr+'AsNumber'])){
+					return ret;
+				}
+				ret = ( cache[data.attr+'AsNumber'] * data.factor <  cache.valueAsNumber * data.factor - EPS );
+			}
+			return ret;
+		});
+	});
+	
+	webshims.reflectProperties(['input'], ['max', 'min', 'step']);
+	
+	
+	//IDLs and methods, that aren't part of constrain validation, but strongly tight to it
+	var valueAsNumberDescriptor = webshims.defineNodeNameProperty('input', 'valueAsNumber', {
+		prop: {
+			get: function(){
+				var elem = this;
+				var type = getType(elem);
+				var ret = (typeModels[type] && typeModels[type].asNumber) ? 
+					typeModels[type].asNumber($.prop(elem, 'value')) :
+					(valueAsNumberDescriptor.prop._supget && valueAsNumberDescriptor.prop._supget.apply(elem, arguments));
+				if(ret == null){
+					ret = nan;
+				}
+				return ret;
+			},
+			set: function(val){
+				var elem = this;
+				var type = getType(elem);
+				if(typeModels[type] && typeModels[type].numberToString){
+					//is NaN a number?
+					if(isNaN(val)){
+						$.prop(elem, 'value', '');
+						return;
+					}
+					var set = typeModels[type].numberToString(val);
+					if(set !==  false){
+						$.prop(elem, 'value', set);
+					} else {
+						webshims.warn('INVALID_STATE_ERR: DOM Exception 11');
+					}
+				} else {
+					valueAsNumberDescriptor.prop._supset && valueAsNumberDescriptor.prop._supset.apply(elem, arguments);
+				}
+			}
+		}
+	});
+	
+	var valueAsDateDescriptor = webshims.defineNodeNameProperty('input', 'valueAsDate', {
+		prop: {
+			get: function(){
+				var elem = this;
+				var type = getType(elem);
+				return (typeModels[type] && typeModels[type].asDate && !typeModels[type].noAsDate) ? 
+					typeModels[type].asDate($.prop(elem, 'value')) :
+					valueAsDateDescriptor.prop._supget && valueAsDateDescriptor.prop._supget.call(elem) || null;
+			},
+			set: function(value){
+				var elem = this;
+				var type = getType(elem);
+				if(typeModels[type] && typeModels[type].dateToString && !typeModels[type].noAsDate){
+					
+					if(value === null){
+						$.prop(elem, 'value', '');
+						return '';
+					}
+					var set = typeModels[type].dateToString(value);
+					if(set !== false){
+						$.prop(elem, 'value', set);
+						return set;
+					} else {
+						webshims.warn('INVALID_STATE_ERR: DOM Exception 11');
+					}
+				} else {
+					return valueAsDateDescriptor.prop._supset && valueAsDateDescriptor.prop._supset.apply(elem, arguments) || null;
+				}
+			}
+		}
+	});
+	
+	var typeProtos = {
+		
+		number: {
+			mismatch: function(val){
+				return !(isNumber(val));
+			},
+			step: 1,
+			//stepBase: 0, 0 = default
+			stepScaleFactor: 1,
+			asNumber: function(str){
+				return (isNumber(str)) ? str * 1 : nan;
+			},
+			numberToString: function(num){
+				return (isNumber(num)) ? num : false;
+			}
+		},
+		
+		range: {
+			minDefault: 0,
+			maxDefault: 100
+		},
+		
+		date: {
+			mismatch: function(val){
+				if(!val || !val.split || !(/\d$/.test(val))){return true;}
+				var valA = val.split(/\u002D/);
+				if(valA.length !== 3){return true;}
+				var ret = false;
+				$.each(valA, function(i, part){
+					if(!isDateTimePart(part)){
+						ret = true;
+						return false;
+					}
+				});
+				if(ret){return ret;}
+				if(valA[0].length !== 4 || valA[1].length != 2 || valA[1] > 12 || valA[2].length != 2 || valA[2] > 33){
+					ret = true;
+				}
+				return (val !== this.dateToString( this.asDate(val, true) ) );
+			},
+			step: 1,
+			//stepBase: 0, 0 = default
+			stepScaleFactor:  86400000,
+			asDate: function(val, _noMismatch){
+				if(!_noMismatch && this.mismatch(val)){
+					return null;
+				}
+				return new Date(this.asNumber(val, true));
+			},
+			asNumber: function(str, _noMismatch){
+				var ret = nan;
+				if(_noMismatch || !this.mismatch(str)){
+					str = str.split(/\u002D/);
+					ret = Date.UTC(str[0], str[1] - 1, str[2]);
+				}
+				return ret;
+			},
+			numberToString: function(num){
+				return (isNumber(num)) ? this.dateToString(new Date( num * 1)) : false;
+			},
+			dateToString: function(date){
+				return (date && date.getFullYear) ? date.getUTCFullYear() +'-'+ addleadingZero(date.getUTCMonth()+1, 2) +'-'+ addleadingZero(date.getUTCDate(), 2) : false;
+			}
+		},
+		
+		time: {
+			mismatch: function(val, _getParsed){
+				if(!val || !val.split || !(/\d$/.test(val))){return true;}
+				val = val.split(/\u003A/);
+				if(val.length < 2 || val.length > 3){return true;}
+				var ret = false,
+					sFraction;
+				if(val[2]){
+					val[2] = val[2].split(/\u002E/);
+					sFraction = parseInt(val[2][1], 10);
+					val[2] = val[2][0];
+				}
+				$.each(val, function(i, part){
+					if(!isDateTimePart(part) || part.length !== 2){
+						ret = true;
+						return false;
+					}
+				});
+				if(ret){return true;}
+				if(val[0] > 23 || val[0] < 0 || val[1] > 59 || val[1] < 0){
+					return true;
+				}
+				if(val[2] && (val[2] > 59 || val[2] < 0 )){
+					return true;
+				}
+				if(sFraction && isNaN(sFraction)){
+					return true;
+				}
+				if(sFraction){
+					if(sFraction < 100){
+						sFraction *= 100;
+					} else if(sFraction < 10){
+						sFraction *= 10;
+					}
+				}
+				return (_getParsed === true) ? [val, sFraction] : false;
+			},
+			step: 60,
+			stepBase: 0,
+			stepScaleFactor:  1000,
+			asDate: function(val){
+				val = new Date(this.asNumber(val));
+				return (isNaN(val)) ? null : val;
+			},
+			asNumber: function(val){
+				var ret = nan;
+				val = this.mismatch(val, true);
+				if(val !== true){
+					ret = Date.UTC('1970', 0, 1, val[0][0], val[0][1], val[0][2] || 0);
+					if(val[1]){
+						ret += val[1];
+					}
+				}
+				return ret;
+			},
+			dateToString: function(date){
+				if(date && date.getUTCHours){
+					var str = addleadingZero(date.getUTCHours(), 2) +':'+ addleadingZero(date.getUTCMinutes(), 2),
+						tmp = date.getSeconds()
+					;
+					if(tmp != "0"){
+						str += ':'+ addleadingZero(tmp, 2);
+					}
+					tmp = date.getUTCMilliseconds();
+					if(tmp != "0"){
+						str += '.'+ addleadingZero(tmp, 3);
+					}
+					return str;
+				} else {
+					return false;
+				}
+			}
+		},
+		
+		'datetime-local': {
+			mismatch: function(val, _getParsed){
+				if(!val || !val.split || (val+'special').split(/\u0054/).length !== 2){return true;}
+				val = val.split(/\u0054/);
+				return ( typeModels.date.mismatch(val[0]) || typeModels.time.mismatch(val[1], _getParsed) );
+			},
+			noAsDate: true,
+			asDate: function(val){
+				val = new Date(this.asNumber(val));
+				
+				return (isNaN(val)) ? null : val;
+			},
+			asNumber: function(val){
+				var ret = nan;
+				var time = this.mismatch(val, true);
+				if(time !== true){
+					val = val.split(/\u0054/)[0].split(/\u002D/);
+					
+					ret = Date.UTC(val[0], val[1] - 1, val[2], time[0][0], time[0][1], time[0][2] || 0);
+					if(time[1]){
+						ret += time[1];
+					}
+				}
+				return ret;
+			},
+			dateToString: function(date, _getParsed){
+				return typeModels.date.dateToString(date) +'T'+ typeModels.time.dateToString(date, _getParsed);
+			}
+		}
+	};
+	
+	if(webshims.bugs.valueAsNumberSet || !supportsType('number')){
+		webshims.addInputType('number', typeProtos.number);
+	}
+	
+	if(webshims.bugs.valueAsNumberSet || !supportsType('range')){
+		webshims.addInputType('range', $.extend({}, typeProtos.number, typeProtos.range));
+	}
+	if(webshims.bugs.valueAsNumberSet || !supportsType('date')){
+		webshims.addInputType('date', typeProtos.date);
+	}
+	if(webshims.bugs.valueAsNumberSet || !supportsType('time')){
+		webshims.addInputType('time', $.extend({}, typeProtos.date, typeProtos.time));
+	}
+	
+	if(webshims.bugs.valueAsNumberSet || !supportsType('datetime-local')){
+		webshims.addInputType('datetime-local', $.extend({}, typeProtos.date, typeProtos.time, typeProtos['datetime-local']));
+	}
+		
+});

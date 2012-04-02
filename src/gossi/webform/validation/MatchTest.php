@@ -1,7 +1,7 @@
 <?php
 namespace gossi\webform\validation;
 
-class MatchTest extends Test {
+class MatchTest extends AbstractTest {
 
 	private $statement;
 
@@ -28,5 +28,9 @@ class MatchTest extends Test {
 				}
 			}
 		}
+	}
+	
+	public function toXML() {
+		return $this->createXML('MatchTest');
 	}
 }

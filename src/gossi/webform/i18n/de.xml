@@ -4,5 +4,6 @@
 		<occur>Es sind Fehler aufgetreten</occur>
 		<required>%s wird benötigt</required>
 		<invalid>%s ist ungültig</invalid>
+		<nomatch>%s stimmen nicht überein</nomatch>
 	</error>
 </webform>

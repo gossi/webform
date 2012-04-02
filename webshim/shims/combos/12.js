@@ -1,38 +1,1400 @@
-(function(c){if(!Modernizr.genericDOM){var g=document,j,i,l=/<([\w:]+)/,o={option:1,optgroup:1,legend:1,thead:1,tr:1,td:1,col:1,area:1};c.webshims.fixHTML5=function(c){if("string"!=typeof c||o[(l.exec(c)||["",""])[1].toLowerCase()])return c;if(!i){j=g.body;if(!j)return c;i=g.createElement("div");i.style.display="none"}var m=i.cloneNode(!1);j.appendChild(m);m.innerHTML=c;j.removeChild(m);return m.childNodes}}})(jQuery);
-jQuery.webshims.register("dom-extend",function(c,g,j,i,l){var o=g.modules,h=/\s*,\s*/,m={},u={},n={},f={},s={},t=c.fn.val,w=function(a,b,d,e,k){return k?t.call(c(a)):t.call(c(a),d)};c.fn.val=function(a){var b=this[0];arguments.length&&null==a&&(a="");if(!arguments.length)return!b||1!==b.nodeType?t.call(this):c.prop(b,"value",a,"val",!0);if(c.isArray(a))return t.apply(this,arguments);var d=c.isFunction(a);return this.each(function(e){b=this;1===b.nodeType&&(d?(e=a.call(b,e,c.prop(b,"value",l,"val",
-!0)),null==e&&(e=""),c.prop(b,"value",e,"val")):c.prop(b,"value",a,"val"))})};var p="_webshimsLib"+Math.round(1E3*Math.random()),r=function(a,b,d){a=a.jquery?a[0]:a;if(!a)return d||{};var e=c.data(a,p);d!==l&&(e||(e=c.data(a,p,{})),b&&(e[b]=d));return b?e&&e[b]:e};[{name:"getNativeElement",prop:"nativeElement"},{name:"getShadowElement",prop:"shadowElement"},{name:"getShadowFocusElement",prop:"shadowFocusElement"}].forEach(function(a){c.fn[a.name]=function(){return this.map(function(){var b=r(this,
-"shadowData");return b&&b[a.prop]||this})}});["removeAttr","prop","attr"].forEach(function(a){m[a]=c[a];c[a]=function(b,d,e,k,A){var f="val"==k,o=!f?m[a]:w;if(!b||!u[d]||1!==b.nodeType||!f&&k&&"attr"==a&&c.attrFn[d])return o(b,d,e,k,A);var y=(b.nodeName||"").toLowerCase(),g=n[y],h="attr"==a&&(!1===e||null===e)?"removeAttr":a,i,t,p;g||(g=n["*"]);g&&(g=g[d]);g&&(i=g[h]);if(i){if("value"==d)t=i.isVal,i.isVal=f;if("removeAttr"===h)return i.value.call(b);if(e===l)return i.get?i.get.call(b):i.value;i.set&&
-("attr"==a&&!0===e&&(e=d),p=i.set.call(b,e));if("value"==d)i.isVal=t}else p=o(b,d,e,k,A);if((e!==l||"removeAttr"===h)&&s[y]&&s[y][d]){var j;j="removeAttr"==h?!1:"prop"==h?!!e:!0;s[y][d].forEach(function(d){if(!d.only||(d.only="prop"==a)||"attr"==d.only&&"prop"!=a)d.call(b,e,j,f?"val":h,a)})}return p};f[a]=function(b,d,e){n[b]||(n[b]={});n[b][d]||(n[b][d]={});var k=n[b][d][a],f=function(b,c,k){return c&&c[b]?c[b]:k&&k[b]?k[b]:"prop"==a&&"value"==d?function(b){return e.isVal?w(this,d,b,!1,0===arguments.length):
-m[a](this,d,b)}:"prop"==a&&"value"==b&&e.value.apply?function(b){var e=m[a](this,d);e&&e.apply&&(e=e.apply(this,arguments));return e}:function(b){return m[a](this,d,b)}};n[b][d][a]=e;if(e.value===l){if(!e.set)e.set=e.writeable?f("set",e,k):g.cfg.useStrict&&"prop"==d?function(){throw d+" is readonly on "+b;}:c.noop;if(!e.get)e.get=f("get",e,k)}["value","get","set"].forEach(function(b){e[b]&&(e["_sup"+b]=f(b,k))})}});var z=!c.browser.msie||8<parseInt(c.browser.version,10),x=function(){var a=g.getPrototypeOf(i.createElement("foobar")),
-b=Object.prototype.hasOwnProperty;return function(d,e,c){var f=i.createElement(d),o=g.getPrototypeOf(f);if(z&&o&&a!==o&&(!f[e]||!b.call(f,e))){var h=f[e];c._supvalue=function(){return h&&h.apply?h.apply(this,arguments):h};o[e]=c.value}else c._supvalue=function(){var b=r(this,"propValue");return b&&b[e]&&b[e].apply?b[e].apply(this,arguments):b&&b[e]},q.extendValue(d,e,c.value);c.value._supvalue=c._supvalue}}(),q=function(){var a={};g.addReady(function(b,d){var e={},f=function(a){e[a]||(e[a]=c(b.getElementsByTagName(a)),
-d[0]&&c.nodeName(d[0],a)&&(e[a]=e[a].add(d)))};c.each(a,function(b,a){f(b);!a||!a.forEach?g.warn("Error: with "+b+"-property. methods: "+a):a.forEach(function(a){e[b].each(a)})});e=null});var b,d=c([]),e=function(d,e){a[d]?a[d].push(e):a[d]=[e];c.isDOMReady&&(b||c(i.getElementsByTagName(d))).each(e)};return{createTmpCache:function(a){c.isDOMReady&&(b=b||c(i.getElementsByTagName(a)));return b||d},flushTmpCache:function(){b=null},content:function(b,a){e(b,function(){var b=c.attr(this,a);null!=b&&c.attr(this,
-a,b)})},createElement:function(b,a){e(b,a)},extendValue:function(b,a,d){e(b,function(){c(this).each(function(){r(this,"propValue",{})[a]=this[a];this[a]=d})})}}}(),v=function(a,b){if(a.defaultValue===l)a.defaultValue="";if(!a.removeAttr)a.removeAttr={value:function(){a[b||"prop"].set.call(this,a.defaultValue);a.removeAttr._supvalue.call(this)}}};c.extend(g,{getID:function(){var a=(new Date).getTime();return function(b){var b=c(b),d=b.attr("id");d||(a++,d="ID-"+a,b.attr("id",d));return d}}(),extendUNDEFProp:function(a,
-b){c.each(b,function(b,e){b in a||(a[b]=e)})},createPropDefault:v,data:r,moveToFirstEvent:function(){var a=c._data?"_data":"data";return function(b,d,e){if((b=(c[a](b,"events")||{})[d])&&1<b.length)d=b.pop(),e||(e="bind"),"bind"==e&&b.delegateCount?b.splice(b.delegateCount,0,d):b.unshift(d)}}(),addShadowDom:function(a,b,d){d=d||{};a.jquery&&(a=a[0]);b.jquery&&(b=b[0]);if(!d.shadowFocusElement)d.shadowFocusElement=b;var e=c.data(a,p)||c.data(a,p,{}),k=c.data(b,p)||c.data(b,p,{});e.hasShadow=b;k.nativeElement=
-a;k.shadowData=e.shadowData={nativeElement:a,shadowElement:b,shadowFocusElement:d.shadowFocusElement};d.shadowChilds&&d.shadowChilds.each(function(){r(this,"shadowData",k.shadowData)});if(d.data)e.shadowData.data=d.data,k.shadowData.data=d.data;d=null},propTypes:{standard:function(a){v(a);if(!a.prop)a.prop={set:function(b){a.attr.set.call(this,""+b)},get:function(){return a.attr.get.call(this)||a.defaultValue}}},"boolean":function(a){v(a);if(!a.prop)a.prop={set:function(b){b?a.attr.set.call(this,
-""):a.removeAttr.value.call(this)},get:function(){return null!=a.attr.get.call(this)}}}},reflectProperties:function(a,b){"string"==typeof b&&(b=b.split(h));b.forEach(function(b){g.defineNodeNamesProperty(a,b,{prop:{set:function(a){c.attr(this,b,a)},get:function(){return c.attr(this,b)||""}}})})},defineNodeNameProperty:function(a,b,d){u[b]=!0;if(d.reflect)g.propTypes[d.propType||"standard"](d);["prop","attr","removeAttr"].forEach(function(e){var k=d[e];k&&(k="prop"===e?c.extend({writeable:!0},k):c.extend({},
-k,{writeable:!0}),f[e](a,b,k),"*"!=a&&g.cfg.extendNative&&"prop"==e&&k.value&&c.isFunction(k.value)&&x(a,b,k),d[e]=k)});d.initAttr&&q.content(a,b);return d},defineNodeNameProperties:function(a,b,d,e){for(var c in b)!e&&b[c].initAttr&&q.createTmpCache(a),d&&(b[c][d]?g.log("override: "+a+"["+c+"] for "+d):(b[c][d]={},["value","set","get"].forEach(function(a){a in b[c]&&(b[c][d][a]=b[c][a],delete b[c][a])}))),b[c]=g.defineNodeNameProperty(a,c,b[c]);e||q.flushTmpCache();return b},createElement:function(a,
-b,d){var e;c.isFunction(b)&&(b={after:b});q.createTmpCache(a);b.before&&q.createElement(a,b.before);d&&(e=g.defineNodeNameProperties(a,d,!1,!0));b.after&&q.createElement(a,b.after);q.flushTmpCache();return e},onNodeNamesPropertyModify:function(a,b,d,e){"string"==typeof a&&(a=a.split(h));c.isFunction(d)&&(d={set:d});a.forEach(function(a){s[a]||(s[a]={});"string"==typeof b&&(b=b.split(h));d.initAttr&&q.createTmpCache(a);b.forEach(function(b){s[a][b]||(s[a][b]=[],u[b]=!0);if(d.set){if(e)d.set.only=e;
-s[a][b].push(d.set)}d.initAttr&&q.content(a,b)});q.flushTmpCache()})},defineNodeNamesBooleanProperty:function(a,b,d){d||(d={});if(c.isFunction(d))d.set=d;g.defineNodeNamesProperty(a,b,{attr:{set:function(a){this.setAttribute(b,a);d.set&&d.set.call(this,!0)},get:function(){return null==this.getAttribute(b)?l:b}},removeAttr:{value:function(){this.removeAttribute(b);d.set&&d.set.call(this,!1)}},reflect:!0,propType:"boolean",initAttr:d.initAttr||!1})},contentAttr:function(a,b,d){if(a.nodeName){if(d===
-l)return d=(a.attributes[b]||{}).value,null==d?l:d;"boolean"==typeof d?d?a.setAttribute(b,b):a.removeAttribute(b):a.setAttribute(b,d)}},activeLang:function(){var a=[],b={},d,e,f=/:\/\/|^\.*\//,h=function(a,b,d){return b&&d&&-1!==c.inArray(b,d.availabeLangs||[])?(a.loading=!0,d=d.langSrc,f.test(d)||(d=g.cfg.basePath+d),g.loader.loadScript(d+b+".js",function(){a.langObj[b]?(a.loading=!1,i(a,!0)):c(function(){a.langObj[b]&&i(a,!0);a.loading=!1})}),!0):!1},n=function(a){b[a]&&b[a].forEach(function(a){a.callback()})},
-i=function(a,b){if(a.activeLang!=d&&a.activeLang!==e){var c=o[a.module].options;if(a.langObj[d]||e&&a.langObj[e])a.activeLang=d,a.callback(a.langObj[d]||a.langObj[e],d),n(a.module);else if(!b&&!h(a,d,c)&&!h(a,e,c)&&a.langObj[""]&&""!==a.activeLang)a.activeLang="",a.callback(a.langObj[""],d),n(a.module)}};return function(f){if("string"==typeof f&&f!==d)d=f,e=d.split("-")[0],d==e&&(e=!1),c.each(a,function(a,b){i(b)});else if("object"==typeof f)if(f.register)b[f.register]||(b[f.register]=[]),b[f.register].push(f),
-f.callback();else{if(!f.activeLang)f.activeLang="";a.push(f);i(f)}return d}}()});c.each({defineNodeNamesProperty:"defineNodeNameProperty",defineNodeNamesProperties:"defineNodeNameProperties",createElements:"createElement"},function(a,b){g[a]=function(a,e,c,f){"string"==typeof a&&(a=a.split(h));var o={};a.forEach(function(a){o[a]=g[b](a,e,c,f)});return o}});g.isReady("webshimLocalization",!0)});
-(function(c,g){var j=c.webshims.browserVersion;if(!(c.browser.mozilla&&5<j)&&(!c.browser.msie||12>j&&7<j)){var i={article:"article",aside:"complementary",section:"region",nav:"navigation",address:"contentinfo"},l=function(c,h){c.getAttribute("role")||c.setAttribute("role",h)};c.webshims.addReady(function(o,h){c.each(i,function(f,g){for(var n=c(f,o).add(h.filter(f)),i=0,m=n.length;i<m;i++)l(n[i],g)});if(o===g){var m=g.getElementsByTagName("header")[0],j=g.getElementsByTagName("footer"),n=j.length;
-m&&!c(m).closest("section, article")[0]&&l(m,"banner");n&&(m=j[n-1],c(m).closest("section, article")[0]||l(m,"contentinfo"))}})}})(jQuery,document);
-(function(c,g,j){var i=g.audio&&g.video,l=!1;if(i)c=document.createElement("video"),g.videoBuffered="buffered"in c,l="loop"in c,j.capturingEvents("play,playing,waiting,paused,ended,durationchange,loadedmetadata,canplay,volumechange".split(",")),g.videoBuffered||(j.addPolyfill("mediaelement-native-fix",{f:"mediaelement",test:g.videoBuffered,d:["dom-support"]}),j.reTest("mediaelement-native-fix"));jQuery.webshims.register("mediaelement-core",function(c,h,g,j,n){var f=h.mediaelement,s=h.cfg.mediaelement,
-t=function(a,b){var a=c(a),d={src:a.attr("src")||"",elem:a,srcProp:a.prop("src")};if(!d.src)return d;var e=a.attr("type");if(e)d.type=e,d.container=c.trim(e.split(";")[0]);else if(b||(b=a[0].nodeName.toLowerCase(),"source"==b&&(b=(a.closest("video, audio")[0]||{nodeName:"video"}).nodeName.toLowerCase())),e=f.getTypeForSrc(d.src,b))d.type=e,d.container=e,h.warn("you should always provide a proper mime-type using the source element. "+d.src+" detected as: "+e),c.nodeName(a[0],"source")&&a.attr("type",
-e);if(e=a.attr("media"))d.media=e;return d},w=swfobject.hasFlashPlayerVersion("9.0.115"),p=function(){h.ready("mediaelement-swf",function(){if(!f.createSWF)h.modules["mediaelement-swf"].test=c.noop,h.reTest(["mediaelement-swf"],i)})};f.mimeTypes={audio:{"audio/ogg":["ogg","oga","ogm"],"audio/mpeg":["mp2","mp3","mpga","mpega"],"audio/mp4":"mp4,mpg4,m4r,m4a,m4p,m4b,aac".split(","),"audio/wav":["wav"],"audio/3gpp":["3gp","3gpp"],"audio/webm":["webm"],"audio/fla":["flv","f4a","fla"],"application/x-mpegURL":["m3u8",
-"m3u"]},video:{"video/ogg":["ogg","ogv","ogm"],"video/mpeg":["mpg","mpeg","mpe"],"video/mp4":["mp4","mpg4","m4v"],"video/quicktime":["mov","qt"],"video/x-msvideo":["avi"],"video/x-ms-asf":["asf","asx"],"video/flv":["flv","f4v"],"video/3gpp":["3gp","3gpp"],"video/webm":["webm"],"application/x-mpegURL":["m3u8","m3u"],"video/MP2T":["ts"]}};f.mimeTypes.source=c.extend({},f.mimeTypes.audio,f.mimeTypes.video);f.getTypeForSrc=function(a,b){if(-1!=a.indexOf("youtube.com/watch?")||-1!=a.indexOf("youtube.com/v/"))return"video/youtube";
-var a=a.split("?")[0].split("."),a=a[a.length-1],d;c.each(f.mimeTypes[b],function(b,c){if(-1!==c.indexOf(a))return d=b,!1});return d};f.srces=function(a,b){a=c(a);if(b)a.removeAttr("src").removeAttr("type").find("source").remove(),c.isArray(b)||(b=[b]),b.forEach(function(b){var d=j.createElement("source");"string"==typeof b&&(b={src:b});d.setAttribute("src",b.src);b.type&&d.setAttribute("type",b.type);b.media&&d.setAttribute("media",b.media);a.append(d)});else{var b=[],d=a[0].nodeName.toLowerCase(),
-e=t(a,d);e.src?b.push(e):c("source",a).each(function(){e=t(this,d);e.src&&b.push(e)});return b}};c.fn.loadMediaSrc=function(a,b){return this.each(function(){b!==n&&(c(this).removeAttr("poster"),b&&c.attr(this,"poster",b));f.srces(this,a);c(this).mediaLoad()})};f.swfMimeTypes="video/3gpp,video/x-msvideo,video/quicktime,video/x-m4v,video/mp4,video/m4p,video/x-flv,video/flv,audio/mpeg,audio/aac,audio/mp4,audio/x-m4a,audio/m4a,audio/mp3,audio/x-fla,audio/fla,youtube/flv,jwplayer/jwplayer,video/youtube".split(",");
-f.canSwfPlaySrces=function(a,b){var d="";w&&(a=c(a),b=b||f.srces(a),c.each(b,function(a,b){if(b.container&&b.src&&-1!=f.swfMimeTypes.indexOf(b.container))return d=b,!1}));return d};var r={};f.canNativePlaySrces=function(a,b){var d="";if(i){var a=c(a),e=(a[0].nodeName||"").toLowerCase();if(!r[e])return d;b=b||f.srces(a);c.each(b,function(b,c){if(c.type&&r[e].prop._supvalue.call(a[0],c.type))return d=c,!1})}return d};f.setError=function(a,b){b||(b="can't play sources");c(a).pause().data("mediaerror",
-b);h.warn("mediaelementError: "+b);setTimeout(function(){c(a).data("mediaerror")&&c(a).trigger("mediaerror")},1)};var z=function(){var a;return function(b,d,c){h.ready("mediaelement-swf",function(){f.createSWF?f.createSWF(b,d,c):a||(a=!0,p(),z(b,d,c))})}}(),x=function(a,b,d,c,h){d||!1!==d&&b&&"flash"==b.isActive?(d=f.canSwfPlaySrces(a,c))?z(a,d,b):h?f.setError(a,!1):x(a,b,!1,c,!0):(d=f.canNativePlaySrces(a,c))?b&&"flash"==b.isActive&&f.setActive(a,"html5",b):h?(f.setError(a,!1),b&&"flash"==b.isActive&&
-f.setActive(a,"html5",b)):x(a,b,!0,c,!0)},q=/^(?:embed|object|datalist)$/i,v=function(a,b){var d=h.data(a,"mediaelementBase")||h.data(a,"mediaelementBase",{}),e=f.srces(a),g=a.parentNode;clearTimeout(d.loadTimer);c.data(a,"mediaerror",!1);if(e.length&&g&&!(1!=g.nodeType||q.test(g.nodeName||"")))b=b||h.data(a,"mediaelement"),x(a,b,s.preferFlash||n,e)};c(j).bind("ended",function(a){var b=h.data(a.target,"mediaelement");(!l||b&&"html5"!=b.isActive||c.prop(a.target,"loop"))&&setTimeout(function(){!c.prop(a.target,
-"paused")&&c.prop(a.target,"loop")&&c(a.target).prop("currentTime",0).play()},1)});l||h.defineNodeNamesBooleanProperty(["audio","video"],"loop");["audio","video"].forEach(function(a){var b=h.defineNodeNameProperty(a,"load",{prop:{value:function(){var a=h.data(this,"mediaelement");v(this,a);i&&(!a||"html5"==a.isActive)&&b.prop._supvalue&&b.prop._supvalue.apply(this,arguments)}}});r[a]=h.defineNodeNameProperty(a,"canPlayType",{prop:{value:function(b){var e="";i&&r[a].prop._supvalue&&(e=r[a].prop._supvalue.call(this,
-b),"no"==e&&(e=""));!e&&w&&(b=c.trim((b||"").split(";")[0]),-1!=f.swfMimeTypes.indexOf(b)&&(e="maybe"));return e}}})});h.onNodeNamesPropertyModify(["audio","video"],["src","poster"],{set:function(){var a=this,b=h.data(a,"mediaelementBase")||h.data(a,"mediaelementBase",{});clearTimeout(b.loadTimer);b.loadTimer=setTimeout(function(){v(a);a=null},9)}});i&&h.isReady("mediaelement-core",!0);h.addReady(function(a,b){c("video, audio",a).add(b.filter("video, audio")).each(function(){c.browser.msie&&8<h.browserVersion&&
-c.prop(this,"paused")&&!c.prop(this,"readyState")&&c(this).is('audio[preload="none"][controls]:not([autoplay])')?c(this).prop("preload","metadata").mediaLoad():v(this);if(i){var a,b,f=this,g=function(){var a=c.prop(f,"buffered");if(a){for(var b="",d=0,e=a.length;d<e;d++)b+=a.end(d);return b}},n=function(){var a=g();a!=b&&(b=a,c(f).triggerHandler("progress"))};c(this).bind("play loadstart progress",function(c){"progress"==c.type&&(b=g());clearTimeout(a);a=setTimeout(n,999)}).bind("emptied stalled mediaerror abort suspend",
-function(c){"emptied"==c.type&&(b=!1);clearTimeout(a)})}})});i&&w&&h.ready("WINDOWLOAD mediaelement",p)})})(jQuery,Modernizr,jQuery.webshims);
-jQuery.webshims.register("details",function(c,g,j,i,l,o){var h=function(g){var f=c(g).parent("details");if(f[0]&&f.children(":first").get(0)===g)return f},m=function(g,f){var g=c(g),f=c(f),h=c.data(f[0],"summaryElement");c.data(g[0],"detailsElement",f);if(!h||g[0]!==h[0])h&&(h.hasClass("fallback-summary")?h.remove():h.unbind(".summaryPolyfill").removeData("detailsElement").removeAttr("role").removeAttr("tabindex").removeAttr("aria-expanded").removeClass("summary-button").find("span.details-open-indicator").remove()),c.data(f[0],
-"summaryElement",g),f.prop("open",f.prop("open"))};g.createElement("summary",function(){var i=h(this);if(i&&!c.data(this,"detailsElement")){var f,j,l=c.attr(this,"tabIndex")||"0";m(this,i);c(this).bind("focus.summaryPolyfill",function(){c(this).addClass("summary-has-focus")}).bind("blur.summaryPolyfill",function(){c(this).removeClass("summary-has-focus")}).bind("mouseenter.summaryPolyfill",function(){c(this).addClass("summary-has-hover")}).bind("mouseleave.summaryPolyfill",function(){c(this).removeClass("summary-has-hover")}).bind("click.summaryPolyfill",
-function(g){var i=h(this);if(i){if(!j&&g.originalEvent)return j=!0,g.stopImmediatePropagation(),g.preventDefault(),c(this).trigger("click"),j=!1;clearTimeout(f);f=setTimeout(function(){g.isDefaultPrevented()||i.prop("open",!i.prop("open"))},0)}}).bind("keydown.summaryPolyfill",function(f){if((13==f.keyCode||32==f.keyCode)&&!f.isDefaultPrevented())j=!0,f.preventDefault(),c(this).trigger("click"),j=!1}).attr({tabindex:l,role:"button"}).prepend('<span class="details-open-indicator" />');g.moveToFirstEvent(this,
-"click")}});var u;g.defineNodeNamesBooleanProperty("details","open",function(g){var f=c(c.data(this,"summaryElement"));if(f){var h=g?"removeClass":"addClass",i=c(this);if(!u&&o.animate){i.stop().css({width:"",height:""});var j={width:i.width(),height:i.height()}}f.attr("aria-expanded",""+g);i[h]("closed-details-summary").children().not(f[0])[h]("closed-details-child");!u&&o.animate&&(g={width:i.width(),height:i.height()},i.css(j).animate(g,{complete:function(){c(this).css({width:"",height:""})}}))}});
-g.createElement("details",function(){u=!0;var g=c.data(this,"summaryElement");g||(g=c("> summary:first-child",this),g[0]?m(g,this):(c(this).prependPolyfill('<summary class="fallback-summary">'+o.text+"</summary>"),c.data(this,"summaryElement")));c.prop(this,"open",c.prop(this,"open"));u=!1})});
+//innerShiv for IE8-
+(function($){
+	if(Modernizr.genericDOM){return;}
+	var webshims = $.webshims;
+	var doc = document;
+	var b;
+	var d;
+	var rtagName = /<([\w:]+)/;
+	var wrapMap = {
+		option: 1,
+		optgroup: 1,
+		legend: 1,
+		thead: 1,
+		tr: 1,
+		td: 1,
+		col: 1,
+		area: 1
+	};
+	
+	
+	var htmlExp = /^(?:[^<]*(<[\w\W]+>)[^>]*$)/;
+	
+	webshims.fixHTML5 = function(h) {
+			if(typeof h != 'string' || wrapMap[ (rtagName.exec(h) || ["", ""])[1].toLowerCase() ]){return h;}
+			if (!d) {
+				b = doc.body;
+				if(!b){return h;}
+				d = doc.createElement('div');
+				d.style.display = 'none';
+			}
+			var e = d.cloneNode(false);
+			b.appendChild(e);
+			e.innerHTML = h;
+			b.removeChild(e);
+			return e.childNodes;
+		}
+	;
+
+})(jQuery);
+
+//DOM-Extension helper
+jQuery.webshims.register('dom-extend', function($, webshims, window, document, undefined){
+	"use strict";
+	//shortcus
+	var modules = webshims.modules;
+	var listReg = /\s*,\s*/;
+		
+	//proxying attribute
+	var olds = {};
+	var havePolyfill = {};
+	var extendedProps = {};
+	var extendQ = {};
+	var modifyProps = {};
+	
+	var oldVal = $.fn.val;
+	var singleVal = function(elem, name, val, pass, _argless){
+		return (_argless) ? oldVal.call($(elem)) : oldVal.call($(elem), val);
+	};
+	$.fn.val = function(val){
+		var elem = this[0];
+		if(arguments.length && val == null){
+			val = '';
+		}
+		if(!arguments.length){
+			if(!elem || elem.nodeType !== 1){return oldVal.call(this);}
+			return $.prop(elem, 'value', val, 'val', true);
+		}
+		if($.isArray(val)){
+			return oldVal.apply(this, arguments);
+		}
+		var isFunction = $.isFunction(val);
+		return this.each(function(i){
+			elem = this;
+			if(elem.nodeType === 1){
+				if(isFunction){
+					var genVal = val.call( elem, i, $.prop(elem, 'value', undefined, 'val', true));
+					if(genVal == null){
+						genVal = '';
+					}
+					$.prop(elem, 'value', genVal, 'val') ;
+				} else {
+					$.prop(elem, 'value', val, 'val');
+				}
+			}
+		});
+	};
+	
+	var dataID = '_webshimsLib'+ (Math.round(Math.random() * 1000));
+	var elementData = function(elem, key, val){
+		elem = elem.jquery ? elem[0] : elem;
+		if(!elem){return val || {};}
+		var data = $.data(elem, dataID);
+		if(val !== undefined){
+			if(!data){
+				data = $.data(elem, dataID, {});
+			}
+			if(key){
+				data[key] = val;
+			}
+		}
+		
+		return key ? data && data[key] : data;
+	};
+
+
+	[{name: 'getNativeElement', prop: 'nativeElement'}, {name: 'getShadowElement', prop: 'shadowElement'}, {name: 'getShadowFocusElement', prop: 'shadowFocusElement'}].forEach(function(data){
+		$.fn[data.name] = function(){
+			return this.map(function(){
+				var shadowData = elementData(this, 'shadowData');
+				return shadowData && shadowData[data.prop] || this;
+			});
+		};
+	});
+	
+	
+	
+	
+	['removeAttr', 'prop', 'attr'].forEach(function(type){
+		olds[type] = $[type];
+		$[type] = function(elem, name, value, pass, _argless){
+			var isVal = (pass == 'val');
+			var oldMethod = !isVal ? olds[type] : singleVal;
+			if( !elem || !havePolyfill[name] || elem.nodeType !== 1 || (!isVal && pass && type == 'attr' && $.attrFn[name]) ){
+				return oldMethod(elem, name, value, pass, _argless);
+			}
+			
+			var nodeName = (elem.nodeName || '').toLowerCase();
+			var desc = extendedProps[nodeName];
+			var curType = (type == 'attr' && (value === false || value === null)) ? 'removeAttr' : type;
+			var propMethod;
+			var oldValMethod;
+			var ret;
+			
+			
+			if(!desc){
+				desc = extendedProps['*'];
+			}
+			if(desc){
+				desc = desc[name];
+			}
+			
+			if(desc){
+				propMethod = desc[curType];
+			}
+			
+			if(propMethod){
+				if(name == 'value'){
+					oldValMethod = propMethod.isVal;
+					propMethod.isVal = isVal;
+				}
+				if(curType === 'removeAttr'){
+					return propMethod.value.call(elem);	
+				} else if(value === undefined){
+					return (propMethod.get) ? 
+						propMethod.get.call(elem) : 
+						propMethod.value
+					;
+				} else if(propMethod.set) {
+					if(type == 'attr' && value === true){
+						value = name;
+					}
+					
+					ret = propMethod.set.call(elem, value);
+				}
+				if(name == 'value'){
+					propMethod.isVal = oldValMethod;
+				}
+			} else {
+				ret = oldMethod(elem, name, value, pass, _argless);
+			}
+			if((value !== undefined || curType === 'removeAttr') && modifyProps[nodeName] && modifyProps[nodeName][name]){
+				
+				var boolValue;
+				if(curType == 'removeAttr'){
+					boolValue = false;
+				} else if(curType == 'prop'){
+					boolValue = !!(value);
+				} else {
+					boolValue = true;
+				}
+				
+				modifyProps[nodeName][name].forEach(function(fn){
+					if(!fn.only || (fn.only = 'prop' && type == 'prop') || (fn.only == 'attr' && type != 'prop')){
+						fn.call(elem, value, boolValue, (isVal) ? 'val' : curType, type);
+					}
+				});
+			}
+			return ret;
+		};
+		
+		extendQ[type] = function(nodeName, prop, desc){
+			
+			if(!extendedProps[nodeName]){
+				extendedProps[nodeName] = {};
+			}
+			if(!extendedProps[nodeName][prop]){
+				extendedProps[nodeName][prop] = {};
+			}
+			var oldDesc = extendedProps[nodeName][prop][type];
+			var getSup = function(propType, descriptor, oDesc){
+				if(descriptor && descriptor[propType]){
+					return descriptor[propType];
+				}
+				if(oDesc && oDesc[propType]){
+					return oDesc[propType];
+				}
+				if(type == 'prop' && prop == 'value'){
+					return function(value){
+						var elem = this;
+						return (desc.isVal) ? 
+							singleVal(elem, prop, value, false, (arguments.length === 0)) : 
+							olds[type](elem, prop, value)
+						;
+					};
+				}
+				if(type == 'prop' && propType == 'value' && desc.value.apply){
+					return  function(value){
+						var sup = olds[type](this, prop);
+						if(sup && sup.apply){
+							sup = sup.apply(this, arguments);
+						} 
+						return sup;
+					};
+				}
+				return function(value){
+					return olds[type](this, prop, value);
+				};
+			};
+			extendedProps[nodeName][prop][type] = desc;
+			if(desc.value === undefined){
+				if(!desc.set){
+					desc.set = desc.writeable ? 
+						getSup('set', desc, oldDesc) : 
+						(webshims.cfg.useStrict && prop == 'prop') ? 
+							function(){throw(prop +' is readonly on '+ nodeName);} : 
+							$.noop
+					;
+				}
+				if(!desc.get){
+					desc.get = getSup('get', desc, oldDesc);
+				}
+				
+			}
+			
+			['value', 'get', 'set'].forEach(function(descProp){
+				if(desc[descProp]){
+					desc['_sup'+descProp] = getSup(descProp, oldDesc);
+				}
+			});
+		};
+		
+	});
+	
+	//see also: https://github.com/lojjic/PIE/issues/40 | https://prototype.lighthouseapp.com/projects/8886/tickets/1107-ie8-fatal-crash-when-prototypejs-is-loaded-with-rounded-cornershtc
+	var isExtendNativeSave = (!$.browser.msie || parseInt($.browser.version, 10) > 8);
+	var extendNativeValue = (function(){
+		var UNKNOWN = webshims.getPrototypeOf(document.createElement('foobar'));
+		var has = Object.prototype.hasOwnProperty;
+		return function(nodeName, prop, desc){
+			var elem = document.createElement(nodeName);
+			var elemProto = webshims.getPrototypeOf(elem);
+			if( isExtendNativeSave && elemProto && UNKNOWN !== elemProto && ( !elem[prop] || !has.call(elem, prop) ) ){
+				var sup = elem[prop];
+				desc._supvalue = function(){
+					if(sup && sup.apply){
+						return sup.apply(this, arguments);
+					}
+					return sup;
+				};
+				elemProto[prop] = desc.value;
+			} else {
+				desc._supvalue = function(){
+					var data = elementData(this, 'propValue');
+					if(data && data[prop] && data[prop].apply){
+						return data[prop].apply(this, arguments);
+					}
+					return data && data[prop];
+				};
+				initProp.extendValue(nodeName, prop, desc.value);
+			}
+			desc.value._supvalue = desc._supvalue;
+		};
+	})();
+		
+	var initProp = (function(){
+		
+		var initProps = {};
+		
+		webshims.addReady(function(context, contextElem){
+			var nodeNameCache = {};
+			var getElementsByName = function(name){
+				if(!nodeNameCache[name]){
+					nodeNameCache[name] = $(context.getElementsByTagName(name));
+					if(contextElem[0] && $.nodeName(contextElem[0], name)){
+						nodeNameCache[name] = nodeNameCache[name].add(contextElem);
+					}
+				}
+			};
+			
+			
+			$.each(initProps, function(name, fns){
+				getElementsByName(name);
+				if(!fns || !fns.forEach){
+					webshims.warn('Error: with '+ name +'-property. methods: '+ fns);
+					return;
+				}
+				fns.forEach(function(fn){
+					nodeNameCache[name].each(fn);
+				});
+			});
+			nodeNameCache = null;
+		});
+		
+		var tempCache;
+		var emptyQ = $([]);
+		var createNodeNameInit = function(nodeName, fn){
+			if(!initProps[nodeName]){
+				initProps[nodeName] = [fn];
+			} else {
+				initProps[nodeName].push(fn);
+			}
+			if($.isDOMReady){
+				(tempCache || $( document.getElementsByTagName(nodeName) )).each(fn);
+			}
+		};
+		
+		var elementExtends = {};
+		return {
+			createTmpCache: function(nodeName){
+				if($.isDOMReady){
+					tempCache = tempCache || $( document.getElementsByTagName(nodeName) );
+				}
+				return tempCache || emptyQ;
+			},
+			flushTmpCache: function(){
+				tempCache = null;
+			},
+			content: function(nodeName, prop){
+				createNodeNameInit(nodeName, function(){
+					var val =  $.attr(this, prop);
+					if(val != null){
+						$.attr(this, prop, val);
+					}
+				});
+			},
+			createElement: function(nodeName, fn){
+				createNodeNameInit(nodeName, fn);
+			},
+			extendValue: function(nodeName, prop, value){
+				createNodeNameInit(nodeName, function(){
+					$(this).each(function(){
+						var data = elementData(this, 'propValue', {});
+						data[prop] = this[prop];
+						this[prop] = value;
+					});
+				});
+			}
+		};
+	})();
+		
+	var createPropDefault = function(descs, removeType){
+		if(descs.defaultValue === undefined){
+			descs.defaultValue = '';
+		}
+		if(!descs.removeAttr){
+			descs.removeAttr = {
+				value: function(){
+					descs[removeType || 'prop'].set.call(this, descs.defaultValue);
+					descs.removeAttr._supvalue.call(this);
+				}
+			};
+		}
+	};
+	
+	$.extend(webshims, {
+
+		getID: (function(){
+			var ID = new Date().getTime();
+			return function(elem){
+				elem = $(elem);
+				var id = elem.attr('id');
+				if(!id){
+					ID++;
+					id = 'ID-'+ ID;
+					elem.attr('id', id);
+				}
+				return id;
+			};
+		})(),
+		extendUNDEFProp: function(obj, props){
+			$.each(props, function(name, prop){
+				if( !(name in obj) ){
+					obj[name] = prop;
+				}
+			});
+		},
+		//http://www.w3.org/TR/html5/common-dom-interfaces.html#reflect
+		createPropDefault: createPropDefault,
+		data: elementData,
+		moveToFirstEvent: (function(){
+			var getData = $._data ? '_data' : 'data';
+			return function(elem, eventType, bindType){
+				var events = ($[getData](elem, 'events') || {})[eventType];
+				var fn;
+				
+				if(events && events.length > 1){
+					fn = events.pop();
+					if(!bindType){
+						bindType = 'bind';
+					}
+					if(bindType == 'bind' && events.delegateCount){
+						events.splice( events.delegateCount, 0, fn);
+					} else {
+						events.unshift( fn );
+					}
+					
+					
+				}
+				elem = null;
+			};
+		})(),
+		addShadowDom: function(nativeElem, shadowElem, opts){
+			opts = opts || {};
+			if(nativeElem.jquery){
+				nativeElem = nativeElem[0];
+			}
+			if(shadowElem.jquery){
+				shadowElem = shadowElem[0];
+			}
+			if(!opts.shadowFocusElement){
+				opts.shadowFocusElement = shadowElem;
+			}
+			var nativeData = $.data(nativeElem, dataID) || $.data(nativeElem, dataID, {});
+			var shadowData = $.data(shadowElem, dataID) || $.data(shadowElem, dataID, {});
+			nativeData.hasShadow = shadowElem;
+			shadowData.nativeElement = nativeElem;
+			shadowData.shadowData = nativeData.shadowData = {
+				nativeElement: nativeElem,
+				shadowElement: shadowElem,
+				shadowFocusElement: opts.shadowFocusElement
+			};
+			if(opts.shadowChilds){
+				opts.shadowChilds.each(function(){
+					elementData(this, 'shadowData', shadowData.shadowData);
+				});
+			}
+			
+			if(opts.data){
+				nativeData.shadowData.data = opts.data;
+				shadowData.shadowData.data = opts.data;
+			}
+			opts = null;
+		},
+		propTypes: {
+			standard: function(descs, name){
+				createPropDefault(descs);
+				if(descs.prop){return;}
+				descs.prop = {
+					set: function(val){
+						descs.attr.set.call(this, ''+val);
+					},
+					get: function(){
+						return descs.attr.get.call(this) || descs.defaultValue;
+					}
+				};
+				
+			},
+			"boolean": function(descs, name){
+				
+				createPropDefault(descs);
+				if(descs.prop){return;}
+				descs.prop = {
+					set: function(val){
+						if(val){
+							descs.attr.set.call(this, "");
+						} else {
+							descs.removeAttr.value.call(this);
+						}
+					},
+					get: function(){
+						return descs.attr.get.call(this) != null;
+					}
+				};
+			}
+			
+//			,enumarated: $.noop
+//			,unsignedLong: $.noop
+//			,"doubble": $.noop
+//			,"long": $.noop
+//			,tokenlist: $.noop
+//			,settableTokenlist: $.noop
+		},
+		reflectProperties: function(nodeNames, props){
+			if(typeof props == 'string'){
+				props = props.split(listReg);
+			}
+			props.forEach(function(prop){
+				webshims.defineNodeNamesProperty(nodeNames, prop, {
+					prop: {
+						set: function(val){
+							$.attr(this, prop, val);
+						},
+						get: function(){
+							return $.attr(this, prop) || '';
+						}
+					}
+				});
+			});
+		},
+		defineNodeNameProperty: function(nodeName, prop, descs){
+			havePolyfill[prop] = true;
+						
+			if(descs.reflect){
+				webshims.propTypes[descs.propType || 'standard'](descs);
+			}
+			
+			['prop', 'attr', 'removeAttr'].forEach(function(type){
+				var desc = descs[type];
+				if(desc){
+					if(type === 'prop'){
+						desc = $.extend({writeable: true}, desc);
+					} else {
+						desc = $.extend({}, desc, {writeable: true});
+					}
+						
+					extendQ[type](nodeName, prop, desc);
+					if(nodeName != '*' && webshims.cfg.extendNative && type == 'prop' && desc.value && $.isFunction(desc.value)){
+						extendNativeValue(nodeName, prop, desc);
+					}
+					descs[type] = desc;
+				}
+			});
+			if(descs.initAttr){
+				initProp.content(nodeName, prop);
+			}
+			return descs;
+		},
+		
+		defineNodeNameProperties: function(name, descs, propType, _noTmpCache){
+			var olddesc;
+			for(var prop in descs){
+				if(!_noTmpCache && descs[prop].initAttr){
+					initProp.createTmpCache(name);
+				}
+				if(propType){
+					if(descs[prop][propType]){
+						webshims.log('override: '+ name +'['+prop +'] for '+ propType);
+					} else {
+						descs[prop][propType] = {};
+						['value', 'set', 'get'].forEach(function(copyProp){
+							if(copyProp in descs[prop]){
+								descs[prop][propType][copyProp] = descs[prop][copyProp];
+								delete descs[prop][copyProp];
+							}
+						});
+					}
+				}
+				descs[prop] = webshims.defineNodeNameProperty(name, prop, descs[prop]);
+			}
+			if(!_noTmpCache){
+				initProp.flushTmpCache();
+			}
+			return descs;
+		},
+		
+		createElement: function(nodeName, create, descs){
+			var ret;
+			if($.isFunction(create)){
+				create = {
+					after: create
+				};
+			}
+			initProp.createTmpCache(nodeName);
+			if(create.before){
+				initProp.createElement(nodeName, create.before);
+			}
+			if(descs){
+				ret = webshims.defineNodeNameProperties(nodeName, descs, false, true);
+			}
+			if(create.after){
+				initProp.createElement(nodeName, create.after);
+			}
+			initProp.flushTmpCache();
+			return ret;
+		},
+		onNodeNamesPropertyModify: function(nodeNames, props, desc, only){
+			if(typeof nodeNames == 'string'){
+				nodeNames = nodeNames.split(listReg);
+			}
+			if($.isFunction(desc)){
+				desc = {set: desc};
+			}
+			
+			nodeNames.forEach(function(name){
+				if(!modifyProps[name]){
+					modifyProps[name] = {};
+				}
+				if(typeof props == 'string'){
+					props = props.split(listReg);
+				}
+				if(desc.initAttr){
+					initProp.createTmpCache(name);
+				}
+				props.forEach(function(prop){
+					if(!modifyProps[name][prop]){
+						modifyProps[name][prop] = [];
+						havePolyfill[prop] = true;
+					}
+					if(desc.set){
+						if(only){
+							desc.set.only =  only;
+						}
+						modifyProps[name][prop].push(desc.set);
+					}
+					
+					if(desc.initAttr){
+						initProp.content(name, prop);
+					}
+				});
+				initProp.flushTmpCache();
+				
+			});
+		},
+		defineNodeNamesBooleanProperty: function(elementNames, prop, descs){
+			if(!descs){
+				descs = {};
+			}
+			if($.isFunction(descs)){
+				descs.set = descs;
+			}
+			webshims.defineNodeNamesProperty(elementNames, prop, {
+				attr: {
+					set: function(val){
+						this.setAttribute(prop, val);
+						if(descs.set){
+							descs.set.call(this, true);
+						}
+					},
+					get: function(){
+						var ret = this.getAttribute(prop);
+						return (ret == null) ? undefined : prop;
+					}
+				},
+				removeAttr: {
+					value: function(){
+						this.removeAttribute(prop);
+						if(descs.set){
+							descs.set.call(this, false);
+						}
+					}
+				},
+				reflect: true,
+				propType: 'boolean',
+				initAttr: descs.initAttr || false
+			});
+		},
+		contentAttr: function(elem, name, val){
+			if(!elem.nodeName){return;}
+			if(val === undefined){
+				val = (elem.attributes[name] || {}).value;
+				return (val == null) ? undefined : val;
+			}
+			
+			if(typeof val == 'boolean'){
+				if(!val){
+					elem.removeAttribute(name);
+				} else {
+					elem.setAttribute(name, name);
+				}
+			} else {
+				elem.setAttribute(name, val);
+			}
+		},
+		
+//		set current Lang:
+//			- webshims.activeLang(lang:string);
+//		get current lang
+//			- webshims.activeLang();
+//		get current lang
+//			webshims.activeLang({
+//				register: moduleName:string,
+//				callback: callback:function
+//			});
+//		get/set including removeLang
+//			- webshims.activeLang({
+//				module: moduleName:string,
+//				callback: callback:function,
+//				langObj: languageObj:array/object
+//			});
+		activeLang: (function(){
+			var callbacks = [];
+			var registeredCallbacks = {};
+			var currentLang;
+			var shortLang;
+			var notLocal = /:\/\/|^\.*\//;
+			var loadRemoteLang = function(data, lang, options){
+				var langSrc;
+				if(lang && options && $.inArray(lang, options.availabeLangs || []) !== -1){
+					data.loading = true;
+					langSrc = options.langSrc;
+					if(!notLocal.test(langSrc)){
+						langSrc = webshims.cfg.basePath+langSrc;
+					}
+					webshims.loader.loadScript(langSrc+lang+'.js', function(){
+						if(data.langObj[lang]){
+							data.loading = false;
+							callLang(data, true);
+						} else {
+							$(function(){
+								if(data.langObj[lang]){
+									callLang(data, true);
+								}
+								data.loading = false;
+							});
+						}
+					});
+					return true;
+				}
+				return false;
+			};
+			var callRegister = function(module){
+				if(registeredCallbacks[module]){
+					registeredCallbacks[module].forEach(function(data){
+						data.callback();
+					});
+				}
+			};
+			var callLang = function(data, _noLoop){
+				if(data.activeLang != currentLang && data.activeLang !== shortLang){
+					var options = modules[data.module].options;
+					if( data.langObj[currentLang] || (shortLang && data.langObj[shortLang]) ){
+						data.activeLang = currentLang;
+						data.callback(data.langObj[currentLang] || data.langObj[shortLang], currentLang);
+						callRegister(data.module);
+					} else if( !_noLoop &&
+						!loadRemoteLang(data, currentLang, options) && 
+						!loadRemoteLang(data, shortLang, options) && 
+						data.langObj[''] && data.activeLang !== '' ) {
+						data.activeLang = '';
+						data.callback(data.langObj[''], currentLang);
+						callRegister(data.module);
+					}
+				}
+			};
+			
+			
+			var activeLang = function(lang){
+				
+				if(typeof lang == 'string' && lang !== currentLang){
+					currentLang = lang;
+					shortLang = currentLang.split('-')[0];
+					if(currentLang == shortLang){
+						shortLang = false;
+					}
+					$.each(callbacks, function(i, data){
+						callLang(data);
+					});
+				} else if(typeof lang == 'object'){
+					
+					if(lang.register){
+						if(!registeredCallbacks[lang.register]){
+							registeredCallbacks[lang.register] = [];
+						}
+						registeredCallbacks[lang.register].push(lang);
+						lang.callback();
+					} else {
+						if(!lang.activeLang){
+							lang.activeLang = '';
+						}
+						callbacks.push(lang);
+						callLang(lang);
+					}
+				}
+				return currentLang;
+			};
+			
+			return activeLang;
+		})()
+	});
+	
+	$.each({
+		defineNodeNamesProperty: 'defineNodeNameProperty',
+		defineNodeNamesProperties: 'defineNodeNameProperties',
+		createElements: 'createElement'
+	}, function(name, baseMethod){
+		webshims[name] = function(names, a, b, c){
+			if(typeof names == 'string'){
+				names = names.split(listReg);
+			}
+			var retDesc = {};
+			names.forEach(function(nodeName){
+				retDesc[nodeName] = webshims[baseMethod](nodeName, a, b, c);
+			});
+			return retDesc;
+		};
+	});
+	
+	webshims.isReady('webshimLocalization', true);
+});
+//html5a11y
+(function($, document){
+	var browserVersion = $.webshims.browserVersion;
+	if($.browser.mozilla && browserVersion > 5){return;}
+	if (!$.browser.msie || (browserVersion < 12 && browserVersion > 7)) {
+		var elemMappings = {
+			article: "article",
+			aside: "complementary",
+			section: "region",
+			nav: "navigation",
+			address: "contentinfo"
+		};
+		var addRole = function(elem, role){
+			var hasRole = elem.getAttribute('role');
+			if (!hasRole) {
+				elem.setAttribute('role', role);
+			}
+		};
+		
+		$.webshims.addReady(function(context, contextElem){
+			$.each(elemMappings, function(name, role){
+				var elems = $(name, context).add(contextElem.filter(name));
+				for (var i = 0, len = elems.length; i < len; i++) {
+					addRole(elems[i], role);
+				}
+			});
+			if (context === document) {
+				var header = document.getElementsByTagName('header')[0];
+				var footers = document.getElementsByTagName('footer');
+				var footerLen = footers.length;
+				if (header && !$(header).closest('section, article')[0]) {
+					addRole(header, 'banner');
+				}
+				if (!footerLen) {
+					return;
+				}
+				var footer = footers[footerLen - 1];
+				if (!$(footer).closest('section, article')[0]) {
+					addRole(footer, 'contentinfo');
+				}
+			}
+		});
+	}
+})(jQuery, document);
+(function($, Modernizr, webshims){
+	"use strict";
+	var hasNative = Modernizr.audio && Modernizr.video;
+	var supportsLoop = false;
+	
+	if(hasNative){
+		var videoElem = document.createElement('video');
+		Modernizr.videoBuffered = ('buffered' in videoElem);
+		supportsLoop = ('loop' in videoElem);
+		
+		webshims.capturingEvents(['play', 'playing', 'waiting', 'paused', 'ended', 'durationchange', 'loadedmetadata', 'canplay', 'volumechange']);
+		
+		if(!Modernizr.videoBuffered){
+			webshims.addPolyfill('mediaelement-native-fix', {
+				f: 'mediaelement',
+				test: Modernizr.videoBuffered,
+				d: ['dom-support']
+			});
+			
+			webshims.reTest('mediaelement-native-fix');
+		}
+	}
+
+jQuery.webshims.register('mediaelement-core', function($, webshims, window, document, undefined){
+	var mediaelement = webshims.mediaelement;
+	var options = webshims.cfg.mediaelement;
+	var getSrcObj = function(elem, nodeName){
+		elem = $(elem);
+		var src = {src: elem.attr('src') || '', elem: elem, srcProp: elem.prop('src')};
+		if(!src.src){return src;}
+		var tmp = elem.attr('type');
+		if(tmp){
+			src.type = tmp;
+			src.container = $.trim(tmp.split(';')[0]);
+		} else {
+			if(!nodeName){
+				nodeName = elem[0].nodeName.toLowerCase();
+				if(nodeName == 'source'){
+					nodeName = (elem.closest('video, audio')[0] || {nodeName: 'video'}).nodeName.toLowerCase();
+				}
+			}
+			tmp = mediaelement.getTypeForSrc(src.src, nodeName );
+			
+			if(tmp){
+				src.type = tmp;
+				src.container = tmp;
+				webshims.warn('you should always provide a proper mime-type using the source element. '+ src.src +' detected as: '+ tmp);
+				if($.nodeName(elem[0], 'source')){
+					elem.attr('type', tmp);
+				}
+			}
+		}
+		tmp = elem.attr('media');
+		if(tmp){
+			src.media = tmp;
+		}
+		return src;
+	};
+	
+	
+	var hasSwf = swfobject.hasFlashPlayerVersion('9.0.115');
+	var loadSwf = function(){
+		webshims.ready('mediaelement-swf', function(){
+			if(!mediaelement.createSWF){
+				webshims.modules["mediaelement-swf"].test = $.noop;
+				webshims.reTest(["mediaelement-swf"], hasNative);
+			}
+		});
+	};
+	
+	mediaelement.mimeTypes = {
+		audio: {
+				//ogm shouldn´t be used!
+				'audio/ogg': ['ogg','oga', 'ogm'],
+				'audio/mpeg': ['mp2','mp3','mpga','mpega'],
+				'audio/mp4': ['mp4','mpg4', 'm4r', 'm4a', 'm4p', 'm4b', 'aac'],
+				'audio/wav': ['wav'],
+				'audio/3gpp': ['3gp','3gpp'],
+				'audio/webm': ['webm'],
+				'audio/fla': ['flv', 'f4a', 'fla'],
+				'application/x-mpegURL': ['m3u8', 'm3u']
+			},
+			video: {
+				//ogm shouldn´t be used!
+				'video/ogg': ['ogg','ogv', 'ogm'],
+				'video/mpeg': ['mpg','mpeg','mpe'],
+				'video/mp4': ['mp4','mpg4', 'm4v'],
+				'video/quicktime': ['mov','qt'],
+				'video/x-msvideo': ['avi'],
+				'video/x-ms-asf': ['asf', 'asx'],
+				'video/flv': ['flv', 'f4v'],
+				'video/3gpp': ['3gp','3gpp'],
+				'video/webm': ['webm'],
+				'application/x-mpegURL': ['m3u8', 'm3u'],
+				'video/MP2T': ['ts']
+			}
+		}
+	;
+	
+	mediaelement.mimeTypes.source =  $.extend({}, mediaelement.mimeTypes.audio, mediaelement.mimeTypes.video);
+	
+	mediaelement.getTypeForSrc = function(src, nodeName){
+		if(src.indexOf('youtube.com/watch?') != -1 || src.indexOf('youtube.com/v/') != -1){
+			return 'video/youtube';
+		}
+		src = src.split('?')[0].split('.');
+		src = src[src.length - 1];
+		var mt;
+		
+		$.each(mediaelement.mimeTypes[nodeName], function(mimeType, exts){
+			if(exts.indexOf(src) !== -1){
+				mt = mimeType;
+				return false;
+			}
+		});
+		return mt;
+	};
+	
+	
+	mediaelement.srces = function(mediaElem, srces){
+		mediaElem = $(mediaElem);
+		if(!srces){
+			srces = [];
+			var nodeName = mediaElem[0].nodeName.toLowerCase();
+			var src = getSrcObj(mediaElem, nodeName);
+			
+			if(!src.src){
+				
+				$('source', mediaElem).each(function(){
+					src = getSrcObj(this, nodeName);
+					if(src.src){srces.push(src);}
+				});
+			} else {
+				srces.push(src);
+			}
+			return srces;
+		} else {
+			mediaElem.removeAttr('src').removeAttr('type').find('source').remove();
+			if(!$.isArray(srces)){
+				srces = [srces]; 
+			}
+			srces.forEach(function(src){
+				var source = document.createElement('source');
+				if(typeof src == 'string'){
+					src = {src: src};
+				} 
+				source.setAttribute('src', src.src);
+				if(src.type){
+					source.setAttribute('type', src.type);
+				}
+				if(src.media){
+					source.setAttribute('media', src.media);
+				}
+				mediaElem.append(source);
+			});
+			
+		}
+	};
+	
+	
+	$.fn.loadMediaSrc = function(srces, poster){
+		return this.each(function(){
+			if(poster !== undefined){
+				$(this).removeAttr('poster');
+				if(poster){
+					$.attr(this, 'poster', poster);
+				}
+			}
+			mediaelement.srces(this, srces);
+			$(this).mediaLoad();
+		});
+	};
+	
+	mediaelement.swfMimeTypes = ['video/3gpp', 'video/x-msvideo', 'video/quicktime', 'video/x-m4v', 'video/mp4', 'video/m4p', 'video/x-flv', 'video/flv', 'audio/mpeg', 'audio/aac', 'audio/mp4', 'audio/x-m4a', 'audio/m4a', 'audio/mp3', 'audio/x-fla', 'audio/fla', 'youtube/flv', 'jwplayer/jwplayer', 'video/youtube'];
+	mediaelement.canSwfPlaySrces = function(mediaElem, srces){
+		var ret = '';
+		if(hasSwf){
+			mediaElem = $(mediaElem);
+			srces = srces || mediaelement.srces(mediaElem);
+			$.each(srces, function(i, src){
+				if(src.container && src.src && mediaelement.swfMimeTypes.indexOf(src.container) != -1){
+					ret = src;
+					return false;
+				}
+			});
+			
+		}
+		
+		return ret;
+	};
+	
+	var nativeCanPlayType = {};
+	mediaelement.canNativePlaySrces = function(mediaElem, srces){
+		var ret = '';
+		if(hasNative){
+			mediaElem = $(mediaElem);
+			var nodeName = (mediaElem[0].nodeName || '').toLowerCase();
+			if(!nativeCanPlayType[nodeName]){return ret;}
+			srces = srces || mediaelement.srces(mediaElem);
+			
+			$.each(srces, function(i, src){
+				if(src.type && nativeCanPlayType[nodeName].prop._supvalue.call(mediaElem[0], src.type) ){
+					ret = src;
+					return false;
+				}
+			});
+		}
+		return ret;
+	};
+	
+	mediaelement.setError = function(elem, message){
+		if(!message){
+			message = "can't play sources";
+		}
+		
+		$(elem).pause().data('mediaerror', message);
+		webshims.warn('mediaelementError: '+ message);
+		setTimeout(function(){
+			if($(elem).data('mediaerror')){
+				$(elem).trigger('mediaerror');
+			}
+		}, 1);
+	};
+	
+	var handleSWF = (function(){
+		var requested;
+		return function( mediaElem, ret, data ){
+			webshims.ready('mediaelement-swf', function(){
+				if(mediaelement.createSWF){
+					mediaelement.createSWF( mediaElem, ret, data );
+				} else if(!requested) {
+					requested = true;
+					loadSwf();
+					//readd to ready
+					handleSWF( mediaElem, ret, data );
+				}
+			});
+		};
+	})();
+	
+	var stepSources = function(elem, data, useSwf, _srces, _noLoop){
+		var ret;
+		if(useSwf || (useSwf !== false && data && data.isActive == 'flash')){
+			ret = mediaelement.canSwfPlaySrces(elem, _srces);
+			if(!ret){
+				if(_noLoop){
+					mediaelement.setError(elem, false);
+				} else {
+					stepSources(elem, data, false, _srces, true);
+				}
+			} else {
+				handleSWF(elem, ret, data);
+			}
+		} else {
+			ret = mediaelement.canNativePlaySrces(elem, _srces);
+			if(!ret){
+				if(_noLoop){
+					mediaelement.setError(elem, false);
+					if(data && data.isActive == 'flash') {
+						mediaelement.setActive(elem, 'html5', data);
+					}
+				} else {
+					stepSources(elem, data, true, _srces, true);
+				}
+			} else if(data && data.isActive == 'flash') {
+				mediaelement.setActive(elem, 'html5', data);
+			}
+		}
+	};
+	var stopParent = /^(?:embed|object|datalist)$/i;
+	var selectSource = function(elem, data){
+		var baseData = webshims.data(elem, 'mediaelementBase') || webshims.data(elem, 'mediaelementBase', {});
+		var _srces = mediaelement.srces(elem);
+		var parent = elem.parentNode;
+		
+		clearTimeout(baseData.loadTimer);
+		$.data(elem, 'mediaerror', false);
+		
+		if(!_srces.length || !parent || parent.nodeType != 1 || stopParent.test(parent.nodeName || '')){return;}
+		data = data || webshims.data(elem, 'mediaelement');
+		stepSources(elem, data, options.preferFlash || undefined, _srces);
+	};
+	
+	
+	$(document).bind('ended', function(e){
+		var data = webshims.data(e.target, 'mediaelement');
+		if( supportsLoop && (!data || data.isActive == 'html5') && !$.prop(e.target, 'loop')){return;}
+		setTimeout(function(){
+			if( $.prop(e.target, 'paused') || !$.prop(e.target, 'loop') ){return;}
+			$(e.target).prop('currentTime', 0).play();
+		}, 1);
+		
+	});
+	if(!supportsLoop){
+		webshims.defineNodeNamesBooleanProperty(['audio', 'video'], 'loop');
+	}
+	
+	['audio', 'video'].forEach(function(nodeName){
+		var supLoad = webshims.defineNodeNameProperty(nodeName, 'load',  {
+			prop: {
+				value: function(){
+					var data = webshims.data(this, 'mediaelement');
+					selectSource(this, data);
+					if(hasNative && (!data || data.isActive == 'html5') && supLoad.prop._supvalue){
+						supLoad.prop._supvalue.apply(this, arguments);
+					}
+				}
+			}
+		});
+		nativeCanPlayType[nodeName] = webshims.defineNodeNameProperty(nodeName, 'canPlayType',  {
+			prop: {
+				value: function(type){
+					var ret = '';
+					if(hasNative && nativeCanPlayType[nodeName].prop._supvalue){
+						ret = nativeCanPlayType[nodeName].prop._supvalue.call(this, type);
+						if(ret == 'no'){
+							ret = '';
+						}
+					}
+					if(!ret && hasSwf){
+						type = $.trim((type || '').split(';')[0]);
+						if(mediaelement.swfMimeTypes.indexOf(type) != -1){
+							ret = 'maybe';
+						}
+					}
+					return ret;
+				}
+			}
+		});
+	});
+	webshims.onNodeNamesPropertyModify(['audio', 'video'], ['src', 'poster'], {
+		set: function(){
+			var elem = this;
+			var baseData = webshims.data(elem, 'mediaelementBase') || webshims.data(elem, 'mediaelementBase', {});
+			clearTimeout(baseData.loadTimer);
+			baseData.loadTimer = setTimeout(function(){
+				selectSource(elem);
+				elem = null;
+			}, 9);
+		}
+	});
+	
+	var initMediaElements = function(){
+		webshims.addReady(function(context, insertedElement){
+			$('video, audio', context)
+				.add(insertedElement.filter('video, audio'))
+				.each(function(){
+					if($.browser.msie && webshims.browserVersion > 8 && $.prop(this, 'paused') && !$.prop(this, 'readyState') && $(this).is('audio[preload="none"][controls]:not([autoplay])')){
+						$(this).prop('preload', 'metadata').mediaLoad();
+					} else {
+						selectSource(this);
+					}
+					
+					
+					
+					if(hasNative){
+						var bufferTimer;
+						var lastBuffered;
+						var elem = this;
+						var getBufferedString = function(){
+							var buffered = $.prop(elem, 'buffered');
+							if(!buffered){return;}
+							var bufferString = "";
+							for(var i = 0, len = buffered.length; i < len;i++){
+								bufferString += buffered.end(i);
+							}
+							return bufferString;
+						};
+						var testBuffer = function(){
+							var buffered = getBufferedString();
+							if(buffered != lastBuffered){
+								lastBuffered = buffered;
+								$(elem).triggerHandler('progress');
+							}
+						};
+						
+						$(this)
+							.bind('play loadstart progress', function(e){
+								if(e.type == 'progress'){
+									lastBuffered = getBufferedString();
+								}
+								clearTimeout(bufferTimer);
+								bufferTimer = setTimeout(testBuffer, 999);
+							})
+							.bind('emptied stalled mediaerror abort suspend', function(e){
+								if(e.type == 'emptied'){
+									lastBuffered = false;
+								}
+								clearTimeout(bufferTimer);
+							})
+						;
+					}
+				})
+			;
+		});
+	};
+	
+	
+	//set native implementation ready, before swf api is retested
+	if(hasNative){
+		webshims.isReady('mediaelement-core', true);
+		initMediaElements();
+		if(hasSwf){
+			webshims.ready('WINDOWLOAD mediaelement', loadSwf);
+		}
+	} else {
+		webshims.ready('mediaelement-swf', initMediaElements);
+	}
+	
+	
+});
+})(jQuery, Modernizr, jQuery.webshims);jQuery.webshims.register('details', function($, webshims, window, doc, undefined, options){
+	var isInterActiveSummary = function(summary){
+		var details = $(summary).parent('details');
+		if(details[0] && details.children(':first').get(0) === summary){
+			return details;
+		}
+	};
+	
+	var bindDetailsSummary = function(summary, details){
+		summary = $(summary);
+		details = $(details);
+		var oldSummary = $.data(details[0], 'summaryElement');
+		$.data(summary[0], 'detailsElement', details);
+		if(!oldSummary || summary[0] !== oldSummary[0]){
+			if(oldSummary){
+				if(oldSummary.hasClass('fallback-summary')){
+					oldSummary.remove();
+				} else {
+					oldSummary
+						.unbind('.summaryPolyfill')
+						.removeData('detailsElement')
+						.removeAttr('role')
+						.removeAttr('tabindex')
+						.removeAttr('aria-expanded')
+						.removeClass('summary-button')
+						.find('span.details-open-indicator')
+						.remove()
+					;
+				}
+			}
+			$.data(details[0], 'summaryElement', summary);
+			details.prop('open', details.prop('open'));
+		}
+	};
+	var getSummary = function(details){
+		var summary = $.data(details, 'summaryElement');
+		if(!summary){
+			summary = $('> summary:first-child', details);
+			if(!summary[0]){
+				$(details).prependPolyfill('<summary class="fallback-summary">'+ options.text +'</summary>');
+				summary = $.data(details, 'summaryElement');
+			} else {
+				bindDetailsSummary(summary, details);
+			}
+		}
+		return summary;
+	};
+	
+//	var isOriginalPrevented = function(e){
+//		var src = e.originalEvent;
+//		if(!src){return e.isDefaultPrevented();}
+//		
+//		return src.defaultPrevented || src.returnValue === false ||
+//			src.getPreventDefault && src.getPreventDefault();
+//	};
+	
+	webshims.createElement('summary', function(){
+		var details = isInterActiveSummary(this);
+		if(!details || $.data(this, 'detailsElement')){return;}
+		var timer;
+		var stopNativeClickTest;
+		var tabindex = $.attr(this, 'tabIndex') || '0';
+		bindDetailsSummary(this, details);
+		$(this)
+			.bind('focus.summaryPolyfill', function(){
+				$(this).addClass('summary-has-focus');
+			})
+			.bind('blur.summaryPolyfill', function(){
+				$(this).removeClass('summary-has-focus');
+			})
+			.bind('mouseenter.summaryPolyfill', function(){
+				$(this).addClass('summary-has-hover');
+			})
+			.bind('mouseleave.summaryPolyfill', function(){
+				$(this).removeClass('summary-has-hover');
+			})
+			.bind('click.summaryPolyfill', function(e){
+				var details = isInterActiveSummary(this);
+				if(details){
+					if(!stopNativeClickTest && e.originalEvent){
+						stopNativeClickTest = true;
+						e.stopImmediatePropagation();
+						e.preventDefault();
+						$(this).trigger('click');
+						stopNativeClickTest = false;
+						return false;
+					} else {
+						clearTimeout(timer); 
+						
+						timer = setTimeout(function(){
+							if(!e.isDefaultPrevented()){
+								details.prop('open', !details.prop('open'));
+							}
+						}, 0);
+					}
+				}
+			})
+			.bind('keydown.summaryPolyfill', function(e){
+				if( (e.keyCode == 13 || e.keyCode == 32) && !e.isDefaultPrevented()){
+					stopNativeClickTest = true;
+					e.preventDefault();
+					$(this).trigger('click');
+					stopNativeClickTest = false;
+				}
+			})
+			.attr({tabindex: tabindex, role: 'button'})
+			.prepend('<span class="details-open-indicator" />')
+		;
+		webshims.moveToFirstEvent(this, 'click');
+	});
+	
+	var initDetails;
+	webshims.defineNodeNamesBooleanProperty('details', 'open', function(val){
+		var summary = $($.data(this, 'summaryElement'));
+		if(!summary){return;}
+		var action = (val) ? 'removeClass' : 'addClass';
+		var details = $(this);
+		if (!initDetails && options.animate){
+			details.stop().css({width: '', height: ''});
+			var start = {
+				width: details.width(),
+				height: details.height()
+			};
+		}
+		summary.attr('aria-expanded', ''+val);
+		details[action]('closed-details-summary').children().not(summary[0])[action]('closed-details-child');
+		if(!initDetails && options.animate){
+			var end = {
+				width: details.width(),
+				height: details.height()
+			};
+			details.css(start).animate(end, {
+				complete: function(){
+					$(this).css({width: '', height: ''});
+				}
+			});
+		}
+		
+	});
+	webshims.createElement('details', function(){
+		initDetails = true;
+		var summary = getSummary(this);
+		$.prop(this, 'open', $.prop(this, 'open'));
+		initDetails = false;
+	});
+});

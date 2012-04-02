@@ -4,7 +4,7 @@
  */
 namespace gossi\webform;
 
-use gossi\webform\validation\Test;
+use gossi\webform\validation\AbstractTest;
 use gossi\webform\validation\IValidatable;
 
 /**
@@ -76,7 +76,7 @@ class Webform extends BaseElement implements IArea, IComposite, IValidatable {
 		$this->errors[] = $message;
 	}
 
-	public function addTest(Test $test) {
+	public function addTest(AbstractTest $test) {
 		if (!in_array($test, $this->tests)) {
 			$this->tests[] = $test;
 		}
@@ -222,7 +222,7 @@ class Webform extends BaseElement implements IArea, IComposite, IValidatable {
 		return $this;
 	}	
 
-	public function removeTest(Test $test) {
+	public function removeTest(AbstractTest $test) {
 		if ($offset = array_search($test, $this->tests)) {
 			unset($this->tests[$offset]);
 		}
@@ -320,6 +320,10 @@ class Webform extends BaseElement implements IArea, IComposite, IValidatable {
 
 		foreach ($this->controls as $control) {
 			$root->appendChild($xml->importNode($control->toXML()->documentElement, true));
+		}
+		
+		foreach ($this->tests as $test) {
+			$root->appendChild($xml->importNode($test->toXML()->documentElement, true));
 		}
 
 		$xml->appendChild($root);

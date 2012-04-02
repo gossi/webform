@@ -1,7 +1,7 @@
 <?php
 namespace gossi\webform\validation;
 
-class SimpleTest extends Test {
+class Test extends AbstractTest {
 
 	private $statement;
 
@@ -20,6 +20,13 @@ class SimpleTest extends Test {
 
 	public function getStatement() {
 		return $this->statement;
+	}
+	
+	public function toXML() {
+		$xml = $this->createXML('Test');
+		$xml->documentElement->setAttribute('statement', $this->getStatement());
+		
+		return $xml;
 	}
 	
 	public function validate() {
