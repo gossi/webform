@@ -1,57 +1,31 @@
 <?php
 namespace gossi\webform\validation;
 
-use gossi\webform\Control;
+class SimpleTest extends Test {
 
-abstract class Test {
+	private $statement;
 
-	protected $message;
-	protected $controls = array();
-	
-	public function __construct() {
-	}
-	
-	public function addControl(Control $control) {
-		if (!in_array($control, $this->controls)) {
-			$this->controls[] = $control;
-		}
-		return $this;
-	}
-	
-	protected function addErrorToControls($message) {
-		foreach ($this->controls as $control) {
-			$control->addError($message);
-		}
-	}
-
-	public function getMessage() {
-		return $this->message;
+	/**
+	 * Creates a new validation test
+	 * 
+	 * @param boolean $statement this statement will be tested
+	 * @param String $message the error message when the statement is false
+	 * @param \gossi\webform\Control[] $controls the affected controls
+	 */
+	public function __construct($statement, $message, $controls = array()) {
+		$this->statement = $statement;
+		$this->message = $message;
+		$this->controls = $controls;
 	}
 
 	public function getStatement() {
 		return $this->statement;
 	}
 	
-	public function getControls() {
-		return $this->controls;
-	}
-	
-	public function removeControl(Control $control) {
-		if ($offset = array_search($control, $this->controls)) {
-			unset($this->controls[$offset]);
+	public function validate() {
+		if (!$this->statement) {
+			$this->addErrorToControls($this->message);
+			throw new \Exception($this->message);
 		}
-		return $this;
 	}
-	
-	public function setControls($controls) {
-		$this->controls = $controls;
-		return $this;
-	}
-
-	public function setMessage($message) {
-		$this->message = $message;
-		return $this;
-	}
-	
-	abstract public function validate();
 }
