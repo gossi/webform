@@ -14,10 +14,7 @@
 	}
 	
 	/* Webform Control */
-	&-control, &-control.input-date {
-
-		border: 1px solid #DDD;
-		padding: 2px;
+	&-control {
 		display: inline-block;
 		
 		-o-box-sizing: border-box;
@@ -31,6 +28,11 @@
 		-moz-box-shadow: 0 0 1px #E0E0E0;
 		-webkit-box-shadow: 0 0 1px #EEE;
 		box-shadow: 0 0 1px #E0E0E0;
+		
+		&:not(select) {
+			border: 1px solid #DDD;
+			padding: 2px;
+		}
 	
 		/* Box */
 		&-box {
@@ -39,7 +41,6 @@
 		
 		/* Group */
 		&-content {
-		
 			/* Disable min-height */
 			.webform-control-box {
 				min-height: 0;

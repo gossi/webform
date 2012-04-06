@@ -1,6 +1,8 @@
 <?php
 namespace demo; // it's only here for ide autocompletion
 
+use gossi\webform\ComboBox;
+
 use gossi\webform\WebformErrors;
 
 use gossi\webform\validation\MatchTest;
@@ -54,6 +56,11 @@ $right = new Area($personal, array('classes' => 'webform-area-blind'));
 $size = new Number($right, array('label' => 'Size'));
 $weight = new Number($right, array('label' => 'Weight'));
 $color = new Color($right, array('label' => 'Favorite Color'));
+$fruits = new ComboBox($right, array('label' => 'Favorite Fruit'));
+$fruits->createOption('', '');
+$fruits->createOption('', 'Banana');
+$fruits->createOption('', 'Apple');
+$fruits->createOption('', 'Ananas');
 
 $contact = new Area($wf, array('label' => 'Contact Details'));
 

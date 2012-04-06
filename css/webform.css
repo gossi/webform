@@ -29,10 +29,7 @@
 .webform ul {
   list-style-type: none;
 }
-.webform-control,
-.webform-control.input-date {
-  border: 1px solid #DDD;
-  padding: 2px;
+.webform-control {
   display: inline-block;
   -o-box-sizing: border-box;
   -ms-box-sizing: border-box;
@@ -71,72 +68,60 @@
   /* Password */
 
 }
-.webform-control-box,
-.webform-control.input-date-box {
+.webform-control:not(select) {
+  border: 1px solid #DDD;
+  padding: 2px;
+}
+.webform-control-box {
   min-height: 27px;
 }
-.webform-control-content,
-.webform-control.input-date-content {
+.webform-control-content {
   /* Disable min-height */
 
 }
-.webform-control-content .webform-control-box,
-.webform-control.input-date-content .webform-control-box {
+.webform-control-content .webform-control-box {
   min-height: 0;
 }
-.webform-control[readonly],
-.webform-control.input-date[readonly] {
+.webform-control[readonly] {
   color: #777;
 }
 .webform-control[type=checkbox],
-.webform-control.input-date[type=checkbox],
-.webform-control[type=radio],
-.webform-control.input-date[type=radio] {
+.webform-control[type=radio] {
   margin-right: 5px;
 }
-.webform-control[type=range],
-.webform-control.input-date[type=range] {
+.webform-control[type=range] {
   border: 0;
 }
 .webform-control[type=date],
-.webform-control.input-date[type=date],
-.webform-control.input-date,
-.webform-control.input-date.input-date {
+.webform-control.input-date {
   background: url('../images/calendar_day.png') 2px center no-repeat;
   padding-left: 21px;
 }
-.webform-control[type=week],
-.webform-control.input-date[type=week] {
+.webform-control[type=week] {
   background: url('../images/calendar_week.png') 2px center no-repeat;
   padding-left: 21px;
 }
-.webform-control[type=time],
-.webform-control.input-date[type=time] {
+.webform-control[type=time] {
   background: url('../images/time.png') 2px center no-repeat;
   padding-left: 21px;
 }
-.webform-control[type=url],
-.webform-control.input-date[type=url] {
+.webform-control[type=url] {
   background: url('../images/url.png') 2px center no-repeat;
   padding-left: 21px;
 }
-.webform-control[type=email],
-.webform-control.input-date[type=email] {
+.webform-control[type=email] {
   background: url('../images/email.png') 2px center no-repeat;
   padding-left: 21px;
 }
-.webform-control[type=tel],
-.webform-control.input-date[type=tel] {
+.webform-control[type=tel] {
   background: url('../images/tel.png') 2px center no-repeat;
   padding-left: 21px;
 }
-.webform-control[type=color],
-.webform-control.input-date[type=color] {
+.webform-control[type=color] {
   background: url('../images/color.png') 2px center no-repeat;
   padding-left: 21px;
 }
-.webform-control[type=password],
-.webform-control.input-date[type=password] {
+.webform-control[type=password] {
   background: url('../images/key.png') 2px center no-repeat;
   padding-left: 21px;
 }
