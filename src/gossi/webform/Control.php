@@ -324,8 +324,8 @@ abstract class Control extends Element implements IValidatable {
 		if (!$this->name) {
 			$this->name = $id;
 		}
-		$this->unregisterControl($this->id);
-		$this->registerControl($id, $this);
+		$this->webform->unregisterControl($this->id);
+		$this->webform->registerControl($id, $this);
 		parent::setId($id);
 		return $this;
 	}
