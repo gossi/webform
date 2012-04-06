@@ -11,7 +11,7 @@ class CheckBox extends Checker {
 
 	public function isChecked() {
 		$tempChecked = $this->checked;
-		$value = $this->getRequestValue() == null ? $this->default : $this->getRequestValue();
+		$value = $this->getRequestValue() == null ? $this->value : $this->getRequestValue();
 
 		$r = null;
 		switch ($this->getWebform()->getMethod()) {

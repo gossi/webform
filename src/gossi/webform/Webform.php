@@ -203,7 +203,7 @@ class Webform extends BaseElement implements IArea, IComposite, IValidatable {
 
 	public function registerControl($id, Control $control) {
 		if (array_key_exists($id, $this->allControls)) {
-			throw new WebformException('Control with given id ('+$id+') already exists in this Webform');
+			throw new \Exception('Control with given id ('+$id+') already exists in this Webform');
 		}
 		$this->allControls[$id] = $control;
 	}

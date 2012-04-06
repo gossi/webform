@@ -24,7 +24,7 @@ class Radio extends Checker {
 				break;
 		}
 
-		if (isset($r[$this->name]) && $r[$this->name] == $this->default) {
+		if (isset($r[$this->name]) && $r[$this->name] == $this->value) {
 			$this->checked = true;
 		} else {
 			$this->checked = $tempChecked;

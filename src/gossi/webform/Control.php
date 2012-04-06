@@ -31,23 +31,19 @@ abstract class Control extends Element implements IValidatable {
 	 * @param IArea $parent
 	 */
 	public function __construct(IArea $parent, $config = array()) {
-		parent::__construct($config);
-		
-		$this->config($config, array('default', 'dirname', 'disabled', 'maxlength', 'name', 'readonly', 'required'));
+		$this->id = 'webform-control' . Control::$controls;
+		$this->webform = $parent->getWebform();
+		$this->webform->registerControl($this->id, $this);
+		$parent->addControl($this);
 		
 		Control::$controls++;
 		
-		if (is_null($this->id)) {
-			$this->id = 'webform-control' . Control::$controls;
-		}
+		parent::__construct($config);
+		$this->config($config, array('default', 'dirname', 'disabled', 'maxlength', 'name', 'readonly', 'required'));
 		
 		if (is_null($this->name)) {
 			$this->name = $this->id;
 		}
-
-		$this->webform = $parent->getWebform();
-		$this->webform->registerControl($this->id, $this);
-		$parent->addControl($this);
 	}
 	
 	public function addError($message) {
