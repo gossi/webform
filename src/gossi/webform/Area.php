@@ -105,6 +105,13 @@ class Area extends Element implements IArea, IComposite {
 		return $this;
 	}
 	
+	public function setLayout($layout) {
+		$this->removeClasses(array('webform-layout-table', 'webform-layout-vertical'));
+		$this->addClass('webform-layout-' . $layout);
+		$this->layout = $layout;
+		return $this;
+	}
+	
 	/**
 	 * Sets a webform the receiver belongs to
 	 * 

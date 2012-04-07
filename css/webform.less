@@ -23,10 +23,10 @@
 		-webkit-box-sizing: border-box;
 		box-sizing: border-box;
 		
-		-o-box-shadow: 0 0 1px #EEE;
-		-ms-box-shadow: 0 0 1px #EEE;
+		-o-box-shadow: 0 0 1px #E0E0E0;
+		-ms-box-shadow: 0 0 1px #E0E0E0;
 		-moz-box-shadow: 0 0 1px #E0E0E0;
-		-webkit-box-shadow: 0 0 1px #EEE;
+		-webkit-box-shadow: 0 0 1px #E0E0E0;
 		box-shadow: 0 0 1px #E0E0E0;
 		
 		&:not(select) {
@@ -236,7 +236,7 @@
 	> .webform-errors {
 		border: 1px solid;
 		margin: 10px 0px;
-		padding:15px 10px 15px 50px;
+		padding: 15px 10px 15px 50px;
 		background-repeat: no-repeat;
 		background-position: 10px center;
 		color: #D63301;
@@ -326,12 +326,68 @@
 	/* Override webshim widgets */
 	
 	.step-controls {
-		margin-left: -16.5px;
+		margin-left: -16px;
+		
+		& span {
+			background: none;
+			border: 1px solid #CCC;
+			background-color: #EEE;
+			background-image: -o-linear-gradient(top, #FFF, #E0E0E0);
+			background-image: -ms-linear-gradient(top, #FFF, #E0E0E0);
+			background-image: -moz-linear-gradient(top, #FFF, #E0E0E0);
+			background-image: -webkit-linear-gradient(top, #FFF, #E0E0E0);
+			background-image: linear-gradient(top, #FFF, #E0E0E0);
+			
+			-o-box-sizing: border-box;
+			-ms-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+			box-sizing: border-box;
+			
+			&:hover {
+				background-color: #DDD;
+				background-image: -o-linear-gradient(top, #FFF, #F0F0F0);
+				background-image: -ms-linear-gradient(top, #FFF, #F0F0F0);
+				background-image: -moz-linear-gradient(top, #FFF, #F0F0F0);
+				background-image: -webkit-linear-gradient(top, #FFF, #F0F0F0);
+				background-image: linear-gradient(top, #FFF, #F0F0F0);
+			}
+			
+			&.step-down {
+				bottom: 0;
+			}
+			
+			&.step-down:before,
+			&.step-up:before {
+				content: " ";
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 13px;
+				height: 7px;
+				background-repeat: no-repeat;
+				background-position: center center;
+			}
+			
+			&.step-up:before {
+				background-image: url('../images/arrow_up.png');
+			}
+			
+			&.step-down:before {
+				background-image: url('../images/arrow_down.png');
+			}
+		}
 	}
+}
+
+.ui-datepicker {
+	border: 1px solid #999;
+	border-radius: 4px;
 	
-	.step-controls span {
-		background: none;
+	& .ui-datepicker-header {
 		border: 1px solid #CCC;
+		border-radius: 3px;
+		padding: 2px;
 		background-color: #EEE;
 		background-image: -o-linear-gradient(top, #FFF, #E0E0E0);
 		background-image: -ms-linear-gradient(top, #FFF, #E0E0E0);
@@ -339,43 +395,65 @@
 		background-image: -webkit-linear-gradient(top, #FFF, #E0E0E0);
 		background-image: linear-gradient(top, #FFF, #E0E0E0);
 		
-		-o-box-sizing: border-box;
-		-ms-box-sizing: border-box;
-		-moz-box-sizing: border-box;
-		-webkit-box-sizing: border-box;
-		box-sizing: border-box;
+		& .ui-icon {
+			top: 5px;
+		}
+		
+		& .ui-icon:hover {
+			top: 4.5px;
+		}
+		
+		& select {
+			margin-top: 2.5px;
+		}
+		
+		& select:first-child {
+			margin-right: 7px;
+		}
 	}
 	
-	.step-controls span:hover {
-		background-color: #DDD;
-		background-image: -o-linear-gradient(top, #FFF, #EEE);
-		background-image: -ms-linear-gradient(top, #FFF, #EEE);
-		background-image: -moz-linear-gradient(top, #FFF, #E7E7E7);
-		background-image: -webkit-linear-gradient(top, #FFF, #EEE);
-		background-image: linear-gradient(top, #FFF, #EEE);
+	&-calendar {
+		& th {
+			color: #000;
+		}
+		
+		& td:not(.ui-datepicker-unselectable) {
+			border-radius: 0;
+			border: 1px solid #DDD;
+			
+			background-image: -o-linear-gradient(top, #F7F7F7, #E0E0E0);
+			background-image: -ms-linear-gradient(top, #F7F7F7, #E0E0E0);
+			background-image: -moz-linear-gradient(top, #F7F7F7, #E0E0E0);
+			background-image: -webkit-linear-gradient(top, #F7F7F7, #E0E0E0);
+			background-image: linear-gradient(top, #F7F7F7, #E0E0E0);
+			
+			&:hover {
+				border-color: #CCC;
+				background-image: -o-linear-gradient(top, #F7F7F7, #E0E0E0);
+				background-image: -ms-linear-gradient(top, #F7F7F7, #E0E0E0);
+				background-image: -moz-linear-gradient(top, #E7E7E7, #D0D0D0);
+				background-image: -webkit-linear-gradient(top, #F7F7F7, #E0E0E0);
+				background-image: linear-gradient(top, #F7F7F7, #E0E0E0);
+			}
+			
+			&.ui-datepicker-today {
+				border: 1px solid #5F96E1;
+				background-image: -o-linear-gradient(top, lighten(#D3E4FA, 15%), #D3E4FA);
+				background-image: -ms-linear-gradient(top, lighten(#D3E4FA, 15%), #D3E4FA);
+				background-image: -moz-linear-gradient(top, lighten(#D3E4FA, 15%), #D3E4FA);
+				background-image: -webkit-linear-gradient(top, lighten(#D3E4FA, 15%), #D3E4FA);
+				background-image: linear-gradient(top, lighten(#D3E4FA, 15%), #D3E4FA);
+				
+				&:hover {
+					background-image: -o-linear-gradient(top, lighten(#D3E4FA, 15%), #D3E4FA);
+					background-image: -ms-linear-gradient(top, lighten(#D3E4FA, 15%), #D3E4FA);
+					background-image: -moz-linear-gradient(top, lighten(#D3E4FA, 5%), darken(#D3E4FA, 5%));
+					background-image: -webkit-linear-gradient(top, lighten(#D3E4FA, 5%), darken(#D3E4FA, 10%));
+					background-image: linear-gradient(top, lighten(#D3E4FA, 15%), #D3E4FA);
+				}
+			}
+		}
 	}
 	
-	.step-controls span.step-down {
-		bottom: 0.5px;
-	}
 	
-	.step-controls span.step-down:before,
-	.step-controls span.step-up:before {
-		content: " ";
-		position: absolute;
-		left: 0;
-		top: 0;
-		width: 13px;
-		height: 7px;
-		background-repeat: no-repeat;
-		background-position: center center;
-	}
-	
-	.step-controls span.step-up:before {
-		background-image: url('../images/arrow_up.png');
-	}
-	
-	.step-controls span.step-down:before {
-		background-image: url('../images/arrow_down.png');
-	}
 }

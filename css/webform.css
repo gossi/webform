@@ -36,10 +36,10 @@
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  -o-box-shadow: 0 0 1px #EEE;
-  -ms-box-shadow: 0 0 1px #EEE;
+  -o-box-shadow: 0 0 1px #E0E0E0;
+  -ms-box-shadow: 0 0 1px #E0E0E0;
   -moz-box-shadow: 0 0 1px #E0E0E0;
-  -webkit-box-shadow: 0 0 1px #EEE;
+  -webkit-box-shadow: 0 0 1px #E0E0E0;
   box-shadow: 0 0 1px #E0E0E0;
   /* Box */
 
@@ -307,7 +307,7 @@
 
 }
 .webform .step-controls {
-  margin-left: -16.5px;
+  margin-left: -16px;
 }
 .webform .step-controls span {
   background: none;
@@ -326,14 +326,14 @@
 }
 .webform .step-controls span:hover {
   background-color: #DDD;
-  background-image: -o-linear-gradient(top, #ffffff, #eeeeee);
-  background-image: -ms-linear-gradient(top, #ffffff, #eeeeee);
-  background-image: -moz-linear-gradient(top, #ffffff, #e7e7e7);
-  background-image: -webkit-linear-gradient(top, #ffffff, #eeeeee);
-  background-image: linear-gradient(top, #ffffff, #eeeeee);
+  background-image: -o-linear-gradient(top, #ffffff, #f0f0f0);
+  background-image: -ms-linear-gradient(top, #ffffff, #f0f0f0);
+  background-image: -moz-linear-gradient(top, #ffffff, #f0f0f0);
+  background-image: -webkit-linear-gradient(top, #ffffff, #f0f0f0);
+  background-image: linear-gradient(top, #ffffff, #f0f0f0);
 }
 .webform .step-controls span.step-down {
-  bottom: 0.5px;
+  bottom: 0;
 }
 .webform .step-controls span.step-down:before,
 .webform .step-controls span.step-up:before {
@@ -351,4 +351,66 @@
 }
 .webform .step-controls span.step-down:before {
   background-image: url('../images/arrow_down.png');
+}
+.ui-datepicker {
+  border: 1px solid #999;
+  border-radius: 4px;
+}
+.ui-datepicker .ui-datepicker-header {
+  border: 1px solid #CCC;
+  border-radius: 3px;
+  padding: 2px;
+  background-color: #EEE;
+  background-image: -o-linear-gradient(top, #ffffff, #e0e0e0);
+  background-image: -ms-linear-gradient(top, #ffffff, #e0e0e0);
+  background-image: -moz-linear-gradient(top, #ffffff, #e0e0e0);
+  background-image: -webkit-linear-gradient(top, #ffffff, #e0e0e0);
+  background-image: linear-gradient(top, #ffffff, #e0e0e0);
+}
+.ui-datepicker .ui-datepicker-header .ui-icon {
+  top: 5px;
+}
+.ui-datepicker .ui-datepicker-header .ui-icon:hover {
+  top: 4.5px;
+}
+.ui-datepicker .ui-datepicker-header select {
+  margin-top: 2.5px;
+}
+.ui-datepicker .ui-datepicker-header select:first-child {
+  margin-right: 7px;
+}
+.ui-datepicker-calendar th {
+  color: #000;
+}
+.ui-datepicker-calendar td:not(.ui-datepicker-unselectable) {
+  border-radius: 0;
+  border: 1px solid #DDD;
+  background-image: -o-linear-gradient(top, #f7f7f7, #e0e0e0);
+  background-image: -ms-linear-gradient(top, #f7f7f7, #e0e0e0);
+  background-image: -moz-linear-gradient(top, #f7f7f7, #e0e0e0);
+  background-image: -webkit-linear-gradient(top, #f7f7f7, #e0e0e0);
+  background-image: linear-gradient(top, #f7f7f7, #e0e0e0);
+}
+.ui-datepicker-calendar td:not(.ui-datepicker-unselectable):hover {
+  border-color: #CCC;
+  background-image: -o-linear-gradient(top, #f7f7f7, #e0e0e0);
+  background-image: -ms-linear-gradient(top, #f7f7f7, #e0e0e0);
+  background-image: -moz-linear-gradient(top, #e7e7e7, #d0d0d0);
+  background-image: -webkit-linear-gradient(top, #f7f7f7, #e0e0e0);
+  background-image: linear-gradient(top, #f7f7f7, #e0e0e0);
+}
+.ui-datepicker-calendar td:not(.ui-datepicker-unselectable).ui-datepicker-today {
+  border: 1px solid #5F96E1;
+  background-image: -o-linear-gradient(top, #ffffff, #d3e4fa);
+  background-image: -ms-linear-gradient(top, #ffffff, #d3e4fa);
+  background-image: -moz-linear-gradient(top, #ffffff, #d3e4fa);
+  background-image: -webkit-linear-gradient(top, #ffffff, #d3e4fa);
+  background-image: linear-gradient(top, #ffffff, #d3e4fa);
+}
+.ui-datepicker-calendar td:not(.ui-datepicker-unselectable).ui-datepicker-today:hover {
+  background-image: -o-linear-gradient(top, #ffffff, #d3e4fa);
+  background-image: -ms-linear-gradient(top, #ffffff, #d3e4fa);
+  background-image: -moz-linear-gradient(top, #eaf2fd, #bcd6f7);
+  background-image: -webkit-linear-gradient(top, #eaf2fd, #a5c8f5);
+  background-image: linear-gradient(top, #ffffff, #d3e4fa);
 }
