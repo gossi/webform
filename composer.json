@@ -2,6 +2,7 @@
     "name": "gossi/webform",
     "description": "A component to create webforms",
     "type": "library",
+    "license": "MIT",
     "keywords": ["webform", "form", "validation"],
     "homepage": "http://gossi.github.com/webform",
     "authors": [

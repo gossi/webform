@@ -27,7 +27,7 @@
 	
 	<target name="build">
 		<exec executable="${php.command}" dir="${basedir}">
-			<arg value="lib/makephar.php"/>
+			<arg value="bin/makephar.php"/>
 			<arg value="-s"/>
 			<arg value="${basedir}/src"/>
 			<arg value="-p"/>
