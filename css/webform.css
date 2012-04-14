@@ -385,19 +385,19 @@
 .ui-datepicker-calendar td:not(.ui-datepicker-unselectable) {
   border-radius: 0;
   border: 1px solid #DDD;
-  background-image: -o-linear-gradient(top, #f7f7f7, #e0e0e0);
-  background-image: -ms-linear-gradient(top, #f7f7f7, #e0e0e0);
-  background-image: -moz-linear-gradient(top, #f7f7f7, #e0e0e0);
-  background-image: -webkit-linear-gradient(top, #f7f7f7, #e0e0e0);
-  background-image: linear-gradient(top, #f7f7f7, #e0e0e0);
+  background-image: -o-linear-gradient(top, #f7f7f7, #e7e7e7);
+  background-image: -ms-linear-gradient(top, #f7f7f7, #e7e7e7);
+  background-image: -moz-linear-gradient(top, #f7f7f7, #e7e7e7);
+  background-image: -webkit-linear-gradient(top, #f7f7f7, #e7e7e7);
+  background-image: linear-gradient(top, #f7f7f7, #e7e7e7);
 }
 .ui-datepicker-calendar td:not(.ui-datepicker-unselectable):hover {
   border-color: #CCC;
-  background-image: -o-linear-gradient(top, #f7f7f7, #e0e0e0);
-  background-image: -ms-linear-gradient(top, #f7f7f7, #e0e0e0);
+  background-image: -o-linear-gradient(top, #f7f7f7, #d0d0d0);
+  background-image: -ms-linear-gradient(top, #f7f7f7, #d0d0d0);
   background-image: -moz-linear-gradient(top, #e7e7e7, #d0d0d0);
-  background-image: -webkit-linear-gradient(top, #f7f7f7, #e0e0e0);
-  background-image: linear-gradient(top, #f7f7f7, #e0e0e0);
+  background-image: -webkit-linear-gradient(top, #f7f7f7, #d0d0d0);
+  background-image: linear-gradient(top, #f7f7f7, #d0d0d0);
 }
 .ui-datepicker-calendar td:not(.ui-datepicker-unselectable).ui-datepicker-today {
   border: 1px solid #5F96E1;

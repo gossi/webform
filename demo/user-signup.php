@@ -87,23 +87,7 @@ $wf->addTest(new MatchTest('passwords do not match', array($passwordA, $password
 	<script src="../webshim/jquery-1.7.2.min.js"></script>
 	<script src="../webshim/modernizr-custom.js"></script>
 	<script src="../webshim/polyfiller.js"></script>
-	<script>
-	$.webshims.setOptions({
-		extendNative: false,
-		'forms-ext': {
-			calculateWidth: false,
-			datepicker: {
-				dateFormat: 'yy-mm-dd',
-				constrainInput: true,
-				changeMonth: true,
-				changeYear: true,
-				showWeek: false
-			}
-		}
-	});
-	$.webshims.polyfill("forms forms-ext");
-	</script>
-	
+	<script src="../scripts/gossi-webform.js"></script>
 </head>
 <body>
 <h1>User Signup Demo</h1>
