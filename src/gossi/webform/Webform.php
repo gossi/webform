@@ -296,7 +296,7 @@ class Webform extends BaseElement implements IArea, IComposite, IValidatable {
 	}
 	
 	public function toXML() {
-		$xml = new \DOMDocument();
+		$xml = new \DOMDocument('1.0', 'utf8');
 		$root = $xml->createElement('webform');
 		$root->setAttribute('id', $this->id);
 		$root->setAttribute('target', $this->target);

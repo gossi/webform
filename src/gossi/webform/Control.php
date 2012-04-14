@@ -97,7 +97,7 @@ abstract class Control extends Element implements IValidatable {
 		$root->setAttribute('name', $this->getName());
 		$root->setAttribute('description', $this->getDescription());
 		$root->setAttribute('title', $this->getTitle());
-		$root->setAttribute('value', mb_convert_encoding($this->getValue(), 'utf-8'));
+		$root->setAttribute('value', $this->getValue());
 		$root->setAttribute('dirname', $this->getDirname());
 		$root->setAttribute('required', $this->required ? 'yes' : 'no');
 		$root->setAttribute('disabled', $this->disabled ? 'yes' : 'no');

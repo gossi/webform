@@ -127,7 +127,7 @@ class Area extends Element implements IArea, IComposite {
 	 * @return DOMDocument
 	 */
 	public function toXML() {
-		$xml = new \DOMDocument();
+		$xml = new \DOMDocument('1.0', 'utf8');
 		$root = $xml->createElement('area');
 		$root->setAttribute('id', $this->getId());
 		$root->setAttribute('label', $this->getLabel());
