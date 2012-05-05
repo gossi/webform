@@ -14,6 +14,10 @@ abstract class Control extends Element implements IValidatable {
 	protected $value = null;
 	protected $dirname = null;
 	protected $maxlength = null;
+	protected $prepend = null;
+	protected $prependClass = null;
+	protected $append = null;
+	protected $appendClass = null;
 	protected $validators = array();
 	protected $tests = array();
 	protected $errors = array();
@@ -39,7 +43,7 @@ abstract class Control extends Element implements IValidatable {
 		Control::$controls++;
 		
 		parent::__construct($config);
-		$this->config($config, array('default', 'dirname', 'disabled', 'maxlength', 'name', 'readonly', 'required'));
+		$this->config($config, array('value', 'dirname', 'disabled', 'maxlength', 'name', 'readonly', 'required', 'append', 'appendClass', 'prepend', 'prependClass'));
 		
 		if (is_null($this->name)) {
 			$this->name = $this->id;
@@ -47,7 +51,7 @@ abstract class Control extends Element implements IValidatable {
 	}
 	
 	public function addError($message) {
-		$this->addClass('ui-invalid');
+// 		$this->addClass('ui-invalid');
 		$this->errors[] = $message;
 	}
 	
@@ -102,6 +106,10 @@ abstract class Control extends Element implements IValidatable {
 		$root->setAttribute('required', $this->required ? 'yes' : 'no');
 		$root->setAttribute('disabled', $this->disabled ? 'yes' : 'no');
 		$root->setAttribute('readonly', $this->readonly ? 'yes' : 'no');
+		$root->setAttribute('append', $this->getAppend());
+		$root->setAttribute('append-class', $this->getAppendClass());
+		$root->setAttribute('prepend', $this->getPrepend());
+		$root->setAttribute('prepend-class', $this->getPrependClass());
 		$root->setAttribute('classes', implode(' ', $this->getClasses()));
 		$root->setAttribute('type', $type);
 
@@ -118,6 +126,14 @@ abstract class Control extends Element implements IValidatable {
 		}
 
 		return $xml;
+	}
+	
+	public function getAppend() {
+		return $this->append;
+	}
+	
+	public function getAppendClass() {
+		return $this->appendClass;
 	}
 
 	/**
@@ -167,6 +183,14 @@ abstract class Control extends Element implements IValidatable {
 	 */
 	public function getName() {
 		return $this->name;
+	}
+	
+	public function getPrepend() {
+		return $this->prepend;
+	}
+	
+	public function getPrependClass() {
+		return $this->prependClass;
 	}
 
 	/**
@@ -235,18 +259,12 @@ abstract class Control extends Element implements IValidatable {
 		return count($this->errors);
 	}
 
-	/**
-	 * Sets the receiver's default value.
-	 *
-	 * @see http://developers.whatwg.org/the-input-element.html#attr-input-value W3C Specification
-	 * @see getDefault
-	 * @see getValue
-	 * @param String $default the default value
-	 * @return \gossi\webform\Control $this
-	 */
-	public function setValue($value) {
-		$this->value = $value;
-		return $this;
+	public function setAppend($append) {
+		return $this->append = $append;
+	}
+	
+	public function setAppendClass($appendClass) {
+		return $this->appendClass = $appendClass;
 	}
 	
 	/**
@@ -371,6 +389,15 @@ abstract class Control extends Element implements IValidatable {
 		$this->name = $name;
 		return $this;
 	}
+	
+	public function setPrepend($prepend) {
+		return $this->prepend = $prepend;
+	}
+	
+	public function setPrependClass($prependClass) {
+		return $this->prependClass = $prependClass;
+	}
+	
 
 	/**
 	 * Sets the receiver's <code>readonly</code> attribute.
@@ -404,6 +431,19 @@ abstract class Control extends Element implements IValidatable {
 		return $this;
 	}
 
+	/**
+	 * Sets the receiver's default value.
+	 *
+	 * @see http://developers.whatwg.org/the-input-element.html#attr-input-value W3C Specification
+	 * @see getDefault
+	 * @see getValue
+	 * @param String $default the default value
+	 * @return \gossi\webform\Control $this
+	 */
+	public function setValue($value) {
+		$this->value = $value;
+		return $this;
+	}
 
 	/*
 	 * (non-PHPdoc)

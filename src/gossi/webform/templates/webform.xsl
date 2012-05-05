@@ -20,6 +20,7 @@
 			<xsl:if test="$form/@id">
 				<xsl:attribute name="id"><xsl:value-of select="$form/@id"/></xsl:attribute>
 			</xsl:if>
+			
 			<xsl:if test="$form/errors">
 				<div class="webform-errors">
 					<xsl:value-of select="$form/errors/@occur"/>:
@@ -49,37 +50,18 @@
 			
 			<xsl:if test="count($form/test[@type='MatchTest']) &gt; 0">
 				<script>
-					var webform = {
-						testMatches : function (message, controls) {
-							var ok = true;
-							if (controls.length) {
-								var val = $(controls[0]).val();
-								
-								controls.forEach(function (id) {
-									control = $(id);
-									if (val !== control.val()) {
-										ok = false;
-										control.setCustomValidity(message);
-									}
-								});
-							}
-							return ok;
-						}
-					};
-					var form = $("#<xsl:value-of select="$form/@id"/>");
 					<xsl:for-each select="$form/test[@type='MatchTest']">
-						<xsl:text>form.submit(function (e){return webform.testMatches("</xsl:text>
+						<xsl:text>webform.addMatchTest("</xsl:text>
 						<xsl:value-of select="@message"></xsl:value-of>
-						<xsl:text>",[</xsl:text>
+						<xsl:text>", [</xsl:text>
 						<xsl:for-each select="control">
-							<xsl:text>"#</xsl:text>
+							<xsl:text>"</xsl:text>
 							<xsl:value-of select="@id"/>
 							<xsl:text>"</xsl:text>
 							<xsl:if test="position() != last()"><xsl:text>,</xsl:text></xsl:if>
 						</xsl:for-each>
-						<xsl:text>]);});</xsl:text>
+						<xsl:text>]);</xsl:text>
 					</xsl:for-each>
-					//form.submit(function (e) {return false;});
 				</script>
 			</xsl:if>
 		</form>
@@ -185,11 +167,26 @@
 			</xsl:when>
 
 			<xsl:when test="$control/@type = 'Submit' or $control/@type = 'Reset'">
-				<input type="{translate($control/@type, $ucase, $lcase)}" value="{$control/@label}" name="{$control/@name}" id="{$control/@id}" class="{$control/@classes} webform-control">
+				<button type="{translate($control/@type, $ucase, $lcase)}" name="{$control/@name}" id="{$control/@id}" class="{$control/@classes} webform-control">
 					<xsl:if test="$control/@disabled = 'yes'">
 						<xsl:attribute name="disabled">disabled</xsl:attribute>
 					</xsl:if>
-				</input>
+					<xsl:value-of select="$control/@label"/>
+					<script>
+						<xsl:choose>
+							<xsl:when test="$control/@type = 'Submit'">
+							document.getElementById("<xsl:value-of select="$control/@id"/>").addEventListener("click", function (e) {
+								e.target.form.classList.add('webform-validated');
+							}, false);
+							</xsl:when>
+							<xsl:when test="$control/@type = 'Reset'">
+							document.getElementById("<xsl:value-of select="$control/@id"/>").addEventListener("click", function (e) {
+								e.target.form.classList.remove('webform-validated');
+							}, false);
+							</xsl:when>
+						</xsl:choose>
+					</script>
+				</button>
 			</xsl:when>
 			
 			<xsl:otherwise>
@@ -235,31 +232,33 @@
 		
 		<xsl:choose>
 			<xsl:when test="$control/@type = 'ComboBox'">
-				<select name="{$control/@name}" id="{$control/@id}" class="webform-control {$control/@classes}">
-					<xsl:if test="$control/@disabled = 'yes'">
-						<xsl:attribute name="disabled">disabled</xsl:attribute>
-					</xsl:if>
-					<xsl:if test="$control/@required = 'yes'">
-						<xsl:attribute name="required"/>
-					</xsl:if>
-					<xsl:if test="$control/@readonly = 'yes'">
-						<xsl:attribute name="readonly"/>
-					</xsl:if>
-					<xsl:if test="$control/@dirname != ''">
-						<xsl:attribute name="dirname"><xsl:value-of select="$control/@dirname"/></xsl:attribute>
-					</xsl:if>
-					<xsl:if test="$control/@title">
-						<xsl:attribute name="title"><xsl:value-of select="$control/@title"/></xsl:attribute>
-					</xsl:if>
-					<xsl:for-each select="$control/option">
-						<option value="{@value}" class="{@classes}" id="{@id}">
-							<xsl:if test="@checked = 'yes'">						
-								<xsl:attribute name="selected">selected</xsl:attribute>
-							</xsl:if>
-							<xsl:value-of select="@label"/>
-						</option>
-					</xsl:for-each>
-				</select>
+				<span class="webform-select-composite">
+					<select name="{$control/@name}" id="{$control/@id}" class="webform-control webform-control-border {$control/@classes}">
+						<xsl:if test="$control/@disabled = 'yes'">
+							<xsl:attribute name="disabled">disabled</xsl:attribute>
+						</xsl:if>
+						<xsl:if test="$control/@required = 'yes'">
+							<xsl:attribute name="required"/>
+						</xsl:if>
+						<xsl:if test="$control/@readonly = 'yes'">
+							<xsl:attribute name="readonly"/>
+						</xsl:if>
+						<xsl:if test="$control/@dirname != ''">
+							<xsl:attribute name="dirname"><xsl:value-of select="$control/@dirname"/></xsl:attribute>
+						</xsl:if>
+						<xsl:if test="$control/@title">
+							<xsl:attribute name="title"><xsl:value-of select="$control/@title"/></xsl:attribute>
+						</xsl:if>
+						<xsl:for-each select="$control/option">
+							<option value="{@value}" class="{@classes}" id="{@id}">
+								<xsl:if test="@checked = 'yes'">						
+									<xsl:attribute name="selected">selected</xsl:attribute>
+								</xsl:if>
+								<xsl:value-of select="@label"/>
+							</option>
+						</xsl:for-each>
+					</select>
+				</span>
 			</xsl:when>
 			
 			<xsl:when test="$control/@type = 'Group'">
@@ -276,7 +275,7 @@
 			</xsl:when>
 			
 			<xsl:when test="$control/@type = 'MultiLine'">
-				<textarea name="{$control/@name}" id="{$control/@id}" class="webform-control {$control/@classes}">
+				<textarea name="{$control/@name}" id="{$control/@id}" class="webform-control webform-control-border {$control/@classes}">
 					<xsl:if test="$control/@disabled = 'yes'">
 						<xsl:attribute name="disabled"/>
 					</xsl:if>
@@ -300,6 +299,7 @@
 				</textarea>
 			</xsl:when>
 			
+			<!-- SingleLine -->
 			<xsl:otherwise>
 				<xsl:variable name="type">
 					<xsl:choose>
@@ -310,56 +310,83 @@
 					</xsl:choose>
 				</xsl:variable>
 
-				<input type="{$type}" value="{$control/@value}" name="{$control/@name}" id="{$control/@id}" class="webform-control {$control/@classes}">
-					<xsl:if test="$control/@disabled = 'yes'">
-						<xsl:attribute name="disabled"/>
-					</xsl:if>
-					<xsl:if test="$control/@required = 'yes'">
-						<xsl:attribute name="required"/>
-					</xsl:if>
-					<xsl:if test="$control/@readonly = 'yes'">
-						<xsl:attribute name="readonly"/>
-					</xsl:if>
-					<xsl:if test="$control/@multiple = 'yes'">
-						<xsl:attribute name="multiple"/>
-					</xsl:if>
-					<xsl:if test="$control/@dirname != ''">
-						<xsl:attribute name="dirname"><xsl:value-of select="$control/@dirname"/></xsl:attribute>
-					</xsl:if>
-					<xsl:if test="$control/@title != ''">
-						<xsl:attribute name="title"><xsl:value-of select="$control/@title"/></xsl:attribute>
-					</xsl:if>
-					<xsl:if test="$control/@autocomplete != ''">
-						<xsl:attribute name="autocomplete"><xsl:value-of select="$control/@autocomplete"/></xsl:attribute>
-					</xsl:if>
-					<xsl:if test="$control/@maxlength != ''">
-						<xsl:attribute name="maxlength"><xsl:value-of select="$control/@maxlength"/></xsl:attribute>
-					</xsl:if>
-					<xsl:if test="$control/@max != ''">
-						<xsl:attribute name="max"><xsl:value-of select="$control/@max"/></xsl:attribute>
-					</xsl:if>
-					<xsl:if test="$control/@min != ''">
-						<xsl:attribute name="min"><xsl:value-of select="$control/@min"/></xsl:attribute>
-					</xsl:if>
-					<xsl:if test="$control/@step != ''">
-						<xsl:attribute name="step"><xsl:value-of select="$control/@step"/></xsl:attribute>
-					</xsl:if>
-					<xsl:if test="$control/@pattern != ''">
-						<xsl:attribute name="pattern"><xsl:value-of select="$control/@pattern"/></xsl:attribute>
-					</xsl:if>
-					<xsl:if test="$control/@placeholder != ''">
-						<xsl:attribute name="placeholder"><xsl:value-of select="$control/@placeholder"/></xsl:attribute>
-					</xsl:if>
-					<xsl:if test="$control/suggestions">
-						<xsl:attribute name="list"><xsl:value-of select="$control/@id"/>-suggestions</xsl:attribute>
-					</xsl:if>
-				</input>
+				<xsl:variable name="classes">
+					<xsl:if test="count($control/error) > 0">ui-invalid</xsl:if>
+				</xsl:variable>
 				
+				<xsl:variable name="composite">
+					<xsl:choose>
+						<xsl:when test="$control/@type = 'Range'">webform-borderless-composite</xsl:when>
+						<xsl:otherwise>webform-composite</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+
+				<span class="{$composite}">
+					<xsl:if test="$control/@prepend != '' or $control/@prepend-class != ''">
+						<span class="webform-prepend {$control/@prepend-class}">
+							<xsl:value-of select="$control/@prepend"/>
+						</span>
+					</xsl:if>
+				
+					<input type="{$type}" value="{$control/@value}" name="{$control/@name}" id="{$control/@id}" class="webform-control {$classes} {$control/@classes}">
+						<xsl:if test="$control/@disabled = 'yes'">
+							<xsl:attribute name="disabled"/>
+						</xsl:if>
+						<xsl:if test="$control/@required = 'yes'">
+							<xsl:attribute name="required"/>
+						</xsl:if>
+						<xsl:if test="$control/@readonly = 'yes'">
+							<xsl:attribute name="readonly"/>
+						</xsl:if>
+						<xsl:if test="$control/@multiple = 'yes'">
+							<xsl:attribute name="multiple"/>
+						</xsl:if>
+						<xsl:if test="$control/@dirname != ''">
+							<xsl:attribute name="dirname"><xsl:value-of select="$control/@dirname"/></xsl:attribute>
+						</xsl:if>
+						<xsl:if test="$control/@title != ''">
+							<xsl:attribute name="title"><xsl:value-of select="$control/@title"/></xsl:attribute>
+						</xsl:if>
+						<xsl:if test="$control/@autocomplete != ''">
+							<xsl:attribute name="autocomplete"><xsl:value-of select="$control/@autocomplete"/></xsl:attribute>
+						</xsl:if>
+						<xsl:if test="$control/@maxlength != ''">
+							<xsl:attribute name="maxlength"><xsl:value-of select="$control/@maxlength"/></xsl:attribute>
+						</xsl:if>
+						<xsl:if test="$control/@max != ''">
+							<xsl:attribute name="max"><xsl:value-of select="$control/@max"/></xsl:attribute>
+						</xsl:if>
+						<xsl:if test="$control/@min != ''">
+							<xsl:attribute name="min"><xsl:value-of select="$control/@min"/></xsl:attribute>
+						</xsl:if>
+						<xsl:if test="$control/@step != ''">
+							<xsl:attribute name="step"><xsl:value-of select="$control/@step"/></xsl:attribute>
+						</xsl:if>
+						<xsl:if test="$control/@pattern != ''">
+							<xsl:attribute name="pattern"><xsl:value-of select="$control/@pattern"/></xsl:attribute>
+						</xsl:if>
+						<xsl:if test="$control/@placeholder != ''">
+							<xsl:attribute name="placeholder"><xsl:value-of select="$control/@placeholder"/></xsl:attribute>
+						</xsl:if>
+						<xsl:if test="$control/suggestions">
+							<xsl:attribute name="list"><xsl:value-of select="$control/@id"/>-suggestions</xsl:attribute>
+						</xsl:if>
+					</input>
+
+					<xsl:if test="$control/@append != '' or $control/@append-class != ''">
+						<span class="webform-append {$control/@append-class}">
+							<xsl:value-of select="$control/@append"/>
+						</span>
+					</xsl:if>
+				</span>
+
 				<xsl:if test="$control/suggestions">
 					<datalist id="{$control/@id}-suggestions">
 						<xsl:copy-of select="$control/suggestions/*" disable-output-escaping="yes"/>
 					</datalist>
 				</xsl:if>
+				
+				<script>webform.addCompositeControl("<xsl:value-of select="$control/@id"/>");</script>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

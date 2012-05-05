@@ -18,10 +18,10 @@ class Webform extends BaseElement implements IArea, IComposite, IValidatable {
 	const DESC_LABEL = 'desc-label';
 	const DESC_BETWEEN = 'desc-between';
 	const DESC_END = 'desc-end';
-	
+
 	const LAYOUT_TABLE = 'table';
 	const LAYOUT_VERTICAL = 'vertical';
-	
+
 	private static $webforms = 1;
 
 	private $target;
@@ -156,9 +156,13 @@ class Webform extends BaseElement implements IArea, IComposite, IValidatable {
 	}
 	
 	public function isSubmitted() {
-		return !is_null($this->submitted->getRequestValue());
+		$submitted = !is_null($this->submitted->getRequestValue());
+		if ($submitted) {
+			$this->addClass('webform-validated');
+		}
+		return $submitted;
 	}
-	
+
 	public function isValid() {
 		if ($this->isSubmitted()) {
 			try {
@@ -296,6 +300,7 @@ class Webform extends BaseElement implements IArea, IComposite, IValidatable {
 	}
 	
 	public function toXML() {
+		$this->isSubmitted();
 		$xml = new \DOMDocument('1.0', 'utf8');
 		$root = $xml->createElement('webform');
 		$root->setAttribute('id', $this->id);

@@ -2,19 +2,12 @@
 namespace demo; // it's only here for ide autocompletion
 
 use gossi\webform\ComboBox;
-
 use gossi\webform\WebformErrors;
-
 use gossi\webform\validation\MatchTest;
-
 use gossi\webform\Week;
-
 use gossi\webform\Password;
-
 use gossi\webform\Radio;
-
 use gossi\webform\Group;
-
 use gossi\webform\Webform;
 use gossi\webform\Color;
 use gossi\webform\Area;
@@ -33,7 +26,6 @@ include '../src/Autoload.php';
 //include '../build/gossi-webform.phar';
 
 
-
 $wf = new Webform(array('target' => $_SERVER['PHP_SELF']));
 $wf->setLayout(Webform::LAYOUT_TABLE);
 
@@ -43,7 +35,7 @@ $left = new Area($personal, array('classes' => 'webform-area-blind'));
 
 $firstName = new SingleLine($left, array('label' => 'First Name', 'required' => true));
 $lastName = new SingleLine($left, array('label' => 'Last Name', 'required' => true));
-$birthday = new Date($left, array('label' => 'Birthday'));
+$birthday = new Date($left, array('label' => 'Birthday', 'prependClass' => 'icon-date'));
 $birthweek = new Week($left, array('label' => 'Birthweek'));
 $birthtime = new Time($left, array('label' => 'Birthtime'));
 $birth = new DateTime($left, array('label' => 'Birth'));
@@ -61,6 +53,7 @@ $fruits->createOption('', '');
 $fruits->createOption('', 'Banana');
 $fruits->createOption('', 'Apple');
 $fruits->createOption('', 'Ananas');
+$range = new Range($right, array('label' => 'Raaange'));
 
 $contact = new Area($wf, array('label' => 'Contact Details'));
 
@@ -76,14 +69,14 @@ $passwordB = new Password($account, array('label' => 'Repeat Password', 'require
 
 $submit = new Submit($wf, array('label' => 'Submit'));
 
-$wf->addTest(new MatchTest('passwords do not match', array($passwordA, $passwordB)));
+$wf->addTest(new MatchTest('Passwords do not match', array($passwordA, $passwordB)));
 ?>
 <!doctype html>
 <html>
 <head>
+	<meta charset="utf-8">
 	<title>webform user signup demo</title>
 	<link rel="stylesheet" href="../css/webform.css" type="text/css">
-	<!-- <link rel="stylesheet" href="../webshim/smoothness/jquery-ui-1.8.18.custom.css" type="text/css">-->
 	<script src="../webshim/jquery-1.7.2.min.js"></script>
 	<script src="../webshim/modernizr-custom.js"></script>
 	<script src="../webshim/polyfiller.js"></script>
