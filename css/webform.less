@@ -155,7 +155,7 @@
 		}
 	}
 
-	&-composite, select {
+	&-composite, select, textarea {
 		border: 1px solid @controlBorderColor;
 		border-radius: @controlPadding + 1px;
 		.webform-focus;
@@ -361,7 +361,8 @@
 			}
 			
 			.webform-composite, 
-			.webform-borderless-composite {
+			.webform-borderless-composite,
+			textarea {
 				width: 300px;
 			}
 			
@@ -411,13 +412,57 @@
 
 		/* Vertical Layout */
 		&-vertical {
+			label {
+				display: block;
+			}
+			
+			.webform-control-content > li > .webform-control-box > label {
+				display: inline;
+			}
+		
 			.webform-control-box {
 				display: block;
-				margin: 5px  0;
+				margin: 5px 0;
 			}
 			
 			.webform-control[type=submit], .webform-control[type=reset], button {
 				margin: 8px 0 5px 0;
+			}
+			
+			.webform-composite, 
+			.webform-borderless-composite,
+			textarea {
+				min-width: 180px;
+			}
+			
+			.webform-composite {
+				display: table;
+				
+				.webform-control {
+					width: 100% - @controlPadding;
+				}
+				
+				.webform-control.has-step-controls {
+					width: 100% - (@controlPadding * 3.5);
+				}
+				
+				.step-controls {
+					margin-left: -1px;
+				}
+				
+				.webform-prepend, .webform-append {
+					display: table-cell;
+				}
+			}
+
+			.webform-borderless-composite {
+				.webform-control {
+					width: 100%;
+				}
+
+				.webform-control.input-range {
+					width: 100% - @controlPadding;
+				}
 			}
 		}
 		

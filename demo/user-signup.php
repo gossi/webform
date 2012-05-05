@@ -27,7 +27,7 @@ include '../src/Autoload.php';
 
 
 $wf = new Webform(array('target' => $_SERVER['PHP_SELF']));
-$wf->setLayout(Webform::LAYOUT_TABLE);
+$wf->setLayout(Webform::LAYOUT_VERTICAL);
 
 $personal = new Area($wf, array('label' => 'Personal Data', 'columns' => 2));
 

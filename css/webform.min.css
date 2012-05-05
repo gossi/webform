@@ -16,7 +16,7 @@
 .webform-control[readonly]{color:#777;}
 .webform-control[type=checkbox],.webform-control[type=radio]{margin-right:5px;}
 .webform-control[type=range]{border:0;}
-.webform-composite,.webform select{border:1px solid #dddddd;border-radius:5px;-o-box-shadow:0 0 1px #e0e0e0;-ms-box-shadow:0 0 1px #e0e0e0;-moz-box-shadow:0 0 1px #e0e0e0;-webkit-box-shadow:0 0 1px #e0e0e0;box-shadow:0 0 1px #e0e0e0;outline:none;-moz-transition:all 0.2s ease;}.webform-composite:focus,.webform select:focus{-o-box-shadow:0 0 2px #5f96e1;-ms-box-shadow:0 0 2px #5f96e1;-moz-box-shadow:0 0 2px #5f96e1;-webkit-box-shadow:0 0 2px #5f96e1;box-shadow:0 0 2px #5f96e1;outline:none;-moz-transition:all 0.2s ease;}
+.webform-composite,.webform select,.webform textarea{border:1px solid #dddddd;border-radius:5px;-o-box-shadow:0 0 1px #e0e0e0;-ms-box-shadow:0 0 1px #e0e0e0;-moz-box-shadow:0 0 1px #e0e0e0;-webkit-box-shadow:0 0 1px #e0e0e0;box-shadow:0 0 1px #e0e0e0;outline:none;-moz-transition:all 0.2s ease;}.webform-composite:focus,.webform select:focus,.webform textarea:focus{-o-box-shadow:0 0 2px #5f96e1;-ms-box-shadow:0 0 2px #5f96e1;-moz-box-shadow:0 0 2px #5f96e1;-webkit-box-shadow:0 0 2px #5f96e1;box-shadow:0 0 2px #5f96e1;outline:none;-moz-transition:all 0.2s ease;}
 .webform-composite,.webform-borderless-composite{display:inline-block;}
 .webform-composite .webform-control{margin:4px 5px;}
 .webform-composite.focus{-o-box-shadow:0 0 2px #5f96e1;-ms-box-shadow:0 0 2px #5f96e1;-moz-box-shadow:0 0 2px #5f96e1;-webkit-box-shadow:0 0 2px #5f96e1;box-shadow:0 0 2px #5f96e1;outline:none;-moz-transition:all 0.2s ease;}
@@ -50,7 +50,7 @@
 .webform-control-box .webform-errors{padding:5px;list-style-type:disc;color:#D63301;}
 .webform .webform-errors li,.webform .webform-group-vertical li{background-image:none;padding:0;}
 .webform-layout{}.webform-layout-table .webform-control-box>.webform-label{float:left;width:150px;}
-.webform-layout-table .webform-composite,.webform-layout-table .webform-borderless-composite{width:300px;}
+.webform-layout-table .webform-composite,.webform-layout-table .webform-borderless-composite,.webform-layout-table textarea{width:300px;}
 .webform-layout-table .webform-composite{display:table;}.webform-layout-table .webform-composite .webform-control{width:96%;}
 .webform-layout-table .webform-composite .webform-control.has-step-controls{width:91%;}
 .webform-layout-table .webform-composite .step-controls{margin-left:-1px;}
@@ -59,8 +59,17 @@
 .webform-layout-table .webform-borderless-composite .webform-control.input-range{width:98%;}
 .webform-layout-table .webform-control-content{margin-left:150px;}.webform-layout-table .webform-control-content .webform-control-box>.webform-label{float:none;width:auto;}
 .webform-layout-table .webform-control-box .webform-errors{margin-left:155px;}
+.webform-layout-vertical label{display:block;}
+.webform-layout-vertical .webform-control-content>li>.webform-control-box>label{display:inline;}
 .webform-layout-vertical .webform-control-box{display:block;margin:5px 0;}
 .webform-layout-vertical .webform-control[type=submit],.webform-layout-vertical .webform-control[type=reset],.webform-layout-vertical button{margin:8px 0 5px 0;}
+.webform-layout-vertical .webform-composite,.webform-layout-vertical .webform-borderless-composite,.webform-layout-vertical textarea{min-width:180px;}
+.webform-layout-vertical .webform-composite{display:table;}.webform-layout-vertical .webform-composite .webform-control{width:96%;}
+.webform-layout-vertical .webform-composite .webform-control.has-step-controls{width:86%;}
+.webform-layout-vertical .webform-composite .step-controls{margin-left:-1px;}
+.webform-layout-vertical .webform-composite .webform-prepend,.webform-layout-vertical .webform-composite .webform-append{display:table-cell;}
+.webform-layout-vertical .webform-borderless-composite .webform-control{width:100%;}
+.webform-layout-vertical .webform-borderless-composite .webform-control.input-range{width:96%;}
 .webform-layout-column >.webform-area{float:left;}
 .webform-layout-column >.webform-area:last-child{}
 .webform .step-controls{margin-left:-16px;margin-top:4px;}.webform .step-controls span{background:none;border:1px solid #CCC;background-color:#EEE;background-image:-o-linear-gradient(top, #ffffff, #e0e0e0);background-image:-ms-linear-gradient(top, #ffffff, #e0e0e0);background-image:-moz-linear-gradient(top, #ffffff, #e0e0e0);background-image:-webkit-linear-gradient(top, #ffffff, #e0e0e0);background-image:linear-gradient(top, #ffffff, #e0e0e0);-o-box-sizing:border-box;-ms-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;width:14px;height:8.5px;}.webform .step-controls span:hover{background-color:#DDD;background-image:-o-linear-gradient(top, #ffffff, #f0f0f0);background-image:-ms-linear-gradient(top, #ffffff, #f0f0f0);background-image:-moz-linear-gradient(top, #ffffff, #f0f0f0);background-image:-webkit-linear-gradient(top, #ffffff, #f0f0f0);background-image:linear-gradient(top, #ffffff, #f0f0f0);}
