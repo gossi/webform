@@ -16,7 +16,7 @@
 .webform-control[readonly]{color:#777;}
 .webform-control[type=checkbox],.webform-control[type=radio]{margin-right:5px;}
 .webform-control[type=range]{border:0;}
-.webform-composite,.webform select,.webform textarea{border:1px solid #dddddd;border-radius:5px;-o-box-shadow:0 0 1px #e0e0e0;-ms-box-shadow:0 0 1px #e0e0e0;-moz-box-shadow:0 0 1px #e0e0e0;-webkit-box-shadow:0 0 1px #e0e0e0;box-shadow:0 0 1px #e0e0e0;outline:none;-moz-transition:all 0.2s ease;}.webform-composite:focus,.webform select:focus,.webform textarea:focus{-o-box-shadow:0 0 2px #5f96e1;-ms-box-shadow:0 0 2px #5f96e1;-moz-box-shadow:0 0 2px #5f96e1;-webkit-box-shadow:0 0 2px #5f96e1;box-shadow:0 0 2px #5f96e1;outline:none;-moz-transition:all 0.2s ease;}
+.webform-composite,.webform select,.webform textarea{border:1px solid #dddddd;border-radius:5px;-o-box-shadow:0 0 1px #e0e0e0;-ms-box-shadow:0 0 1px #e0e0e0;-moz-box-shadow:0 0 1px #e0e0e0;-webkit-box-shadow:0 0 1px #e0e0e0;box-shadow:0 0 1px #e0e0e0;outline:none;-moz-transition:all 0.2s ease;background-color:#FFF;}.webform-composite:focus,.webform select:focus,.webform textarea:focus{-o-box-shadow:0 0 2px #5f96e1;-ms-box-shadow:0 0 2px #5f96e1;-moz-box-shadow:0 0 2px #5f96e1;-webkit-box-shadow:0 0 2px #5f96e1;box-shadow:0 0 2px #5f96e1;outline:none;-moz-transition:all 0.2s ease;}
 .webform-composite,.webform-borderless-composite{display:inline-block;}
 .webform-composite .webform-control{margin:4px 5px;}
 .webform-composite.focus{-o-box-shadow:0 0 2px #5f96e1;-ms-box-shadow:0 0 2px #5f96e1;-moz-box-shadow:0 0 2px #5f96e1;-webkit-box-shadow:0 0 2px #5f96e1;box-shadow:0 0 2px #5f96e1;outline:none;-moz-transition:all 0.2s ease;}
@@ -63,9 +63,9 @@
 .webform-layout-vertical .webform-control-content>li>.webform-control-box>label{display:inline;}
 .webform-layout-vertical .webform-control-box{display:block;margin:5px 0;}
 .webform-layout-vertical .webform-control[type=submit],.webform-layout-vertical .webform-control[type=reset],.webform-layout-vertical button{margin:8px 0 5px 0;}
-.webform-layout-vertical .webform-composite,.webform-layout-vertical .webform-borderless-composite,.webform-layout-vertical textarea{min-width:180px;}
+.webform-layout-vertical .webform-composite,.webform-layout-vertical .webform-borderless-composite,.webform-layout-vertical textarea{min-width:175px;}
 .webform-layout-vertical .webform-composite{display:table;}.webform-layout-vertical .webform-composite .webform-control{width:96%;}
-.webform-layout-vertical .webform-composite .webform-control.has-step-controls{width:86%;}
+.webform-layout-vertical .webform-composite .webform-control.has-step-controls{width:84%;}
 .webform-layout-vertical .webform-composite .step-controls{margin-left:-1px;}
 .webform-layout-vertical .webform-composite .webform-prepend,.webform-layout-vertical .webform-composite .webform-append{display:table-cell;}
 .webform-layout-vertical .webform-borderless-composite .webform-control{width:100%;}

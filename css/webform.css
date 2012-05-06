@@ -186,6 +186,7 @@
   box-shadow: 0 0 1px #e0e0e0;
   outline: none;
   -moz-transition: all 0.2s ease;
+  background-color: #FFF;
 }
 .webform-composite:focus,
 .webform select:focus,
@@ -496,7 +497,7 @@
 .webform-layout-vertical .webform-composite,
 .webform-layout-vertical .webform-borderless-composite,
 .webform-layout-vertical textarea {
-  min-width: 180px;
+  min-width: 175px;
 }
 .webform-layout-vertical .webform-composite {
   display: table;
@@ -505,7 +506,7 @@
   width: 96%;
 }
 .webform-layout-vertical .webform-composite .webform-control.has-step-controls {
-  width: 86%;
+  width: 84%;
 }
 .webform-layout-vertical .webform-composite .step-controls {
   margin-left: -1px;
