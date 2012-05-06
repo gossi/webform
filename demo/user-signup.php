@@ -1,6 +1,8 @@
 <?php
 namespace demo; // it's only here for ide autocompletion
 
+use gossi\webform\MultiLine;
+
 use gossi\webform\ComboBox;
 use gossi\webform\WebformErrors;
 use gossi\webform\validation\MatchTest;
@@ -54,6 +56,7 @@ $fruits->createOption('', 'Banana');
 $fruits->createOption('', 'Apple');
 $fruits->createOption('', 'Ananas');
 $range = new Range($right, array('label' => 'Raaange'));
+$about = new MultiLine($right, array('label' => 'About yourself'));
 
 $contact = new Area($wf, array('label' => 'Contact Details'));
 

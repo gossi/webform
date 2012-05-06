@@ -174,7 +174,7 @@
 			.webform-focus-active;
 		}
 	}
-	
+
 	&-borderless-composite {
 		padding: @controlPadding - 1px @controlPadding;
 	}
@@ -182,14 +182,16 @@
 	select {
 		padding: @controlPadding - 1px @controlPadding;
 	}
-	
+
 	&-select-composite {
 		position: relative;
+		display: inline-block;
 	}
 
 	textarea.webform-control {
-		height: 100px;
+		height: 80px;
 		margin-bottom: 6px;
+		padding: @controlPadding @controlPadding + 1px;
 	}
 
 	&-control[type=submit], &-control[type=reset], button {
@@ -564,8 +566,8 @@
 	position: absolute;
 	vertical-align: baseline;
 	margin: auto;
-	
-	top: 1px;
+
+	top: 4px;
 	right: @controlPadding + 1px;
 	
 	line-height: 11px;

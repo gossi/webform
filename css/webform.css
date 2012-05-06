@@ -222,10 +222,12 @@
 }
 .webform-select-composite {
   position: relative;
+  display: inline-block;
 }
 .webform textarea.webform-control {
-  height: 100px;
+  height: 80px;
   margin-bottom: 6px;
+  padding: 4px 5px;
 }
 .webform-control[type=submit],
 .webform-control[type=reset],
@@ -618,7 +620,7 @@
   position: absolute;
   vertical-align: baseline;
   margin: auto;
-  top: 1px;
+  top: 4px;
   right: 5px;
   line-height: 11px;
   width: 10px;
