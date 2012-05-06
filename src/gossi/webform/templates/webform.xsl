@@ -111,6 +111,12 @@
 		<xsl:variable name="descEnd" select="$form/@description-position = 'desc-end'"/>
 
 		<xsl:choose>
+			<xsl:when test="$control/@type = 'Text'">
+				<p id="{$control/@id}" class="{$control/@classes}">
+					<xsl:value-of select="$control/@label" disable-output-escaping="yes"/>
+				</p>
+			</xsl:when>
+
 			<xsl:when test="$control/@type = 'Hidden'">
 				<input type="hidden" value="{$control/@value}" name="{$control/@name}" id="{$control/@id}" class="{$control/@classes}"/>
 			</xsl:when>
