@@ -237,7 +237,6 @@ abstract class Control extends Element implements IValidatable {
 	 * Returns the receiver's value. When a value is transmitted via HTTP, that value is 
 	 * returned anyway the default value.
 	 * 
-	 * @see getDefault
 	 * @see getRequestValue
 	 * @return String the receiver's value
 	 */

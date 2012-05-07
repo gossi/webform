@@ -31,7 +31,10 @@ class Group extends Control implements IArea {
 		$val = null;
 		$len = count($this->controls);
 		for ($i = 0; is_null($val) && $i < $len; ++$i) {
-			$val = $this->controls[$i]->getValue();
+			if ($this->controls[$i] instanceof Checker 
+					&& $this->controls[$i]->isChecked()) {
+				$val = $this->controls[$i]->getValue();
+			}
 		}
 		return $val;
 	}

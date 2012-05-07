@@ -1,6 +1,8 @@
 <?php
 namespace demo; // it's only here for ide autocompletion
 
+use gossi\webform\CheckBox;
+
 use gossi\webform\MultiLine;
 
 use gossi\webform\ComboBox;
@@ -29,7 +31,7 @@ include '../src/Autoload.php';
 
 
 $wf = new Webform(array('target' => $_SERVER['PHP_SELF']));
-$wf->setLayout(Webform::LAYOUT_VERTICAL);
+$wf->setLayout(Webform::LAYOUT_TABLE);
 
 $personal = new Area($wf, array('label' => 'Personal Data', 'columns' => 2));
 
@@ -41,22 +43,33 @@ $birthday = new Date($left, array('label' => 'Birthday', 'prependClass' => 'icon
 $birthweek = new Week($left, array('label' => 'Birthweek'));
 $birthtime = new Time($left, array('label' => 'Birthtime'));
 $birth = new DateTime($left, array('label' => 'Birth'));
-$sex = new Group($left, array('label' => 'Sex'));
-$male = new Radio($sex, array('label' => 'Male'));
-$female = new Radio($sex, array('label' => 'Female'));
+$sex = new Group($left, array('label' => 'Sex'/*, 'required' => true*/));
+$male = new Radio($sex, array('label' => 'Male', 'value' => 'm'));
+$female = new Radio($sex, array('label' => 'Female', 'value' => 'f'));
 
 $right = new Area($personal, array('classes' => 'webform-area-blind'));
 
 $size = new Number($right, array('label' => 'Size'));
 $weight = new Number($right, array('label' => 'Weight'));
 $color = new Color($right, array('label' => 'Favorite Color'));
+$about = new MultiLine($right, array('label' => 'About yourself'));
 $fruits = new ComboBox($right, array('label' => 'Favorite Fruit'));
 $fruits->createOption('', '');
 $fruits->createOption('', 'Banana');
 $fruits->createOption('', 'Apple');
 $fruits->createOption('', 'Ananas');
+
+$sfruits = new ComboBox($right, array('label' => 'Secondary Fruit'));
+$sfruits->createOption('', '');
+$sfruits->createOption('', 'Banana');
+$sfruits->createOption('', 'Apple');
+$sfruits->createOption('', 'Ananas');
+
+$food = new Group($right, array('label' => 'Favorite Food'));
+$schnitzel = new CheckBox($food, array('label' => 'Schnitzel', 'value' => 'schnitzel'));
+$spaghetti = new Checkbox($food, array('label' => 'Spaghetti', 'value' => 'spaghetti'));
+
 $range = new Range($right, array('label' => 'Raaange'));
-$about = new MultiLine($right, array('label' => 'About yourself'));
 
 $contact = new Area($wf, array('label' => 'Contact Details'));
 
@@ -73,6 +86,12 @@ $passwordB = new Password($account, array('label' => 'Repeat Password', 'require
 $submit = new Submit($wf, array('label' => 'Submit'));
 
 $wf->addTest(new MatchTest('Passwords do not match', array($passwordA, $passwordB)));
+
+// $xml = $wf->toXML();
+// $xml->formatOutput = true;
+// echo $xml->saveXML();
+
+// print_r($_POST);
 ?>
 <!doctype html>
 <html>
@@ -88,11 +107,8 @@ $wf->addTest(new MatchTest('Passwords do not match', array($passwordA, $password
 <body>
 <h1>User Signup Demo</h1>
 <?php 
-// $xml = $wf->toXML();
-// $xml->formatOutput = true; 
-// echo $xml->saveHTML();
 if ($wf->isValid()) {
-	
+	// do something here, form is valid
 }
 echo $wf->toHTML(); 
 ?>

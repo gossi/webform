@@ -224,6 +224,7 @@
 .webform-select-composite {
   position: relative;
   display: inline-block;
+  line-height: 11px;
 }
 .webform textarea.webform-control {
   height: 80px;
@@ -489,15 +490,20 @@
   display: block;
   margin: 5px 0;
 }
+.webform-layout-vertical .webform-control-content > li > .webform-control-box {
+  margin: 0;
+}
 .webform-layout-vertical .webform-control[type=submit],
 .webform-layout-vertical .webform-control[type=reset],
 .webform-layout-vertical button {
   margin: 8px 0 5px 0;
 }
 .webform-layout-vertical .webform-composite,
-.webform-layout-vertical .webform-borderless-composite,
-.webform-layout-vertical textarea {
+.webform-layout-vertical .webform-borderless-composite {
   min-width: 175px;
+}
+.webform-layout-vertical textarea {
+  width: 174.97714285714287px;
 }
 .webform-layout-vertical .webform-composite {
   display: table;
@@ -619,14 +625,19 @@
   content: url(../images/arrow_down.png);
   display: block;
   position: absolute;
-  vertical-align: baseline;
-  margin: auto;
-  top: 4px;
+  -o-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  top: 3.5px;
   right: 5px;
-  line-height: 11px;
-  width: 10px;
-  height: 14px;
-  padding-left: 3px;
+  line-height: 12px;
+  width: 15.5px;
+  height: 16.5px;
+  padding-left: 4px;
+  /*padding-top: 5.5px;*/
+
   pointer-events: none;
   border: 1px solid #CCC;
   background-image: -o-linear-gradient(top, #ffffff, #e0e0e0);

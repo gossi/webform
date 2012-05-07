@@ -24,11 +24,12 @@ class Radio extends Checker {
 				break;
 		}
 
-		if (isset($r[$this->name]) && $r[$this->name] == $this->value) {
-			$this->checked = true;
-		} else {
-			$this->checked = $tempChecked;
-		} 
+// 		if (isset($r[$this->name]) && $r[$this->name] == $this->value) {
+// 			$this->checked = true;
+// 		} else {
+// 			$this->checked = $tempChecked;
+// 		}
+		$this->checked = isset($r[$this->name]) && $r[$this->name] == $this->value;
 		return $this->checked;
 	}
 

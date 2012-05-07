@@ -187,6 +187,7 @@
 	&-select-composite {
 		position: relative;
 		display: inline-block;
+		line-height: 11px;
 	}
 
 	textarea.webform-control {
@@ -428,14 +429,20 @@
 				margin: 5px 0;
 			}
 			
+			.webform-control-content > li > .webform-control-box {
+				margin: 0;
+			}
+			
 			.webform-control[type=submit], .webform-control[type=reset], button {
 				margin: 8px 0 5px 0;
 			}
 			
 			.webform-composite, 
-			.webform-borderless-composite,
-			textarea {
+			.webform-borderless-composite {
 				min-width: 175px;
+			}
+			textarea {
+				width: 175px - (@controlPadding / 175px);
 			}
 			
 			.webform-composite {
@@ -565,16 +572,16 @@
 	content: url(../images/arrow_down.png);
 	display: block;
 	position: absolute;
-	vertical-align: baseline;
-	margin: auto;
+	.box-sizing(border-box);
 
-	top: 4px;
+	top: 3.5px;
 	right: @controlPadding + 1px;
 	
-	line-height: 11px;
-	width: 10px;
-	height: 14px;
-	padding-left: 3px;
+	line-height: 12px;
+	width: 15.5px;
+	height: 16.5px;
+	padding-left: 4px;
+	/*padding-top: 5.5px;*/
 	
 	pointer-events: none;
 	border: 1px solid #CCC;

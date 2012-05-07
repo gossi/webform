@@ -29,6 +29,10 @@ abstract class Checker extends Control {
 	public function getOrientation() {
 		return $this->orientation;
 	}
+	
+	public function getValue() {
+		return $this->value;
+	}
 
 	/**
 	 * Returns the receiver's checked state.
