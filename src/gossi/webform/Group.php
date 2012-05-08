@@ -98,7 +98,7 @@ class Group extends Control implements IArea {
 			$errors = $errs;
 		}
 
-		if ($this->required && (!count($this->getValues()) || !is_null($this->getValue()))) {
+		if ($this->required && !count($this->getValues())) {
 			if (is_null($errors)) {
 				$errors = new WebformErrors();
 			}

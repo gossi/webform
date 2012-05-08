@@ -12,7 +12,7 @@ class Radio extends Checker {
 	}
 
 	public function isChecked() {
-		$tempChecked = $this->checked;
+		$tempChecked = $this->checked; // if this is manually set checked
 		$r = null;
 		switch ($this->getWebform()->getMethod()) {
 			case Webform::GET:
@@ -24,12 +24,11 @@ class Radio extends Checker {
 				break;
 		}
 
-// 		if (isset($r[$this->name]) && $r[$this->name] == $this->value) {
-// 			$this->checked = true;
-// 		} else {
-// 			$this->checked = $tempChecked;
-// 		}
-		$this->checked = isset($r[$this->name]) && $r[$this->name] == $this->value;
+		if (isset($r[$this->name]) && $r[$this->name] == $this->value) {
+			$this->checked = true;
+		} else {
+			$this->checked = $tempChecked;
+		}
 		return $this->checked;
 	}
 
