@@ -5,5 +5,6 @@
 		<required>%s wird benötigt</required>
 		<invalid>%s ist ungültig</invalid>
 		<nomatch>%s stimmen nicht überein</nomatch>
+		<recaptcha>Captcha stimmt nicht</recaptcha>
 	</error>
 </webform>

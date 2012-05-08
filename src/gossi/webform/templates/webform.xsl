@@ -195,6 +195,45 @@
 				</button>
 			</xsl:when>
 			
+			<xsl:when test="$control/@type = 'Recaptcha'">
+				<div class="webform-control-box {$control/@classes}" id="{$control/@id}-control">
+					<xsl:if test="$control/@label != ''">
+						<label class="webform-label" id="{$control/@id}-label" for="{$control/@id}">
+							<xsl:value-of select="$control/@label" disable-output-escaping="yes"/>
+							
+							<xsl:if test="$control/@description != '' and $descLabel">
+								<span class="webform-description"><xsl:value-of select="$control/@description" disable-output-escaping="yes"/></span>
+							</xsl:if>
+						</label>
+					</xsl:if>
+					<xsl:if test="$control/@description != '' and $descBetween">
+						<span class="webform-description"><xsl:value-of select="$control/@description" disable-output-escaping="yes"/></span>
+					</xsl:if>
+
+					<div class="webform-control-content">
+						<script>
+						var RecaptchaOptions = {
+							theme : '<xsl:value-of select="$control/html/@theme"/>',
+							lang : '<xsl:value-of select="$control/html/@lang"/>'
+						};
+						</script>
+						<xsl:value-of select="$control/html" disable-output-escaping="yes"/>
+					</div>
+					
+					<xsl:if test="count($control/error) &gt; 0">
+						<ul class="webform-errors">
+							<xsl:for-each select="$control/error">
+								<li><xsl:value-of select="."/></li>
+							</xsl:for-each>
+						</ul>
+					</xsl:if>
+					
+					<xsl:if test="$control/@description != '' and $descEnd">
+						<span class="webform-description"><xsl:value-of select="$control/@description" disable-output-escaping="yes"/></span>
+					</xsl:if>
+				</div>
+			</xsl:when>
+			
 			<xsl:otherwise>
 				<div class="webform-control-box {$control/@classes}" id="{$control/@id}-control">
 					<xsl:if test="$control/@label != ''">

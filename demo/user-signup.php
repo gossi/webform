@@ -1,6 +1,8 @@
 <?php
 namespace demo; // it's only here for ide autocompletion
 
+use gossi\webform\Recaptcha;
+
 use gossi\webform\CheckBox;
 
 use gossi\webform\MultiLine;
@@ -82,6 +84,12 @@ $account = new Area($wf, array('label' => 'Account'));
 $loginName = new SingleLine($account, array('label' => 'Login Name'));
 $passwordA = new Password($account, array('label' => 'Password', 'required' => true));
 $passwordB = new Password($account, array('label' => 'Repeat Password', 'required' => true));
+
+$captcha = new Recaptcha($wf, array(
+		'label' => 'Captcha', 
+		'publicKey' => '6Ld1NNESAAAAAIwM-i1FlGAzwZ5HjDU1pM7ZECai', 
+		'privateKey' => '6Ld1NNESAAAAANjbM98qp2g71cPCmEt7VlY7pWDk'
+));
 
 $submit = new Submit($wf, array('label' => 'Submit'));
 
